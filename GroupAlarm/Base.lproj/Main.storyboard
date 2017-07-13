@@ -69,12 +69,20 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Clock" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wcg-73-F7O">
+                                                    <rect key="frame" x="214" y="12" width="117" height="38"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="26"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="alarmCreated" destination="XcR-D9-4hG" id="5Fa-ne-1SP"/>
                                             <outlet property="alarmTitle" destination="bgp-9E-Or6" id="Ucn-hM-FQ4"/>
+                                            <outlet property="clockTitle" destination="Wcg-73-F7O" id="vgm-o1-Oyc"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

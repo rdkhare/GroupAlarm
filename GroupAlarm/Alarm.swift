@@ -13,5 +13,5 @@ class Alarm: NSObject {
     let daysToRepeat: [String]? = nil
     let snooze: Bool = false
     var alarmLabel: String? = nil
-    let time: String? = nil
+    var time: String? = nil
 }

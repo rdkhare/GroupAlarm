@@ -10,11 +10,13 @@ import Foundation
 import UIKit
 
 class RepeatVC: UITableViewController {
-    
+        
+    var lastSelection: NSIndexPath!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "Repeat"
         
     }
+    
 }

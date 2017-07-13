@@ -57,7 +57,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Never" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qK5-gM-APP">
-                                                    <rect key="frame" x="247" y="16" width="46" height="21"/>
+                                                    <rect key="frame" x="247" y="16" width="120" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -120,11 +120,11 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="crs-Wu-DNJ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="crs-Wu-DNJ">
                                         <rect key="frame" x="0.0" y="443" width="375" height="57"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="crs-Wu-DNJ" id="JOt-SS-v4u">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Snooze" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r7a-03-mSB">
@@ -182,6 +182,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="snoozeCell" destination="crs-Wu-DNJ" id="R4F-2G-kep"/>
+                        <outlet property="timePicker" destination="AMH-6o-TQJ" id="cAi-Ki-vuq"/>
                         <outlet property="updateLabelText" destination="h4a-yH-Ajm" id="DPY-aQ-uxD"/>
                     </connections>
                 </tableViewController>
@@ -328,6 +330,9 @@
                             <outlet property="delegate" destination="wLY-dO-Lp4" id="SdW-kF-Ces"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="repeatView" destination="Iu8-QW-fG7" id="Egy-5N-Y0w"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y3s-X5-K5L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -346,17 +351,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Label" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hMM-ee-uLf">
-                                <rect key="frame" x="23" y="312" width="328" height="35"/>
+                                <rect key="frame" x="23" y="307" width="328" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="hMM-ee-uLf" secondAttribute="height" multiplier="328:35" id="PR5-ch-L4X"/>
+                                    <constraint firstAttribute="width" secondItem="hMM-ee-uLf" secondAttribute="height" multiplier="41:5" id="T95-6T-Ou9"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="872-ud-M2V">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="872-ud-M2V">
                                 <rect key="frame" x="23" y="368" width="328" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.3803921569" green="0.6588235294" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                 <state key="normal" title="Save">
@@ -369,9 +373,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hMM-ee-uLf" firstAttribute="top" secondItem="JBn-zV-gxh" secondAttribute="top" constant="312" id="Xct-KI-aOv"/>
-                            <constraint firstItem="hMM-ee-uLf" firstAttribute="centerX" secondItem="JBn-zV-gxh" secondAttribute="centerX" id="mKh-Vf-TQP"/>
-                            <constraint firstAttribute="bottom" secondItem="hMM-ee-uLf" secondAttribute="bottom" constant="320" id="n8J-ut-cFV"/>
+                            <constraint firstItem="hMM-ee-uLf" firstAttribute="width" secondItem="872-ud-M2V" secondAttribute="width" id="Hue-R0-B1H"/>
+                            <constraint firstAttribute="bottom" secondItem="872-ud-M2V" secondAttribute="bottom" constant="257" id="KJY-wO-4EE"/>
+                            <constraint firstItem="hMM-ee-uLf" firstAttribute="centerX" secondItem="JBn-zV-gxh" secondAttribute="centerX" id="Pdl-iM-XAY"/>
+                            <constraint firstItem="872-ud-M2V" firstAttribute="top" secondItem="JBn-zV-gxh" secondAttribute="top" constant="368" id="W0e-05-z4E"/>
+                            <constraint firstItem="hMM-ee-uLf" firstAttribute="top" secondItem="JBn-zV-gxh" secondAttribute="top" constant="307" id="dm9-T9-MJ5"/>
+                            <constraint firstAttribute="bottom" secondItem="hMM-ee-uLf" secondAttribute="bottom" constant="320" id="oV5-bA-YuM"/>
+                            <constraint firstItem="872-ud-M2V" firstAttribute="centerX" secondItem="JBn-zV-gxh" secondAttribute="centerX" id="pAc-HH-Wgm"/>
                         </constraints>
                     </view>
                     <connections>

@@ -43,7 +43,7 @@
                                 <rect key="frame" x="0.0" y="226" width="375" height="448"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HhZ-EM-MEq">
-                                        <rect key="frame" x="99" y="38" width="176" height="35"/>
+                                        <rect key="frame" x="99.5" y="38" width="175.5" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="HhZ-EM-MEq" secondAttribute="height" multiplier="176:35" id="xa1-cY-sIT"/>
                                         </constraints>
@@ -60,7 +60,7 @@
                                     <constraint firstItem="HhZ-EM-MEq" firstAttribute="centerX" secondItem="gbD-qt-Rg0" secondAttribute="centerX" id="kfq-st-krU"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="viV-O8-Upg">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="viV-O8-Upg">
                                 <rect key="frame" x="273" y="73" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="viV-O8-Upg" secondAttribute="height" multiplier="1:1" id="Qin-Ib-Vf4"/>
@@ -69,10 +69,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="gbD-qt-Rg0" firstAttribute="top" secondItem="CIo-jf-yaY" secondAttribute="top" constant="226" id="0fk-lS-IDO"/>
                             <constraint firstItem="041-HE-xe5" firstAttribute="centerX" secondItem="CIo-jf-yaY" secondAttribute="centerX" id="1RW-Ci-MwW"/>
                             <constraint firstItem="041-HE-xe5" firstAttribute="top" secondItem="CIo-jf-yaY" secondAttribute="top" constant="72" id="7sS-7y-BbH"/>
                             <constraint firstItem="gbD-qt-Rg0" firstAttribute="centerX" secondItem="CIo-jf-yaY" secondAttribute="centerX" id="SVi-J2-QnG"/>
-                            <constraint firstItem="gbD-qt-Rg0" firstAttribute="top" secondItem="041-HE-xe5" secondAttribute="bottom" constant="118" id="U3a-Ke-wyi"/>
                             <constraint firstItem="viV-O8-Upg" firstAttribute="leading" secondItem="CIo-jf-yaY" secondAttribute="leading" constant="273" id="Uf2-Xl-qQu"/>
                             <constraint firstAttribute="trailing" secondItem="viV-O8-Upg" secondAttribute="trailing" constant="68" id="UfC-Z5-KUG"/>
                             <constraint firstAttribute="bottom" secondItem="viV-O8-Upg" secondAttribute="bottom" constant="560" id="YlK-KR-uFg"/>
@@ -131,7 +131,7 @@
                                     <constraint firstAttribute="bottom" secondItem="P3l-6w-iSC" secondAttribute="bottom" constant="375" id="sn8-pX-NQf"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="FoY-fO-p1t">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="FoY-fO-p1t">
                                 <rect key="frame" x="273" y="73" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="FoY-fO-p1t" secondAttribute="height" multiplier="1:1" id="OON-Kb-1Wc"/>
@@ -142,6 +142,7 @@
                         <constraints>
                             <constraint firstItem="FoY-fO-p1t" firstAttribute="leading" secondItem="UHS-Ao-bMe" secondAttribute="leading" constant="273" id="7JS-gX-2N4"/>
                             <constraint firstAttribute="bottom" secondItem="CFr-lv-jd8" secondAttribute="bottom" constant="-7" id="BiT-cz-IWB"/>
+                            <constraint firstAttribute="trailing" secondItem="FoY-fO-p1t" secondAttribute="trailing" constant="68" id="DdS-st-zgX"/>
                             <constraint firstItem="FoY-fO-p1t" firstAttribute="top" secondItem="UHS-Ao-bMe" secondAttribute="top" constant="73" id="OfQ-58-q5Z"/>
                             <constraint firstItem="CFr-lv-jd8" firstAttribute="top" secondItem="UHS-Ao-bMe" secondAttribute="top" constant="226" id="VcW-0Q-fld"/>
                             <constraint firstAttribute="bottom" secondItem="AQC-kE-YD6" secondAttribute="bottom" constant="556" id="dWJ-j3-gFE"/>
@@ -183,9 +184,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaX-Ba-iM1">
                                 <rect key="frame" x="0.0" y="226" width="375" height="448"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add a group" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KkB-3k-tYw">
-                                        <rect key="frame" x="99" y="38" width="176" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a group" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KkB-3k-tYw">
+                                        <rect key="frame" x="128.5" y="38" width="117.5" height="35"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
                                         <color key="textColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -193,6 +193,9 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="KkB-3k-tYw" firstAttribute="centerX" secondItem="ZaX-Ba-iM1" secondAttribute="centerX" id="70t-i2-Mgh"/>
+                                    <constraint firstItem="KkB-3k-tYw" firstAttribute="top" secondItem="ZaX-Ba-iM1" secondAttribute="top" constant="38" id="ATF-Y6-3pi"/>
+                                    <constraint firstAttribute="bottom" secondItem="KkB-3k-tYw" secondAttribute="bottom" constant="375" id="eus-yO-Gsb"/>
                                     <constraint firstAttribute="width" secondItem="ZaX-Ba-iM1" secondAttribute="height" multiplier="375:448" id="iUN-bI-e0s"/>
                                 </constraints>
                             </view>
@@ -207,7 +210,7 @@
                                     <action selector="nextButton:" destination="LzE-QY-Ibs" eventType="touchUpInside" id="SxO-TH-Wll"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="ll4-vd-2dM">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" translatesAutoresizingMaskIntoConstraints="NO" id="ll4-vd-2dM">
                                 <rect key="frame" x="273" y="76" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ll4-vd-2dM" secondAttribute="height" multiplier="1:1" id="dbK-94-TDO"/>
@@ -242,6 +245,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="clock" width="1280" height="1280"/>
+        <image name="clock" width="37" height="37"/>
     </resources>
 </document>

@@ -13,8 +13,6 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-    var alarmName: String? = "Alarm"
-    
     var alarms = [Alarm]() {
         didSet {
             tableView.reloadData()
@@ -22,20 +20,15 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
     }
     
     @IBAction func editButtonTapped(_ sender: Any) {
-        if(self.tableView.isEditing == true)
-        {
-            self.tableView.isEditing = false
-            self.navigationItem.rightBarButtonItem?.title = "Done"
-            print("Edit Button tapped.")
-        }
-        else
-        {
-            self.tableView.isEditing = true
-            self.navigationItem.rightBarButtonItem?.title = "Edit"
+        tableView.setEditing(!tableView.isEditing, animated: true)
+        if tableView.isEditing == true{
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editButtonTapped(_:)))
+            
+            
+        }else{
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editButtonTapped(_:)))
         }
     }
-
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return alarms.count
@@ -55,7 +48,9 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
         let row = indexPath.row
         let alarm = alarms[row]
         
+//        cell.clockTitle.text = alarm.time
         cell.alarmTitle.text = alarm.alarmLabel
+        cell.clockTitle.text = alarm.time
         
 //        print(alarmName)
         
