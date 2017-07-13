@@ -11,6 +11,10 @@ import UIKit
 
 class AddEditAlarm: UITableViewController {
     
+//    var alarm: Alarm?
+// 
+//    var addAlarms: [Alarm]? = nil
+    
     @IBOutlet weak var updateLabelText: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +24,12 @@ class AddEditAlarm: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "save" {
             
-            let alarmText = updateLabelText.text
-            let secondVC = segue.destination as! MainAlarmHandler
-            secondVC.alarmName = alarmText
+            let alarm = Alarm()
+            alarm.alarmLabel = updateLabelText.text ?? ""
+            
+            let displayAlarms = segue.destination as! MainAlarmHandler
+            
+            displayAlarms.alarms.append(alarm)
             
             print("Save Button pressed")
         }

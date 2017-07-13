@@ -13,10 +13,32 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-    var alarmName: String? = nil
+    var alarmName: String? = "Alarm"
+    
+    var alarms = [Alarm]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    @IBAction func editButtonTapped(_ sender: Any) {
+        if(self.tableView.isEditing == true)
+        {
+            self.tableView.isEditing = false
+            self.navigationItem.rightBarButtonItem?.title = "Done"
+            print("Edit Button tapped.")
+        }
+        else
+        {
+            self.tableView.isEditing = true
+            self.navigationItem.rightBarButtonItem?.title = "Edit"
+        }
+    }
+
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return alarms.count
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -30,7 +52,11 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as! DisplayAlarmCell
         
-        cell.alarmTitle.text = alarmName
+        let row = indexPath.row
+        let alarm = alarms[row]
+        
+        cell.alarmTitle.text = alarm.alarmLabel
+        
 //        print(alarmName)
         
         return cell
