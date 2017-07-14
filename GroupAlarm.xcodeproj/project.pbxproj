@@ -16,6 +16,7 @@
 		2910B4261F13DC430019C4B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2910B4241F13DC430019C4B5 /* LaunchScreen.storyboard */; };
 		2914EFBD1F158A700060746C /* AddEditAlarm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2914EFBB1F158A700060746C /* AddEditAlarm.storyboard */; };
 		2914EFC01F158D680060746C /* RepeatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2914EFBF1F158D680060746C /* RepeatVC.swift */; };
+		29169ACF1F18A0DE00F5DC50 /* SoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */; };
 		296206B21F153D250038E97E /* MainAlarmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B11F153D250038E97E /* MainAlarmHandler.swift */; };
 		296206B81F15556C0038E97E /* AddEditAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B71F15556C0038E97E /* AddEditAlarm.swift */; };
 		29D830321F13F58B00F39B35 /* GettingStartedPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D830311F13F58B00F39B35 /* GettingStartedPageVC.swift */; };
@@ -40,6 +41,7 @@
 		2910B4271F13DC430019C4B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2914EFBC1F158A700060746C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddEditAlarm.storyboard; sourceTree = "<group>"; };
 		2914EFBF1F158D680060746C /* RepeatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatVC.swift; sourceTree = "<group>"; };
+		29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundVC.swift; sourceTree = "<group>"; };
 		296206B11F153D250038E97E /* MainAlarmHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAlarmHandler.swift; sourceTree = "<group>"; };
 		296206B71F15556C0038E97E /* AddEditAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEditAlarm.swift; sourceTree = "<group>"; };
 		29D830311F13F58B00F39B35 /* GettingStartedPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GettingStartedPageVC.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				2914EFBF1F158D680060746C /* RepeatVC.swift */,
 				29101F2A1F159349003AA4AC /* LabelVC.swift */,
+				29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */,
 			);
 			name = "Alarm Options";
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				2910B41C1F13DC430019C4B5 /* AppDelegate.swift in Sources */,
 				29D830361F13FC2E00F39B35 /* ThirdVC.swift in Sources */,
 				296206B81F15556C0038E97E /* AddEditAlarm.swift in Sources */,
+				29169ACF1F18A0DE00F5DC50 /* SoundVC.swift in Sources */,
 				29101F2B1F159349003AA4AC /* LabelVC.swift in Sources */,
 				29F2C42A1F16CD2600C387FF /* Alarm.swift in Sources */,
 			);

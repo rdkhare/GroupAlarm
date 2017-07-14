@@ -12,11 +12,12 @@ import UIKit
 class RepeatVC: UITableViewController {
     
     
+    
     var lastSelection: NSIndexPath!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cells = repeatView.visibleCells as! Array<UITableViewCell>
+        let cells = repeatView.visibleCells 
         
         for cell in cells {
             

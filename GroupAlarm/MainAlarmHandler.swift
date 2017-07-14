@@ -13,6 +13,7 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     
+    
     var alarms = [Alarm]() {
         didSet {
             tableView.reloadData()
@@ -38,14 +39,15 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
         let row = indexPath.row
         let alarm = alarms[row]
         
+        
         cell.alarmTitle.text = alarm.alarmLabel
         cell.clockTitle.text = alarm.time
-                
+        
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
             self.alarms.remove(at: indexPath.row)
             self.tableView.reloadData()
