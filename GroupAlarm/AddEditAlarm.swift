@@ -23,6 +23,7 @@ class AddEditAlarm: UITableViewController {
         
     }
     
+    @IBOutlet weak var repeatLabel: UILabel!
     
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var snoozeCell: UITableViewCell!

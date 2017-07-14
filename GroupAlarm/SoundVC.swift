@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import AudioToolbox
 
 class SoundVC: UITableViewController {
     override func viewDidLoad() {
@@ -21,7 +22,17 @@ class SoundVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(tableView.cellForRow(at: indexPath)?.tag == 0){
             
-            let systemSoundID: SystemSoundID = 1304
+            let systemSoundID: SystemSoundID = 1005
+            
+            A
+
+            var backgroundSound = AudioServicesPlaySystemSound (systemSoundID)
+            
+            
+        }
+        if(tableView.cellForRow(at: indexPath)?.tag == 1){
+            
+            let systemSoundID: SystemSoundID = 1034
             
             AudioServicesPlaySystemSound (systemSoundID)
         }

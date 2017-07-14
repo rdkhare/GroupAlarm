@@ -29,7 +29,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="AMH-6o-TQJ">
-                                                    <rect key="frame" x="-2" y="0.0" width="372" height="312"/>
+                                                    <rect key="frame" x="-3" y="0.0" width="372" height="312"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <date key="date" timeIntervalSinceReferenceDate="521497879.22262198">
                                                         <!--2017-07-11 20:31:19 +0000-->
@@ -66,7 +66,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="wLY-dO-Lp4" kind="show" id="ndO-L6-ihW"/>
+                                            <segue destination="wLY-dO-Lp4" kind="show" identifier="showRepeat" id="ndO-L6-ihW"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="T3P-3t-bO1">
@@ -185,6 +185,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="repeatLabel" destination="qK5-gM-APP" id="lej-E2-xhg"/>
                         <outlet property="snoozeCell" destination="crs-Wu-DNJ" id="R4F-2G-kep"/>
                         <outlet property="timePicker" destination="AMH-6o-TQJ" id="cAi-Ki-vuq"/>
                         <outlet property="updateLabelText" destination="h4a-yH-Ajm" id="DPY-aQ-uxD"/>
@@ -223,7 +224,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rh4-rk-cN2">
+                                    <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rh4-rk-cN2">
                                         <rect key="frame" x="0.0" y="53" width="375" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rh4-rk-cN2" id="vfx-pc-ZKn">
@@ -240,7 +241,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="7uL-ob-jFk">
+                                    <tableViewCell clipsSubviews="YES" tag="2" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="7uL-ob-jFk">
                                         <rect key="frame" x="0.0" y="106" width="375" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7uL-ob-jFk" id="55V-Us-AWc">
@@ -274,7 +275,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="AQZ-WC-QCe">
+                                    <tableViewCell clipsSubviews="YES" tag="4" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="AQZ-WC-QCe">
                                         <rect key="frame" x="0.0" y="212" width="375" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AQZ-WC-QCe" id="fr4-3c-SJ6">
@@ -291,7 +292,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="7Ir-1f-xmZ">
+                                    <tableViewCell clipsSubviews="YES" tag="5" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="7Ir-1f-xmZ">
                                         <rect key="frame" x="0.0" y="265" width="375" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Ir-1f-xmZ" id="f3g-aa-001">
@@ -333,11 +334,19 @@
                             <outlet property="delegate" destination="wLY-dO-Lp4" id="SdW-kF-Ces"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="8rG-PF-oLP">
+                        <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="zml-dn-Uh9">
+                            <connections>
+                                <segue destination="fXx-Cv-TzF" kind="unwind" identifier="backFromRepeat" unwindAction="unwindToEditAlarmSegue:" id="vg2-9Z-ogN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="repeatView" destination="Iu8-QW-fG7" id="PZm-KP-Qxq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y3s-X5-K5L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="fXx-Cv-TzF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2709.5999999999999" y="-588.75562218890559"/>
         </scene>
@@ -356,13 +365,30 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s22-y2-iwR" id="cFf-dz-5jE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Default Alarm Sound" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYu-mG-o0n">
                                                     <rect key="frame" x="26" y="21" width="158" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wm4-0l-A43">
+                                        <rect key="frame" x="0.0" y="63" width="375" height="63"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wm4-0l-A43" id="WnO-N8-J6l">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Another Alarm Sound" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pns-AD-VHX">
+                                                    <rect key="frame" x="26" y="21" width="162" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -380,7 +406,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OHU-2M-46w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1841" y="573"/>
+            <point key="canvasLocation" x="1840.8" y="572.56371814092961"/>
         </scene>
         <!--LabelVC-->
         <scene sceneID="dhe-w2-eSl">
