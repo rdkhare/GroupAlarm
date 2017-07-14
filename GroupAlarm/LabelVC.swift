@@ -37,4 +37,13 @@ class LabelVC: UIViewController, UITextFieldDelegate {
         self.navigationItem.title = string
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "unwindToAlarmOptions" {
+            
+            let displayAddEditAlarm = segue.destination as! AddEditAlarm
+            
+            displayAddEditAlarm.updateLabelText.text = labelText.text
+        }
+    }
+    
 }

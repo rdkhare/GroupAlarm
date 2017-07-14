@@ -14,4 +14,6 @@ class Alarm: NSObject {
     let snooze: Bool = false
     var alarmLabel: String? = nil
     var time: String? = nil
+    var completion = false
+    
 }

@@ -19,17 +19,6 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
         }
     }
     
-    @IBAction func editButtonTapped(_ sender: Any) {
-        tableView.setEditing(!tableView.isEditing, animated: true)
-        if tableView.isEditing == true{
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editButtonTapped(_:)))
-            
-            
-        }else{
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editButtonTapped(_:)))
-        }
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return alarms.count
     }
@@ -42,20 +31,30 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
         
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as! DisplayAlarmCell
         
         let row = indexPath.row
         let alarm = alarms[row]
         
-//        cell.clockTitle.text = alarm.time
         cell.alarmTitle.text = alarm.alarmLabel
         cell.clockTitle.text = alarm.time
-        
-//        print(alarmName)
-        
+                
         return cell
     }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.alarms.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
     
 }
 

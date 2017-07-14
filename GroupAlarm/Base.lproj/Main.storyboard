@@ -48,7 +48,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="alarmCell" id="q4w-ii-GkQ" customClass="DisplayAlarmCell" customModule="GroupAlarm" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="alarmCell" id="q4w-ii-GkQ" customClass="DisplayAlarmCell" customModule="GroupAlarm" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q4w-ii-GkQ" id="hub-IY-NYr">
@@ -58,24 +58,28 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alarm Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgp-9E-Or6">
                                                     <rect key="frame" x="14" y="12" width="156" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Created By" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcR-D9-4hG">
-                                                    <rect key="frame" x="15" y="36" width="137" height="14"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Created By: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcR-D9-4hG">
+                                                    <rect key="frame" x="14" y="36" width="137" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Clock" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wcg-73-F7O">
-                                                    <rect key="frame" x="214" y="12" width="117" height="38"/>
+                                                    <rect key="frame" x="152" y="12" width="129" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="26"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="32"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d7z-mZ-Ho5">
+                                                    <rect key="frame" x="284" y="16" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </switch>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </tableViewCellContentView>
@@ -83,6 +87,7 @@
                                             <outlet property="alarmCreated" destination="XcR-D9-4hG" id="5Fa-ne-1SP"/>
                                             <outlet property="alarmTitle" destination="bgp-9E-Or6" id="Ucn-hM-FQ4"/>
                                             <outlet property="clockTitle" destination="Wcg-73-F7O" id="vgm-o1-Oyc"/>
+                                            <segue destination="hvl-Q1-olr" kind="show" id="Mzj-uG-efo"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -100,11 +105,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Alarms" id="ubQ-ZW-4lK">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="MTQ-vk-flL">
-                            <connections>
-                                <action selector="editButtonTapped:" destination="FcV-ht-dIL" id="T3L-or-rhV"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Y2G-HK-fjG">
                             <connections>
                                 <action selector="addButtonPressed:" destination="FcV-ht-dIL" id="kKP-Tw-Y6C"/>
@@ -120,7 +120,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lvs-cA-y5k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1040.8" y="-171.36431784107947"/>
+            <point key="canvasLocation" x="1238" y="-155"/>
         </scene>
         <!--AddEditAlarm-->
         <scene sceneID="aLX-Ow-WQm">
@@ -131,4 +131,7 @@
             <point key="canvasLocation" x="2191" y="-231"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="jCT-mf-iMO"/>
+    </inferredMetricsTieBreakers>
 </document>
