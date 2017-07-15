@@ -24,9 +24,9 @@ class SoundVC: UITableViewController {
             
             let systemSoundID: SystemSoundID = 1005
             
-            A
 
-            var backgroundSound = AudioServicesPlaySystemSound (systemSoundID)
+            AudioServicesPlaySystemSound(systemSoundID)
+            
             
             
         }
