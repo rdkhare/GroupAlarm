@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,11 +24,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginStoryboard: UIStoryboard = UIStoryboard(name: "LoginAlarm", bundle: nil)
         let gettingStoryboard: UIStoryboard = UIStoryboard(name: "GettingStarted", bundle: nil)
         var initialViewController: UIViewController
         if (UserDefaults.standard.bool(forKey: "HasLaunchedOnce")) {
             // App already launched
-            initialViewController = (mainStoryboard.instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler)!
+            let userDefault = UserDefaults.standard
+            let loggedIn = userDefault.bool(forKey: "loggedIn")
+            if(loggedIn == true) {
+                initialViewController = (mainStoryboard.instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler)!
+                print("user is already logged in")
+            }
+            else {
+                initialViewController = (loginStoryboard.instantiateViewController(withIdentifier: "loginAlarm") as? LoginAlarm)!
+                print("user is not logged in")
+            } 
         } else {
             // This is the first launch ever
             
@@ -68,6 +79,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (_ options: UNNotificationPresentationOptions) -> Void) {
+        completionHandler(UNNotificationPresentationOptions.badge)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
 }
 

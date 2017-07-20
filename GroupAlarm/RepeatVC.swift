@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 class RepeatVC: UITableViewController {
     
     
@@ -20,11 +21,10 @@ class RepeatVC: UITableViewController {
     
     var weekdays: [Bool] = [false, false, false, false, false, false, false]
     
+    var weekdaysNotifChecked = [String]()//loop through each day to check if it's today and then send the notification if so.
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         self.navigationItem.title = "Repeat"
     }
@@ -35,37 +35,47 @@ class RepeatVC: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "backFromRepeat" {
             
+            let displayAddEditAlarm = segue.destination as! AddEditAlarm
+            
             if(weekdays[0] == true){
                 repeatText += "Sun "
+                weekdaysNotifChecked.append("Sunday")
             }
             
             if(weekdays[1] == true){
                 repeatText += "Mon "
+                weekdaysNotifChecked.append("Monday")
             }
             
             if(weekdays[2] == true){
                 repeatText += "Tue "
+                weekdaysNotifChecked.append("Tuesday")
             }
             
             if(weekdays[3] == true){
                 repeatText += "Wed "
+                weekdaysNotifChecked.append("Wednesday")
             }
             
             if(weekdays[4] == true){
                 repeatText += "Thu "
+                weekdaysNotifChecked.append("Thursday")
             }
             
             if(weekdays[5] == true){
                 repeatText += "Fri "
+                weekdaysNotifChecked.append("Friday")
             }
             
             if(weekdays[6] == true){
                 repeatText += "Sat "
+                weekdaysNotifChecked.append("Saturday")
             }
             
             if(weekdays[0] == true && weekdays[1] == true && weekdays[2] == true && weekdays[3] == true
                 && weekdays[4] == true && weekdays[5] == true && weekdays[6] == true){
-                repeatText = "Daily"
+                repeatText = "Everyday"
+//                displayAddEditAlarm.daily = true
             }
                 
             else if(weekdays[0] == true && weekdays[6] == true){
@@ -81,7 +91,9 @@ class RepeatVC: UITableViewController {
                 repeatText = "Never"
             }
             
-            let displayAddEditAlarm = segue.destination as! AddEditAlarm
+            
+            displayAddEditAlarm.weekdaysSelected = weekdaysNotifChecked
+            
             displayAddEditAlarm.repeatLabel.text = repeatText
             print("\(repeatText) is my text")
         }

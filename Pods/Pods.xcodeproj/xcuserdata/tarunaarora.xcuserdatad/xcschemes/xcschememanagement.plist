@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>NVActivityIndicatorView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-GroupAlarm.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -33,6 +38,16 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EDFE4052B5DE7D509935AC0774CB135</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5859D5B8CF4D16EA36EF40214ABE37DB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -48,11 +63,6 @@
 			<true/>
 		</dict>
 		<key>DD14DC861183728AC14C9F3A697BAAFD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FBF5C5AD59A41F1D729BAE803F80D3EA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

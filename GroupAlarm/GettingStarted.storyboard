@@ -36,7 +36,7 @@
                                     <constraint firstAttribute="width" secondItem="041-HE-xe5" secondAttribute="height" multiplier="43:9" id="p3j-2d-mMf"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.38039215686274508" green="0.54117647058823526" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gbD-qt-Rg0">
@@ -52,7 +52,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.38039215686274508" green="0.54117647058823526" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="gbD-qt-Rg0" secondAttribute="height" multiplier="375:448" id="ONO-xC-VOa"/>
                                     <constraint firstItem="HhZ-EM-MEq" firstAttribute="top" secondItem="gbD-qt-Rg0" secondAttribute="top" constant="38" id="Sjb-vG-yC8"/>
@@ -107,7 +107,7 @@
                                     <constraint firstAttribute="width" secondItem="AQC-kE-YD6" secondAttribute="height" multiplier="74:9" id="OcH-h2-clV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.38039215686274508" green="0.54117647058823526" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CFr-lv-jd8">
@@ -123,7 +123,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.38039215686274508" green="0.54117647058823526" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="P3l-6w-iSC" firstAttribute="centerX" secondItem="CFr-lv-jd8" secondAttribute="centerX" id="HBS-Ss-eM1"/>
                                     <constraint firstItem="P3l-6w-iSC" firstAttribute="top" secondItem="CFr-lv-jd8" secondAttribute="top" constant="38" id="Nu0-gH-xV0"/>
@@ -178,7 +178,7 @@
                                     <constraint firstAttribute="width" secondItem="zH6-9f-AXI" secondAttribute="height" multiplier="74:9" id="cnH-Cy-wJu"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.38039215686274508" green="0.54117647058823526" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaX-Ba-iM1">
@@ -191,7 +191,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.38039215686274508" green="0.54117647058823526" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="KkB-3k-tYw" firstAttribute="centerX" secondItem="ZaX-Ba-iM1" secondAttribute="centerX" id="70t-i2-Mgh"/>
                                     <constraint firstItem="KkB-3k-tYw" firstAttribute="top" secondItem="ZaX-Ba-iM1" secondAttribute="top" constant="38" id="ATF-Y6-3pi"/>
@@ -205,7 +205,9 @@
                                     <constraint firstAttribute="width" secondItem="sMv-rV-hyt" secondAttribute="height" multiplier="16:11" id="yK0-2o-6Cn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <state key="normal" title="Next"/>
+                                <state key="normal" title="Next">
+                                    <color key="titleColor" red="0.38039215686274508" green="0.54117647058823526" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="nextButton:" destination="LzE-QY-Ibs" eventType="touchUpInside" id="SxO-TH-Wll"/>
                                 </connections>

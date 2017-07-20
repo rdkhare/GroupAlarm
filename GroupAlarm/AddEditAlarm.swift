@@ -8,6 +8,9 @@
 
 import Foundation
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class AddEditAlarm: UITableViewController {
     
@@ -16,6 +19,9 @@ class AddEditAlarm: UITableViewController {
 //    var addAlarms: [Alarm]? = nil
     
     @IBOutlet weak var updateLabelText: UILabel!
+    
+//    var daily: Bool? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,6 +33,8 @@ class AddEditAlarm: UITableViewController {
     
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var snoozeCell: UITableViewCell!
+    
+    var weekdaysSelected = [String]()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "save" {
@@ -40,15 +48,30 @@ class AddEditAlarm: UITableViewController {
 
             let strDate: String? = timeFormatter.string(from: timePicker.date)
             
-            print("\(strDate!) is the Date!! Date Date Date")
+            print("\(strDate!) is the time!")
             
             alarm.time = strDate!
             
             alarm.alarmLabel = updateLabelText.text ?? ""
             
+            let date = timePicker.date
+            
             let displayAlarms = segue.destination as! MainAlarmHandler
             
+            displayAlarms.dateA = date
+            
             displayAlarms.alarms.append(alarm)
+            
+//            displayAlarms.daily = daily
+            
+            let userID = Auth.auth().currentUser?.uid
+            let alarmRef = Database.database().reference().child("alarms").childByAutoId()
+            
+            let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userID!]
+            
+            alarmRef.setValue(parameters)
+            
+            displayAlarms.weekdaysChecked = weekdaysSelected
             
             print("Save Button pressed")
         }
@@ -56,6 +79,9 @@ class AddEditAlarm: UITableViewController {
             print("Cancel Button Pressed")
         }
     }
+
+    
+
     
     @IBAction func unwindToEditAlarmSegue(_ segue: UIStoryboardSegue) {
         
