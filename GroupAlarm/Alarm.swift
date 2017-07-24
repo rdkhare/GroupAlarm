@@ -16,4 +16,9 @@ class Alarm: NSObject {
     var time: String? = nil
     var completion = false
     
+    init(time: String, alarmLabel: String) {
+        self.time = time
+        self.alarmLabel = alarmLabel
+    }
+    
 }

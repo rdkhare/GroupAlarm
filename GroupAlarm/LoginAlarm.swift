@@ -12,16 +12,38 @@ import Firebase
 import NVActivityIndicatorView
 import FirebaseDatabase
 
-class LoginAlarm: UIViewController, NVActivityIndicatorViewable {
+class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDelegate {
     
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var incorrectLabel: UILabel!
     
+    @IBOutlet weak var loginButton: UIButton!
     
-    var alarms = Alarm()
+//    var alarms = Alarm()
     
     override func viewDidLoad() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
         
+        self.incorrectLabel.isHidden = true
+
+        self.username.keyboardType = UIKeyboardType.emailAddress
+        
+        view.addGestureRecognizer(tap)
+        
+        self.username.delegate = self
+        
+        self.password.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        createAccount(loginButton)
+        return false
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -34,9 +56,6 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable {
                 
                 let activityData = ActivityData()
                 
-                NVActivityIndicatorView.DEFAULT_COLOR = UIColor.blue
-                NVActivityIndicatorView.DEFAULT_TYPE = .ballPulse
-                
                 NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData)
                 
                 
@@ -44,8 +63,6 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable {
                 
             }
             else {
-                
-                
                 
                 print("User created.")
                 self.login()
@@ -58,11 +75,32 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable {
         Firebase.Auth.auth().signIn(withEmail: username.text!, password: password.text!) { (user, error) in
             
             if(error != nil) {
+                self.incorrectLabel.isHidden = false
+                
+                let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
+                
+                self.view.addGestureRecognizer(tap)
+                
+                let anim = CAKeyframeAnimation( keyPath:"transform" )
+                anim.values = [
+                    NSValue( caTransform3D:CATransform3DMakeTranslation(-5, 0, 0 ) ),
+                    NSValue( caTransform3D:CATransform3DMakeTranslation( 5, 0, 0 ) )
+                ]
+                anim.autoreverses = true
+                anim.repeatCount = 2
+                anim.duration = 10/100
+                
+                self.incorrectLabel.layer.add(anim, forKey:nil )
+                
                 print("incorrect")
                 NVActivityIndicatorPresenter.sharedInstance.stopAnimating()
 
             }
             else {
+                
+                let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
+                
+                self.view.addGestureRecognizer(tap)
                 
                 let userDefault = UserDefaults.standard
                 userDefault.set(true, forKey: "loggedIn")
@@ -70,7 +108,7 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable {
                 
                 let ref : DatabaseReference!
                 ref = Database.database().reference()
-                
+                                
                 ref.child("users").child(user!.uid).setValue(["email": self.username.text!])
 //                ref.child("users").child(user!.uid).setValue(["alarm": self.alarm])
                 

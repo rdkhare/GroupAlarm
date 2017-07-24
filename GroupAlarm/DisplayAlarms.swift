@@ -13,11 +13,13 @@ import AVFoundation
 import FirebaseDatabase
 import Firebase
 
-class MainAlarmHandler: UIViewController, UITableViewDataSource{
+class DisplayAlarms: UIViewController, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
-//    var daily: Bool? = false    
-    var dateA: Date? = nil
+    //    var daily: Bool? = false
+    
+    
+    var dateA: Date?
     
     var weekdaysChecked = [String]()
     
@@ -28,6 +30,10 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
     }
     
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
     override func viewDidLoad() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (didAllow, error) in
             
@@ -37,30 +43,60 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
             
         })
         
-        let userID = Auth.auth().currentUser?.uid
+        
         var ref: DatabaseReference
         
         ref = Database.database().reference()
         
-        ref.child("alarms").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get alarm values for current user
-            let value = snapshot.value as? NSDictionary
-            let alarmtime = value?["alarmTime"] as? String ?? ""
-            let alarmlabel = value?["alarmLabel"] as? String ?? ""
-            
-            
-            
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: alarms[]) as! DisplayAlarmCell
-            
-            cell.alarmTitle.text = alarmlabel
-            cell.clockTitle.text = alarmtime
-            
-            
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+        let currentUserID = Auth.auth().currentUser?.uid
         
-//        postRef.updateChildValues(dict)
+        var alarmIDValue: String?
+        
+        ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
+//            let value = snapshot.value as? NSDictionary
+            
+//            var alarmID: String?
+            
+            let alarmIDEnumerator = snapshot.children
+            
+            while let alarmIDs = alarmIDEnumerator.nextObject() as? DataSnapshot {
+                print(alarmIDs.value!)
+                
+                
+//                alarmID = value?["alarmID"] as? String ?? " "
+                
+                print(snapshot)
+                
+                alarmIDValue = alarmIDs.value as! String?
+                print(alarmIDValue!)
+                
+                ref.child("alarms").child(alarmIDValue!).observeSingleEvent(of: .value, with: { (snapshot) in
+                    // Get alarm values for current user
+                    let value = snapshot.value as? NSDictionary
+                    let alarmtime = value?["alarmTime"] as? String ?? ""
+                    let alarmlabel = value?["alarmLabel"] as? String ?? ""
+                    //make alarm object and append to alarm
+                    
+                    
+                    let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel)
+                    
+                    alarm.time = alarmtime
+                    alarm.alarmLabel = alarmlabel
+                    
+                    self.alarms.append(alarm)
+                    
+                    print(alarmtime)
+                    print(alarmlabel)
+                    
+                    
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+            }
+            
+        })
+        
+        //postRef.updateChildValues(dict)
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
@@ -88,17 +124,20 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
         dateFormatter.dateFormat  = "EEEE"//"EE" to get short style
         let dayInWeek = dateFormatter.string(from: date)
         
-        
+        //only up to 40 alarms on free version lol
         if(alarms.count == 40) {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             tableView.reloadData()
         }
         
+        //cell's alarm text and clock text
         cell.alarmTitle.text = alarm.alarmLabel
         cell.clockTitle.text = alarm.time
         
         print(weekdaysChecked)
         
+        
+        //checkmarks in repeated days
         for weekdays in weekdaysChecked {
             if(dayInWeek == weekdays){
                 let content = UNMutableNotificationContent()
@@ -110,39 +149,11 @@ class MainAlarmHandler: UIViewController, UITableViewDataSource{
                 let identifier = "UYLLocalNotification"
                 let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-
+                
                 
                 print("This is the correct day.")
             }
         }
-
-        
-//        if(daily == nil){
-//            daily = false
-//        }
-//        
-//        if(daily == true){
-//            let content = UNMutableNotificationContent()
-//            content.title = alarm.alarmLabel!
-//            content.body = alarm.time!
-//            
-//            content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-//            
-//            let triggerDaily = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-//            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDaily, repeats: true)
-//            
-//            let identifier = "UYLLocalNotification"
-//            
-//            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-//            
-//            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-//            
-//            print("This is working")
-//            
-//        }
-//        
-//        print("\(daily!) is the result for everyday")
-        
         
         return cell
     }

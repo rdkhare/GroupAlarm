@@ -39,7 +39,6 @@ class AddEditAlarm: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "save" {
             
-            let alarm = Alarm()
             
             let timeFormatter = DateFormatter()
             timeFormatter.timeStyle = DateFormatter.Style.short
@@ -48,26 +47,50 @@ class AddEditAlarm: UITableViewController {
 
             let strDate: String? = timeFormatter.string(from: timePicker.date)
             
+            let alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!)
+            
             print("\(strDate!) is the time!")
             
             alarm.time = strDate!
-            
             alarm.alarmLabel = updateLabelText.text ?? ""
             
             let date = timePicker.date
-            
-            let displayAlarms = segue.destination as! MainAlarmHandler
+            let displayAlarms = segue.destination as! DisplayAlarms
             
             displayAlarms.dateA = date
-            
             displayAlarms.alarms.append(alarm)
+            
             
 //            displayAlarms.daily = daily
             
-            let userID = Auth.auth().currentUser?.uid
+            var ref: DatabaseReference
+            
+            ref = Database.database().reference()
+            
+            let currentUserID = Auth.auth().currentUser?.uid
+            let userRef = ref.child("users").child(currentUserID!)
+            
             let alarmRef = Database.database().reference().child("alarms").childByAutoId()
             
-            let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userID!]
+            let key = alarmRef.key
+            
+            var alarmIDs = [Any]()
+            
+            alarmIDs.append(key)
+            
+            let alarmIDRef = userRef.child("alarmID")
+//
+            let childUpdates = ["\(displayAlarms.alarms.count - 1)" : key]
+            
+//            let childUpdate = ["alarmID" : key]
+            
+//            userRef.updateChildValues(alarmIDs)
+            
+            alarmIDRef.updateChildValues(childUpdates)
+            
+//            print(key)
+            
+            let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID]
             
             alarmRef.setValue(parameters)
             
