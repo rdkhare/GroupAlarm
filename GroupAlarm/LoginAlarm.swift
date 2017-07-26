@@ -8,9 +8,10 @@
 
 import Foundation
 import UIKit
-import Firebase
 import NVActivityIndicatorView
 import FirebaseDatabase
+import Firebase
+import Canvas
 
 class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDelegate {
     
@@ -18,6 +19,7 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var incorrectLabel: UILabel!
     
+    @IBOutlet weak var animationView: CSAnimationView!
     @IBOutlet weak var loginButton: UIButton!
     
 //    var alarms = Alarm()
@@ -30,6 +32,8 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
         self.username.keyboardType = UIKeyboardType.emailAddress
         
         view.addGestureRecognizer(tap)
+        
+        animationView.layer.cornerRadius = 4
         
         self.username.delegate = self
         
@@ -84,7 +88,7 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
                 let anim = CAKeyframeAnimation( keyPath:"transform" )
                 anim.values = [
                     NSValue( caTransform3D:CATransform3DMakeTranslation(-5, 0, 0 ) ),
-                    NSValue( caTransform3D:CATransform3DMakeTranslation( 5, 0, 0 ) )
+                    NSValue( caTransform3D:CATransform3DMakeTranslation(5, 0, 0 ) )
                 ]
                 anim.autoreverses = true
                 anim.repeatCount = 2
@@ -108,8 +112,26 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
                 
                 let ref : DatabaseReference!
                 ref = Database.database().reference()
-                                
-                ref.child("users").child(user!.uid).setValue(["email": self.username.text!])
+                
+                let currentUserID = Auth.auth().currentUser?.uid
+                
+                ref.child("users").child(currentUserID!).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    print("\(snapshot)")
+                    
+                    let value = snapshot.value as? NSDictionary
+                    
+                    let userEmail = value?["email"] as? String
+                    
+                    if(userEmail == nil) {
+                        ref.child("users").child(user!.uid).setValue(["email": self.username.text!])
+                    }
+                    
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+                
+                
 //                ref.child("users").child(user!.uid).setValue(["alarm": self.alarm])
                 
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler

@@ -14,4 +14,5 @@ class DisplayAlarmCell: UITableViewCell {
     @IBOutlet weak var alarmTitle: UILabel!
     @IBOutlet weak var alarmCreated: UILabel!
     @IBOutlet weak var clockTitle: UILabel!
+    @IBOutlet weak var enableAlarm: UISwitch!
 }

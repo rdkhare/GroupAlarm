@@ -14,17 +14,18 @@ import FirebaseDatabase
 
 class AddEditAlarm: UITableViewController {
     
-//    var alarm: Alarm?
-// 
-//    var addAlarms: [Alarm]? = nil
+    var alarm: Alarm?
+    
+    var addButtonPressed: Bool?
     
     @IBOutlet weak var updateLabelText: UILabel!
     
-//    var daily: Bool? = nil
+    //    var daily: Bool? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        timePicker.setValue(UIColor.white, forKeyPath: "textColor")
         snoozeCell.selectionStyle = UITableViewCellSelectionStyle.none
         
     }
@@ -39,29 +40,54 @@ class AddEditAlarm: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "save" {
             
+            let displayAlarms = segue.destination as! DisplayAlarms
+
+            if alarm != nil {
+                print("There is already an alarm.")
+                let timeFormatter = DateFormatter()
+                timeFormatter.timeStyle = DateFormatter.Style.short
+                
+                timePicker.addTarget(self, action: Selector(("handler:")), for: UIControlEvents.valueChanged)
+                
+                let strDate: String? = timeFormatter.string(from: timePicker.date)
+                print("\(strDate!) is the time!")
+                alarm?.time = strDate!
+                alarm?.alarmLabel = updateLabelText.text ?? ""
+            
+                self.tableView.reloadData()
+                
+            }
+            else{
+                
+                print("\(String(describing: alarm))")
+                print("There is not an alarm")
+                
+                let timeFormatter = DateFormatter()
+                timeFormatter.timeStyle = DateFormatter.Style.short
+                
+                timePicker.addTarget(self, action: Selector(("handler:")), for: UIControlEvents.valueChanged)
+                
+                let strDate: String? = timeFormatter.string(from: timePicker.date)
+                
+                alarm?.time = strDate!
+                alarm?.alarmLabel = updateLabelText.text ?? ""
+                print("\(strDate!) is the time!")
+                alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!)
+                displayAlarms.alarms.append(alarm!)
+            }
+            
             
             let timeFormatter = DateFormatter()
             timeFormatter.timeStyle = DateFormatter.Style.short
-            
-            timePicker.addTarget(self, action: Selector(("handler:")), for: UIControlEvents.valueChanged)
-
             let strDate: String? = timeFormatter.string(from: timePicker.date)
-            
-            let alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!)
-            
-            print("\(strDate!) is the time!")
-            
-            alarm.time = strDate!
-            alarm.alarmLabel = updateLabelText.text ?? ""
-            
             let date = timePicker.date
-            let displayAlarms = segue.destination as! DisplayAlarms
             
             displayAlarms.dateA = date
-            displayAlarms.alarms.append(alarm)
             
             
-//            displayAlarms.daily = daily
+            
+            
+            //            displayAlarms.daily = daily
             
             var ref: DatabaseReference
             
@@ -79,16 +105,16 @@ class AddEditAlarm: UITableViewController {
             alarmIDs.append(key)
             
             let alarmIDRef = userRef.child("alarmID")
-//
+            //
             let childUpdates = ["\(displayAlarms.alarms.count - 1)" : key]
             
-//            let childUpdate = ["alarmID" : key]
+            //            let childUpdate = ["alarmID" : key]
             
-//            userRef.updateChildValues(alarmIDs)
+            //            userRef.updateChildValues(alarmIDs)
             
             alarmIDRef.updateChildValues(childUpdates)
             
-//            print(key)
+            //            print(key)
             
             let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID]
             
@@ -102,9 +128,9 @@ class AddEditAlarm: UITableViewController {
             print("Cancel Button Pressed")
         }
     }
-
     
-
+    
+    
     
     @IBAction func unwindToEditAlarmSegue(_ segue: UIStoryboardSegue) {
         

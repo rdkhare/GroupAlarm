@@ -13,11 +13,10 @@ import AVFoundation
 import FirebaseDatabase
 import Firebase
 
-class DisplayAlarms: UIViewController, UITableViewDataSource{
+class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegate{
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     //    var daily: Bool? = false
-    
     
     var dateA: Date?
     
@@ -30,11 +29,36 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            if(identifier == "displayAlarm") {
+                
+                let destinationNavigationController = segue.destination as! UINavigationController
+                let targetController = destinationNavigationController.topViewController as! AddEditAlarm
+                
+                let alarmToSelect = alarms[(self.tableView.indexPathForSelectedRow?.row)!]
+                
+                print((self.tableView.indexPathForSelectedRow?.row)!)
+                
+                targetController.alarm = alarmToSelect
+                
+                self.tableView.reloadData()
+                
+                print("Table view cell tapped")
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
     }
     
     override func viewDidLoad() {
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (didAllow, error) in
             
             if(error != nil) {
@@ -42,7 +66,6 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
             }
             
         })
-        
         
         var ref: DatabaseReference
         
@@ -53,9 +76,9 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
         var alarmIDValue: String?
         
         ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
-//            let value = snapshot.value as? NSDictionary
+            //            let value = snapshot.value as? NSDictionary
             
-//            var alarmID: String?
+            //            var alarmID: String?
             
             let alarmIDEnumerator = snapshot.children
             
@@ -63,7 +86,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
                 print(alarmIDs.value!)
                 
                 
-//                alarmID = value?["alarmID"] as? String ?? " "
+                //                alarmID = value?["alarmID"] as? String ?? " "
                 
                 print(snapshot)
                 
@@ -82,6 +105,9 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
                     
                     alarm.time = alarmtime
                     alarm.alarmLabel = alarmlabel
+                    
+                    
+                    
                     
                     self.alarms.append(alarm)
                     
@@ -130,22 +156,26 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
             tableView.reloadData()
         }
         
+        let onColor  = UIColor(red: CGFloat(99.0/255.0), green: CGFloat(125.0 / 255.0), blue: CGFloat(219.0/255.0), alpha: CGFloat(1.0))
+        
         //cell's alarm text and clock text
         cell.alarmTitle.text = alarm.alarmLabel
         cell.clockTitle.text = alarm.time
+        cell.enableAlarm.onTintColor = onColor
         
         print(weekdaysChecked)
         
         
         //checkmarks in repeated days
         for weekdays in weekdaysChecked {
+            
             if(dayInWeek == weekdays){
                 let content = UNMutableNotificationContent()
                 content.title = alarm.alarmLabel!
                 content.body = alarm.time!
                 content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-                let triggerDaily = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDaily, repeats: true)
+                let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
                 let identifier = "UYLLocalNotification"
                 let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -155,7 +185,34 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
             }
         }
         
+        if(dateA != nil) {
+            if(weekdaysChecked.isEmpty) {
+                let content = UNMutableNotificationContent()
+                content.title = alarm.alarmLabel!
+                content.body = alarm.time!
+                content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
+                let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
+                let identifier = "NeverNotification"
+                let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            }
+        }
+        
         return cell
+    }
+    
+    let firebase = Database.database().reference()
+    
+    func myDeleteFunction(childIWantToRemove: String) {
+        let currentUserID = Auth.auth().currentUser?.uid
+        
+        
+        firebase.child("users").child(currentUserID!).child("alarmID").child(childIWantToRemove).removeValue { (error, ref) in
+            if error != nil {
+                print("error \(String(describing: error))")
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -163,7 +220,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource{
         if editingStyle == .delete {
             self.alarms.remove(at: indexPath.row)
             
-            
+            myDeleteFunction(childIWantToRemove: "\(indexPath.row)")
             
             self.tableView.reloadData()
         }
