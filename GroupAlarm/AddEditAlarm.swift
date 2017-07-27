@@ -53,8 +53,17 @@ class AddEditAlarm: UITableViewController {
                 print("\(strDate!) is the time!")
                 alarm?.time = strDate!
                 alarm?.alarmLabel = updateLabelText.text ?? ""
-            
+                
                 self.tableView.reloadData()
+                
+                
+                
+                let alarmRef = Database.database().reference().child("alarms").child()
+                let currentUserID = Auth.auth().currentUser?.uid
+                
+                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected]
+                
+                alarmRef.setValue(parameters)
                 
             }
             else{
@@ -74,8 +83,13 @@ class AddEditAlarm: UITableViewController {
                 print("\(strDate!) is the time!")
                 alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!)
                 displayAlarms.alarms.append(alarm!)
+                let alarmRef = Database.database().reference().child("alarms").childByAutoId()
+                let currentUserID = Auth.auth().currentUser?.uid
+
+                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected]
+                
+                alarmRef.setValue(parameters)
             }
-            
             
             let timeFormatter = DateFormatter()
             timeFormatter.timeStyle = DateFormatter.Style.short
@@ -92,8 +106,8 @@ class AddEditAlarm: UITableViewController {
             var ref: DatabaseReference
             
             ref = Database.database().reference()
-            
             let currentUserID = Auth.auth().currentUser?.uid
+
             let userRef = ref.child("users").child(currentUserID!)
             
             let alarmRef = Database.database().reference().child("alarms").childByAutoId()
@@ -116,9 +130,7 @@ class AddEditAlarm: UITableViewController {
             
             //            print(key)
             
-            let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID]
             
-            alarmRef.setValue(parameters)
             
             displayAlarms.weekdaysChecked = weekdaysSelected
             
