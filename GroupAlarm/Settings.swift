@@ -22,7 +22,6 @@ class Settings: UIViewController {
     @IBAction func logoutUser(_ sender: Any) {
         try! Firebase.Auth.auth().signOut()
         
-        self.navigationController?.navigationBar.isHidden = true
         let vc = UIStoryboard(name: "LoginAlarm", bundle: nil).instantiateViewController(withIdentifier: "loginAlarm") as? LoginAlarm
         self.show(vc!, sender: self)
         let userDefault = UserDefaults.standard

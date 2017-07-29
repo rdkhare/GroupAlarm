@@ -13,12 +13,13 @@ import UIKit
 class RepeatVC: UITableViewController {
     
     
+    @IBOutlet var repeatView: UITableView!
     
     var lastSelection: NSIndexPath!
     var repeatText = ""
     
     var checked: Bool? = false
-    
+    var alarm: Alarm?
     var weekdays: [Bool] = [false, false, false, false, false, false, false]
     
     var weekdaysNotifChecked = [String]()//loop through each day to check if it's today and then send the notification if so.
@@ -26,11 +27,43 @@ class RepeatVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        if(alarm?.daysToRepeat != nil) {
+            for days in (alarm?.daysToRepeat)! {
+                if(days == "Sunday") {
+                    print("Checkmark Sunday!")
+                    self.repeatView.dequeueReusableCell(withIdentifier: "Sunday")?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+                if(days == "Monday") {
+                    print("Checkmark Monday!")
+                    self.repeatView.dequeueReusableCell(withIdentifier: "Monday")?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+                if(days == "Tuesday") {
+                    print("Checkmark Tuesday!")
+                    self.repeatView.dequeueReusableCell(withIdentifier: "Tuesday")?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+                if(days == "Wednesday") {
+                    print("Checkmark Wednesday!")
+                    self.repeatView.dequeueReusableCell(withIdentifier: "Wednesday")?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+                if(days == "Thursday") {
+                    print("Checkmark Thursday!")
+                    self.repeatView.dequeueReusableCell(withIdentifier: "Thursday")?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+                if(days == "Friday") {
+                    print("Checkmark Friday!")
+                    self.repeatView.dequeueReusableCell(withIdentifier: "Friday")?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+                if(days == "Saturday") {
+                    print("Checkmark Saturday!")
+                    self.repeatView.dequeueReusableCell(withIdentifier: "Saturday")?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+            }
+        }
+        
         self.navigationItem.title = "Repeat"
     }
     
-    
-    @IBOutlet var repeatView: UITableView!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "backFromRepeat" {
@@ -75,13 +108,13 @@ class RepeatVC: UITableViewController {
             if(weekdays[0] == true && weekdays[1] == true && weekdays[2] == true && weekdays[3] == true
                 && weekdays[4] == true && weekdays[5] == true && weekdays[6] == true){
                 repeatText = "Everyday"
-//                displayAddEditAlarm.daily = true
+                //                displayAddEditAlarm.daily = true
             }
                 
             else if(weekdays[0] == true && weekdays[6] == true){
                 repeatText = "Weekends"
             }
-            
+                
             else if(weekdays[1] == true && weekdays[2] == true && weekdays[3] == true
                 && weekdays[4] == true && weekdays[5] == true){
                 repeatText = "Weekdays"
@@ -90,6 +123,7 @@ class RepeatVC: UITableViewController {
                 && weekdays[4] == false && weekdays[5] == false && weekdays[6] == false){
                 repeatText = "Never"
             }
+            
             
             
             displayAddEditAlarm.weekdaysSelected = weekdaysNotifChecked

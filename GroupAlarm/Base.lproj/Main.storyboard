@@ -16,7 +16,7 @@
                     <toolbarItems/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="O8q-2g-47I">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="O8q-2g-47I">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.45123398303985596" green="0.56710201501846313" blue="0.98731452226638794" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -57,12 +57,44 @@
                                     <action selector="logoutUser:" destination="9zq-mG-PxZ" eventType="touchUpInside" id="p4c-eH-9Xz"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbQ-Bv-8VC">
+                                <rect key="frame" x="120" y="58" width="135" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HeO-lW-QtS" customClass="CSAnimationView">
+                                <rect key="frame" x="302" y="42" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSj-5c-w83">
+                                        <rect key="frame" x="7" y="7" width="47" height="47"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" image="close"/>
+                                        <connections>
+                                            <segue destination="oov-bR-Sof" kind="unwind" identifier="closeSettings" unwindAction="unwindToAlarmController:" id="PX6-Sz-N78"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="type" value="pop"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="delay">
+                                        <real key="value" value="0.10000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.45098039220000002" green="0.56862745100000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="eZW-NW-ocR"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="idh-TL-lMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="oov-bR-Sof" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1237.5999999999999" y="-806.44677661169419"/>
         </scene>
@@ -146,7 +178,7 @@
                         <barButtonItem key="leftBarButtonItem" image="settings" id="shL-vb-LSB">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="9zq-mG-PxZ" kind="show" id="UCR-F2-mcZ"/>
+                                <segue destination="9zq-mG-PxZ" kind="presentation" id="UCR-F2-mcZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Y2G-HK-fjG">
@@ -177,6 +209,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="close" width="640" height="640"/>
         <image name="settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>

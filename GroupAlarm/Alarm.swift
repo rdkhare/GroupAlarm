@@ -10,15 +10,16 @@ import Foundation
 import UIKit
 
 class Alarm: NSObject {
-    let daysToRepeat: [String]? = nil
-    let snooze: Bool = false
+    var daysToRepeat: [String]?
+//    let snooze: Bool = false
     var alarmLabel: String? = nil
     var time: String? = nil
-    var completion = false
     
-    init(time: String, alarmLabel: String) {
+    init(time: String, alarmLabel: String, daysToRepeat: [String]?) {
         self.time = time
         self.alarmLabel = alarmLabel
+        self.daysToRepeat = daysToRepeat
+        
     }
     
 }

@@ -22,12 +22,13 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     var weekdaysChecked = [String]()
     
+    var sendDays = [String]()
+    
     var alarms = [Alarm]() {
         didSet {
             tableView.reloadData()
         }
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
@@ -40,6 +41,16 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                 
                 print((self.tableView.indexPathForSelectedRow?.row)!)
                 
+                //                targetController.weekdaysSelected = weekdaysChecked
+                
+                //                let dateFormatter = DateFormatter()
+                
+                //                let date = dateFormatter.date(from: alarmToSelect.time!)
+                
+                //                targetController.timePicker.setDate(date!, animated: true)
+                //
+                //                targetController.weekdaysSelected = weekdaysChecked
+                
                 targetController.alarm = alarmToSelect
                 
                 self.tableView.reloadData()
@@ -51,10 +62,6 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
     }
     
     override func viewDidLoad() {
@@ -83,7 +90,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             let alarmIDEnumerator = snapshot.children
             
             while let alarmIDs = alarmIDEnumerator.nextObject() as? DataSnapshot {
-                print(alarmIDs.value!)
+                print("\(alarmIDs.value!) alarm value")
                 
                 
                 //                alarmID = value?["alarmID"] as? String ?? " "
@@ -99,9 +106,10 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     let alarmtime = value?["alarmTime"] as? String ?? ""
                     let alarmlabel = value?["alarmLabel"] as? String ?? ""
                     //make alarm object and append to alarm
+                    let repeatDays = value?["repeatedDays"] as? NSArray
                     
                     
-                    let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel)
+                    let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel, daysToRepeat: repeatDays as? [String])
                     
                     alarm.time = alarmtime
                     alarm.alarmLabel = alarmlabel
@@ -126,6 +134,10 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
