@@ -85,16 +85,16 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
                 
                 self.view.addGestureRecognizer(tap)
                 
-                let anim = CAKeyframeAnimation( keyPath:"transform" )
+                let anim = CAKeyframeAnimation(keyPath: "transform")
                 anim.values = [
-                    NSValue( caTransform3D:CATransform3DMakeTranslation(-5, 0, 0 ) ),
-                    NSValue( caTransform3D:CATransform3DMakeTranslation(5, 0, 0 ) )
+                    NSValue(caTransform3D:CATransform3DMakeTranslation(-5, 0, 0)),
+                    NSValue(caTransform3D:CATransform3DMakeTranslation(5, 0, 0))
                 ]
                 anim.autoreverses = true
                 anim.repeatCount = 2
                 anim.duration = 10/100
                 
-                self.incorrectLabel.layer.add(anim, forKey:nil )
+                self.incorrectLabel.layer.add(anim, forKey: nil)
                 
                 print("incorrect")
                 NVActivityIndicatorPresenter.sharedInstance.stopAnimating()

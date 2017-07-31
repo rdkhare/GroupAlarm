@@ -35,21 +35,11 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             if(identifier == "displayAlarm") {
                 
                 let destinationNavigationController = segue.destination as! UINavigationController
-                let targetController = destinationNavigationController.topViewController as! AddEditAlarm
+                let targetController = destinationNavigationController.topViewController as! AlarmInformation
                 
                 let alarmToSelect = alarms[(self.tableView.indexPathForSelectedRow?.row)!]
                 
                 print((self.tableView.indexPathForSelectedRow?.row)!)
-                
-                //                targetController.weekdaysSelected = weekdaysChecked
-                
-                //                let dateFormatter = DateFormatter()
-                
-                //                let date = dateFormatter.date(from: alarmToSelect.time!)
-                
-                //                targetController.timePicker.setDate(date!, animated: true)
-                //
-                //                targetController.weekdaysSelected = weekdaysChecked
                 
                 targetController.alarm = alarmToSelect
                 
@@ -83,17 +73,11 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         var alarmIDValue: String?
         
         ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
-            //            let value = snapshot.value as? NSDictionary
-            
-            //            var alarmID: String?
             
             let alarmIDEnumerator = snapshot.children
             
             while let alarmIDs = alarmIDEnumerator.nextObject() as? DataSnapshot {
                 print("\(alarmIDs.value!) alarm value")
-                
-                
-                //                alarmID = value?["alarmID"] as? String ?? " "
                 
                 print(snapshot)
                 
@@ -108,20 +92,17 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     //make alarm object and append to alarm
                     let repeatDays = value?["repeatedDays"] as? NSArray
                     
-                    
                     let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel, daysToRepeat: repeatDays as? [String])
+                    
+                    alarm.key = alarmIDValue!
                     
                     alarm.time = alarmtime
                     alarm.alarmLabel = alarmlabel
-                    
-                    
-                    
                     
                     self.alarms.append(alarm)
                     
                     print(alarmtime)
                     print(alarmlabel)
-                    
                     
                 }) { (error) in
                     print(error.localizedDescription)
@@ -129,9 +110,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             }
             
         })
-        
-        //postRef.updateChildValues(dict)
-        
+                
         UIApplication.shared.applicationIconBadgeNumber = 0
         
     }

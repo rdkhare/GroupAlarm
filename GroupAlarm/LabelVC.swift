@@ -18,6 +18,7 @@ class LabelVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        labelText.layer.sublayerTransform = CATransform3DMakeTranslation(6, 0, 0)
         
         super.viewDidLoad()
         labelText.delegate = self
@@ -28,6 +29,12 @@ class LabelVC: UIViewController, UITextFieldDelegate {
         updatedTextString = updatedTextString.replacingCharacters(in: range, with: string) as NSString
         
         self.updateTextLabels(withText: (updatedTextString) as String)
+        
+        if labelText.text?.characters.last == " "  && string == " "{
+            
+            labelText.endEditing(true)
+            return false
+        }
         
         return true
     }
@@ -40,9 +47,13 @@ class LabelVC: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindToAlarmOptions" {
             
-            let displayAddEditAlarm = segue.destination as! AddEditAlarm
+            let displayAlarmInfo = segue.destination as! AlarmInformation
             
-            displayAddEditAlarm.updateLabelText.text = labelText.text
+            if(labelText.text?.isEmpty)! {
+                labelText.text = "Alarm"
+            }
+            
+            displayAlarmInfo.updateLabelText.text = labelText.text
         }
     }
     

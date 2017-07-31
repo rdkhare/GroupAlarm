@@ -12,7 +12,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 
-class AddEditAlarm: UITableViewController {
+class AlarmInformation: UITableViewController {
     
     var alarm: Alarm?
     var addButtonPressed: Bool?
@@ -29,9 +29,14 @@ class AddEditAlarm: UITableViewController {
         
         if(alarm?.daysToRepeat != nil) {
             
-            if(alarm?.daysToRepeat?.count == 7) {
+            if(alarm?.daysToRepeat?.count == 0) {
+                repeatText = "Never"
+            }
+                
+            else if(alarm?.daysToRepeat?.count == 7) {
                 repeatText = "Everyday"
             }
+                
             else if(alarm?.daysToRepeat?[0] == "Monday" && alarm?.daysToRepeat?[1] == "Tuesday" &&
                 alarm?.daysToRepeat?[2] == "Wednesday" && alarm?.daysToRepeat?[3] == "Thursday"
                 && alarm?.daysToRepeat?[4] == "Friday") {
@@ -39,6 +44,7 @@ class AddEditAlarm: UITableViewController {
                 print("Weekdays")
                 repeatText = "Weekdays"
             }
+                
             else if(alarm?.daysToRepeat?[0] == "Sunday" && alarm?.daysToRepeat?[(alarm?.daysToRepeat?.count)! - 1] == "Saturday") {
                 repeatText = "Weekends"
             }
@@ -98,17 +104,17 @@ class AddEditAlarm: UITableViewController {
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var snoozeCell: UITableViewCell!
     
-    var alarmRef = Database.database().reference().child("alarms").childByAutoId()
+    var newAlarmRef = Database.database().reference().child("alarms").childByAutoId()
+//    var editAlarmRef = Database.database().reference().child("alarms").child("")
+    
     var weekdaysSelected = [String]()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "save" {
             
-            //            var alarmRefKey = alarmRef.key //the unique alarm key
-            
             let displayAlarms = segue.destination as! DisplayAlarms //unwind segue destination
             
-            if alarm != nil {//alarm is the object, so if there is an alarm, you can edit it
+            if alarm != nil {
                 print("There is already an alarm.")
                 let timeFormatter = DateFormatter()
                 timeFormatter.timeStyle = DateFormatter.Style.short
@@ -119,22 +125,19 @@ class AddEditAlarm: UITableViewController {
                 print("\(strDate!) is the time!")
                 alarm?.time = strDate!
                 alarm?.alarmLabel = updateLabelText.text ?? ""
+                alarm?.daysToRepeat = weekdaysSelected
                 
                 self.tableView.reloadData()
                 
-                let key = alarmRef.key
+                let key = alarm?.key
                 
-                print("\(key) is the alarm key")
+                print("\(key!) is the alarm key")
                 var ref: DatabaseReference
                 ref = Database.database().reference()
-                let currentUserID = Auth.auth().currentUser?.uid//current user's id
+                let currentUserID = Auth.auth().currentUser?.uid //current user's id
                 
                 
-                //                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected]
-                
-                //where I am having trouble.
-                //updating values in the alarm associated with this key.
-                ref.child("alarms").child(key).updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected])
+                ref.child("alarms").child(key!).updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected])
                 
             }
             else{//if there is no alarm, add one
@@ -151,17 +154,19 @@ class AddEditAlarm: UITableViewController {
                 
                 alarm?.time = strDate!
                 alarm?.alarmLabel = updateLabelText.text ?? ""
+                alarm?.daysToRepeat = weekdaysSelected
+
                 print("\(strDate!) is the time!")
                 alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!, daysToRepeat: weekdaysSelected)
                 displayAlarms.alarms.append(alarm!)
                 
                 let currentUserID = Auth.auth().currentUser?.uid
                 
-                //                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected]
+                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected]
                 
-                alarmRef.updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected])
+                newAlarmRef.setValue(parameters)
                 
-                let key = alarmRef.key
+                let key = newAlarmRef.key
                 
                 
                 var ref: DatabaseReference
@@ -171,7 +176,7 @@ class AddEditAlarm: UITableViewController {
                 let childUpdates = ["\(displayAlarms.alarms.count - 1)" : key]
                 
                 alarmIDRef.updateChildValues(childUpdates)
-                print("\(key) is the user's alarm key")
+                //                print("\(key) is the user's alarm key")
                 
             }
             
@@ -202,8 +207,20 @@ class AddEditAlarm: UITableViewController {
         else if(segue.identifier == "cancel"){
             print("Cancel Button Pressed")
         }
+        else if(segue.identifier == "showLabel") {
+            let labelVC = segue.destination as! LabelVC
+            
+            if(!(updateLabelText.text?.isEmpty)!) {
+//                labelVC.labelText.text = updateLabelText.text
+            }
+        }
         else if(segue.identifier == "showRepeat") {
             let repeatVC = segue.destination as! RepeatVC
+            
+            if(!weekdaysSelected.isEmpty) {
+                print(weekdaysSelected)
+                repeatVC.weekdaysNotifChecked = weekdaysSelected
+            }
             
             repeatVC.alarm = alarm
         }

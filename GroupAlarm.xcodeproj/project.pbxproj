@@ -15,11 +15,11 @@
 		2910B4211F13DC430019C4B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2910B41F1F13DC430019C4B5 /* Main.storyboard */; };
 		2910B4231F13DC430019C4B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2910B4221F13DC430019C4B5 /* Assets.xcassets */; };
 		2910B4261F13DC430019C4B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2910B4241F13DC430019C4B5 /* LaunchScreen.storyboard */; };
-		2914EFBD1F158A700060746C /* AddEditAlarm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2914EFBB1F158A700060746C /* AddEditAlarm.storyboard */; };
+		2914EFBD1F158A700060746C /* AlarmInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2914EFBB1F158A700060746C /* AlarmInformation.storyboard */; };
 		2914EFC01F158D680060746C /* RepeatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2914EFBF1F158D680060746C /* RepeatVC.swift */; };
 		29169ACF1F18A0DE00F5DC50 /* SoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */; };
 		296206B21F153D250038E97E /* DisplayAlarms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B11F153D250038E97E /* DisplayAlarms.swift */; };
-		296206B81F15556C0038E97E /* AddEditAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B71F15556C0038E97E /* AddEditAlarm.swift */; };
+		296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B71F15556C0038E97E /* AlarmInformation.swift */; };
 		297704291F1EAD97001B29E8 /* LoginAlarm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */; };
 		2977042C1F1EB532001B29E8 /* LoginAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2977042B1F1EB532001B29E8 /* LoginAlarm.swift */; };
 		2998E0A81F1EF6C70019A62D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2998E0A71F1EF6C70019A62D /* Settings.swift */; };
@@ -44,11 +44,11 @@
 		2910B4221F13DC430019C4B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2910B4251F13DC430019C4B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2910B4271F13DC430019C4B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2914EFBC1F158A700060746C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddEditAlarm.storyboard; sourceTree = "<group>"; };
+		2914EFBC1F158A700060746C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AlarmInformation.storyboard; sourceTree = "<group>"; };
 		2914EFBF1F158D680060746C /* RepeatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatVC.swift; sourceTree = "<group>"; };
 		29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundVC.swift; sourceTree = "<group>"; };
 		296206B11F153D250038E97E /* DisplayAlarms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayAlarms.swift; sourceTree = "<group>"; };
-		296206B71F15556C0038E97E /* AddEditAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEditAlarm.swift; sourceTree = "<group>"; };
+		296206B71F15556C0038E97E /* AlarmInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmInformation.swift; sourceTree = "<group>"; };
 		297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAlarm.storyboard; sourceTree = "<group>"; };
 		2977042B1F1EB532001B29E8 /* LoginAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlarm.swift; sourceTree = "<group>"; };
 		2998E0A71F1EF6C70019A62D /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 		296206B61F15554E0038E97E /* Display and Edit Alarm Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				296206B71F15556C0038E97E /* AddEditAlarm.swift */,
+				296206B71F15556C0038E97E /* AlarmInformation.swift */,
 				29F2C4261F16A77A00C387FF /* DisplayAlarmCell.swift */,
 			);
 			name = "Display and Edit Alarm Controllers";
@@ -173,7 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				2910B4241F13DC430019C4B5 /* LaunchScreen.storyboard */,
-				2914EFBB1F158A700060746C /* AddEditAlarm.storyboard */,
+				2914EFBB1F158A700060746C /* AlarmInformation.storyboard */,
 				2910B41F1F13DC430019C4B5 /* Main.storyboard */,
 				29D830371F1404ED00F39B35 /* GettingStarted.storyboard */,
 				297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */,
@@ -272,7 +272,7 @@
 				2910B4261F13DC430019C4B5 /* LaunchScreen.storyboard in Resources */,
 				29D830381F1404ED00F39B35 /* GettingStarted.storyboard in Resources */,
 				297704291F1EAD97001B29E8 /* LoginAlarm.storyboard in Resources */,
-				2914EFBD1F158A700060746C /* AddEditAlarm.storyboard in Resources */,
+				2914EFBD1F158A700060746C /* AlarmInformation.storyboard in Resources */,
 				29069E741F1D6D3F00A4895A /* Spaceship_Alarm.mp3 in Resources */,
 				2910B4231F13DC430019C4B5 /* Assets.xcassets in Resources */,
 				2910B4211F13DC430019C4B5 /* Main.storyboard in Resources */,
@@ -346,7 +346,7 @@
 				2910B41C1F13DC430019C4B5 /* AppDelegate.swift in Sources */,
 				2998E0A81F1EF6C70019A62D /* Settings.swift in Sources */,
 				29D830361F13FC2E00F39B35 /* ThirdVC.swift in Sources */,
-				296206B81F15556C0038E97E /* AddEditAlarm.swift in Sources */,
+				296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */,
 				29169ACF1F18A0DE00F5DC50 /* SoundVC.swift in Sources */,
 				29101F2B1F159349003AA4AC /* LabelVC.swift in Sources */,
 				29F2C42A1F16CD2600C387FF /* Alarm.swift in Sources */,
@@ -372,12 +372,12 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		2914EFBB1F158A700060746C /* AddEditAlarm.storyboard */ = {
+		2914EFBB1F158A700060746C /* AlarmInformation.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2914EFBC1F158A700060746C /* Base */,
 			);
-			name = AddEditAlarm.storyboard;
+			name = AlarmInformation.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

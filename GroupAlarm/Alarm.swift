@@ -12,6 +12,7 @@ import UIKit
 class Alarm: NSObject {
     var daysToRepeat: [String]?
 //    let snooze: Bool = false
+    var key: String?
     var alarmLabel: String? = nil
     var time: String? = nil
     

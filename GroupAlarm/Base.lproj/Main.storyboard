@@ -58,18 +58,18 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbQ-Bv-8VC">
-                                <rect key="frame" x="120" y="58" width="135" height="36"/>
+                                <rect key="frame" x="120" y="37" width="135" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HeO-lW-QtS" customClass="CSAnimationView">
-                                <rect key="frame" x="302" y="42" width="60" height="60"/>
+                                <rect key="frame" x="33" y="31" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSj-5c-w83">
-                                        <rect key="frame" x="7" y="7" width="47" height="47"/>
+                                        <rect key="frame" x="7" y="7" width="36" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <state key="normal" image="close"/>
@@ -199,10 +199,10 @@
             </objects>
             <point key="canvasLocation" x="1237.5999999999999" y="-155.17241379310346"/>
         </scene>
-        <!--AddEditAlarm-->
+        <!--AlarmInformation-->
         <scene sceneID="aLX-Ow-WQm">
             <objects>
-                <viewControllerPlaceholder storyboardName="AddEditAlarm" id="hvl-Q1-olr" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="AlarmInformation" id="hvl-Q1-olr" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ySc-aR-IjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2191" y="-231"/>
