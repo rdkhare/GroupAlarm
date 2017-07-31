@@ -97,14 +97,13 @@
 		2910B41A1F13DC430019C4B5 /* GroupAlarm */ = {
 			isa = PBXGroup;
 			children = (
-				2977042D1F1EB579001B29E8 /* Alarm Sounds */,
-				2977042A1F1EB511001B29E8 /* Login Storyboard Files */,
-				29F2C4281F16CD1C00C387FF /* Models */,
+				2977042D1F1EB579001B29E8 /* Sounds */,
+				2977042A1F1EB511001B29E8 /* Login Files */,
+				29F2C4281F16CD1C00C387FF /* Alarm Model */,
 				29D830391F140F8100F39B35 /* GettingStarted Controllers */,
 				2914EFBE1F158D490060746C /* Alarm Options */,
-				296206B61F15554E0038E97E /* Display and Edit Alarm Controllers */,
-				29D8303D1F141A0C00F39B35 /* Storyboards */,
 				29D8303A1F140F9C00F39B35 /* Alarm Controllers */,
+				29D8303D1F141A0C00F39B35 /* Storyboards */,
 				2910B4221F13DC430019C4B5 /* Assets.xcassets */,
 				29101F2C1F1683D0003AA4AC /* GoogleService-Info.plist */,
 				2910B4271F13DC430019C4B5 /* Info.plist */,
@@ -124,29 +123,20 @@
 			name = "Alarm Options";
 			sourceTree = "<group>";
 		};
-		296206B61F15554E0038E97E /* Display and Edit Alarm Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				296206B71F15556C0038E97E /* AlarmInformation.swift */,
-				29F2C4261F16A77A00C387FF /* DisplayAlarmCell.swift */,
-			);
-			name = "Display and Edit Alarm Controllers";
-			sourceTree = "<group>";
-		};
-		2977042A1F1EB511001B29E8 /* Login Storyboard Files */ = {
+		2977042A1F1EB511001B29E8 /* Login Files */ = {
 			isa = PBXGroup;
 			children = (
 				2977042B1F1EB532001B29E8 /* LoginAlarm.swift */,
 			);
-			name = "Login Storyboard Files";
+			name = "Login Files";
 			sourceTree = "<group>";
 		};
-		2977042D1F1EB579001B29E8 /* Alarm Sounds */ = {
+		2977042D1F1EB579001B29E8 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
 				29069E731F1D6D3F00A4895A /* Spaceship_Alarm.mp3 */,
 			);
-			name = "Alarm Sounds";
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		29D830391F140F8100F39B35 /* GettingStarted Controllers */ = {
@@ -163,7 +153,9 @@
 		29D8303A1F140F9C00F39B35 /* Alarm Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				296206B71F15556C0038E97E /* AlarmInformation.swift */,
 				29D8303E1F141DF000F39B35 /* AlarmHandler.swift */,
+				29F2C4261F16A77A00C387FF /* DisplayAlarmCell.swift */,
 				296206B11F153D250038E97E /* DisplayAlarms.swift */,
 			);
 			name = "Alarm Controllers";
@@ -181,12 +173,12 @@
 			name = Storyboards;
 			sourceTree = "<group>";
 		};
-		29F2C4281F16CD1C00C387FF /* Models */ = {
+		29F2C4281F16CD1C00C387FF /* Alarm Model */ = {
 			isa = PBXGroup;
 			children = (
 				29F2C4291F16CD2600C387FF /* Alarm.swift */,
 			);
-			name = Models;
+			name = "Alarm Model";
 			sourceTree = "<group>";
 		};
 		3F232632598AF26D64B99BC5 /* Frameworks */ = {

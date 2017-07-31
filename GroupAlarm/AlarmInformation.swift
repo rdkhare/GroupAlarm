@@ -188,18 +188,6 @@ class AlarmInformation: UITableViewController {
             
             displayAlarms.dateA = date
             
-            
-            //            var alarmIDs = [Any]()
-            //
-            //            alarmIDs.append(key)
-            
-            //
-            
-            
-            //            print(key)
-            
-            
-            
             displayAlarms.weekdaysChecked = weekdaysSelected
             
             print("Save Button pressed")
@@ -211,8 +199,9 @@ class AlarmInformation: UITableViewController {
             let labelVC = segue.destination as! LabelVC
             
             if(!(updateLabelText.text?.isEmpty)!) {
-//                labelVC.labelText.text = updateLabelText.text
+                labelVC.setLabelText = updateLabelText.text
             }
+            
         }
         else if(segue.identifier == "showRepeat") {
             let repeatVC = segue.destination as! RepeatVC
