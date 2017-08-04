@@ -20,7 +20,7 @@ class ThirdVC : UIViewController {
     
     @IBAction func nextButton(_ sender: Any) {
         let vc = UIStoryboard(name: "LoginAlarm", bundle: nil).instantiateViewController(withIdentifier: "loginAlarm") as? LoginAlarm
-        self.show(vc!, sender: self)
+        self.view.window?.rootViewController = vc
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

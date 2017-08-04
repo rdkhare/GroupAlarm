@@ -25,13 +25,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let loginStoryboard: UIStoryboard = UIStoryboard(name: "LoginAlarm", bundle: nil)
-        let gettingStoryboard: UIStoryboard = UIStoryboard(name: "GettingStarted", bundle: nil)
+//        let gettingStoryboard: UIStoryboard = UIStoryboard(name: "GettingStarted", bundle: nil)
         var initialViewController: UIViewController
         if (UserDefaults.standard.bool(forKey: "HasLaunchedOnce")) {
             // App already launched
             let userDefault = UserDefaults.standard
             let loggedIn = userDefault.bool(forKey: "loggedIn")
-            if(loggedIn == true) {
+            let createdUsername = userDefault.bool(forKey: "usernameCreated")
+            
+            if(loggedIn == true && createdUsername == false) {
+                initialViewController = (loginStoryboard.instantiateViewController(withIdentifier: "createUsername") as? CreateUsername)!
+            }
+            else if(loggedIn == true && createdUsername == true) {
                 initialViewController = (mainStoryboard.instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler)!
                 print("user is already logged in")
             }
@@ -42,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             // This is the first launch ever
             
-            initialViewController = gettingStoryboard.instantiateViewController(withIdentifier: "pageGetting") as! GettingStartedPageVC
+            initialViewController = (loginStoryboard.instantiateViewController(withIdentifier: "loginAlarm") as? LoginAlarm)!
                 
             UserDefaults.standard.set(true, forKey: "HasLaunchedOnce")
             UserDefaults.standard.synchronize()

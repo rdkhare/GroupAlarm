@@ -23,7 +23,7 @@ class Settings: UIViewController {
         try! Firebase.Auth.auth().signOut()
         
         let vc = UIStoryboard(name: "LoginAlarm", bundle: nil).instantiateViewController(withIdentifier: "loginAlarm") as? LoginAlarm
-        self.show(vc!, sender: self)
+        self.view.window?.rootViewController = vc
         let userDefault = UserDefaults.standard
         
         userDefault.set(false, forKey: "loggedIn")

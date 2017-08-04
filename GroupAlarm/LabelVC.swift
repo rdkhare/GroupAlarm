@@ -18,6 +18,9 @@ class LabelVC: UIViewController, UITextFieldDelegate {
     var setLabelText: String?
     
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         labelText.layer.sublayerTransform = CATransform3DMakeTranslation(6, 0, 0)
@@ -26,6 +29,10 @@ class LabelVC: UIViewController, UITextFieldDelegate {
         if(!(setLabelText == "Alarm")) {
             labelText.text = setLabelText
         }
+        
+        self.labelText.returnKeyType = UIReturnKeyType.done
+
+        
         labelText.delegate = self
     }
     

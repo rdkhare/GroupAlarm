@@ -10,5 +10,10 @@ import Foundation
 import UIKit
 
 class AlarmHandler: UINavigationController {
+        
+    override func viewDidLoad() {
+        
+    }
+    
     
 }

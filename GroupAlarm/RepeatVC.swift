@@ -8,7 +8,8 @@
 
 import Foundation
 import UIKit
-
+import Firebase
+import FirebaseDatabase
 
 class RepeatVC: UITableViewController {
     
@@ -21,6 +22,8 @@ class RepeatVC: UITableViewController {
     var checked: Bool? = false
     var alarm: Alarm?
     var weekdays: [Bool] = [false, false, false, false, false, false, false]
+    
+    var ref: DatabaseReference = Database.database().reference()
     
     var weekdaysNotifChecked = [String]()//loop through each day to check if it's today and then send the notification if so.
     
@@ -37,7 +40,54 @@ class RepeatVC: UITableViewController {
         
         cell.tintColor = UIColor.white
         
-        if(alarm?.daysToRepeat != nil) {
+        if(!weekdaysNotifChecked.isEmpty) {
+            for days in weekdaysNotifChecked {
+                if(days == "Sunday") {
+                    if(cell.tag == 0) {
+                        weekdays[0] = true
+                        cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    }
+                }
+                if(days == "Monday") {
+                    if(cell.tag == 1) {
+                        weekdays[1] = true
+                        cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    }
+                }
+                if(days == "Tuesday") {
+                    if(cell.tag == 2) {
+                        weekdays[2] = true
+                        cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    }
+                }
+                if(days == "Wednesday") {
+                    if(cell.tag == 3) {
+                        weekdays[3] = true
+                        cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    }
+                }
+                if(days == "Thursday") {
+                    if(cell.tag == 4) {
+                        weekdays[4] = true
+                        cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    }
+                }
+                if(days == "Friday") {
+                    if(cell.tag == 5) {
+                        weekdays[5] = true
+                        cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    }
+                }
+                if(days == "Saturday") {
+                    if(cell.tag == 6) {
+                        weekdays[6] = true
+                        cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    }
+                }
+            }
+        }
+        
+        else if(alarm?.daysToRepeat != nil) {
             for days in (alarm?.daysToRepeat)! {
                 if(days == "Sunday") {
                     if(cell.tag == 0) {
@@ -116,6 +166,7 @@ class RepeatVC: UITableViewController {
                     weekdaysNotifChecked.append("Monday")
                 }
             }
+  
             
             if(weekdays[2] == true){
                 repeatText += "Tue "
@@ -123,6 +174,7 @@ class RepeatVC: UITableViewController {
                     weekdaysNotifChecked.append("Tuesday")
                 }
             }
+            
             
             if(weekdays[3] == true){
                 repeatText += "Wed "
@@ -155,6 +207,7 @@ class RepeatVC: UITableViewController {
             if(weekdays[0] == true && weekdays[1] == true && weekdays[2] == true && weekdays[3] == true
                 && weekdays[4] == true && weekdays[5] == true && weekdays[6] == true){
                 repeatText = "Everyday"
+          
             }
                 
             else if(weekdays[0] == true && weekdays[6] == true && weekdays[1] == false && weekdays[2] == false
@@ -171,9 +224,17 @@ class RepeatVC: UITableViewController {
                 repeatText = "Never"
             }
             
+//            print(alarm)
             
+            displayAlarmInfo.weekdaysRepeated = weekdaysNotifChecked
             
-            displayAlarmInfo.weekdaysSelected = weekdaysNotifChecked
+            alarm?.daysToRepeat = weekdaysNotifChecked
+            
+            displayAlarmInfo.alarmWeekdaysHolder = weekdaysNotifChecked
+                        
+            displayAlarmInfo.alarm = alarm
+            
+//            print("\(alarm?.daysToRepeat) is my days array")
             
             displayAlarmInfo.repeatLabel.text = repeatText
             print("\(repeatText) is my text")

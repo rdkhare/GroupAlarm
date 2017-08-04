@@ -19,6 +19,9 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     //    var daily: Bool? = false
     
     var dateA: Date?
+    var createdBy: String?
+    
+    var alarmKeys = [String]()
     
     var weekdaysChecked = [String]()
     
@@ -72,6 +75,15 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         var alarmIDValue: String?
         
+        ref.child("users").child(currentUserID!).observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            
+            let createdByText = value?["username"] as? String ?? ""
+            
+            print(createdByText)
+            self.createdBy = createdByText
+        })
+        
         ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
             
             let alarmIDEnumerator = snapshot.children
@@ -90,9 +102,9 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     let alarmtime = value?["alarmTime"] as? String ?? ""
                     let alarmlabel = value?["alarmLabel"] as? String ?? ""
                     //make alarm object and append to alarm
-                    let repeatDays = value?["repeatedDays"] as? NSArray
+                    let repeatDays = value?["repeatedDays"] as? NSArray ?? [String]() as NSArray
                     
-                    let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel, daysToRepeat: repeatDays as? [String])
+                    let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel, daysToRepeat: (repeatDays as? [String])!)
                     
                     alarm.key = alarmIDValue!
                     
@@ -153,6 +165,9 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         cell.alarmTitle.text = alarm.alarmLabel
         cell.clockTitle.text = alarm.time
         cell.enableAlarm.onTintColor = onColor
+        
+        cell.alarmCreated.text = "Created by \(createdBy!)"
+        
         
         print(weekdaysChecked)
         

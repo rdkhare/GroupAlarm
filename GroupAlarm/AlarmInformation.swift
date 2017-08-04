@@ -18,6 +18,10 @@ class AlarmInformation: UITableViewController {
     var addButtonPressed: Bool?
     var weekdaysRepeated: [String]?
     
+    var alarmWeekdaysHolder: [String]?
+    var keyArr : [String] = [String]()
+
+    
     var repeatText = ""
     
     @IBOutlet weak var updateLabelText: UILabel!
@@ -29,23 +33,24 @@ class AlarmInformation: UITableViewController {
         
         if(alarm?.daysToRepeat != nil) {
             
-            if(alarm?.daysToRepeat?.count == 0) {
+            
+            if(alarm?.daysToRepeat.count == 0) {
                 repeatText = "Never"
             }
                 
-            else if(alarm?.daysToRepeat?.count == 7) {
+            else if(alarm?.daysToRepeat.count == 7) {
                 repeatText = "Everyday"
             }
                 
-            else if(alarm?.daysToRepeat?[0] == "Monday" && alarm?.daysToRepeat?[1] == "Tuesday" &&
-                alarm?.daysToRepeat?[2] == "Wednesday" && alarm?.daysToRepeat?[3] == "Thursday"
-                && alarm?.daysToRepeat?[4] == "Friday") {
+            else if(alarm?.daysToRepeat[0] == "Monday" && alarm?.daysToRepeat[1] == "Tuesday" &&
+                alarm?.daysToRepeat[2] == "Wednesday" && alarm?.daysToRepeat[3] == "Thursday"
+                && alarm?.daysToRepeat[4] == "Friday") {
                 
                 print("Weekdays")
                 repeatText = "Weekdays"
             }
                 
-            else if(alarm?.daysToRepeat?[0] == "Sunday" && alarm?.daysToRepeat?[(alarm?.daysToRepeat?.count)! - 1] == "Saturday") {
+            else if(alarm?.daysToRepeat[0] == "Sunday" && alarm?.daysToRepeat[(alarm?.daysToRepeat.count)! - 1] == "Saturday") {
                 repeatText = "Weekends"
             }
             else {
@@ -78,6 +83,8 @@ class AlarmInformation: UITableViewController {
             repeatText = "Never"
         }
         
+        weekdaysRepeated = alarm?.daysToRepeat ?? [String]()
+        
         updateLabelText.text = alarm?.alarmLabel ?? "Alarm"
         
         repeatLabel.text = repeatText
@@ -105,40 +112,54 @@ class AlarmInformation: UITableViewController {
     @IBOutlet weak var snoozeCell: UITableViewCell!
     
     var newAlarmRef = Database.database().reference().child("alarms").childByAutoId()
-//    var editAlarmRef = Database.database().reference().child("alarms").child("")
     
-    var weekdaysSelected = [String]()
+    //
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "save" {
             
+            
             let displayAlarms = segue.destination as! DisplayAlarms //unwind segue destination
+            
+            //somehow when clicking on the alarm, the data has not been written in firebase, and so when we enter the next viewcontroller, the key is not existing, thus forming a nil key value, I believe.
             
             if alarm != nil {
                 print("There is already an alarm.")
-                let timeFormatter = DateFormatter()
-                timeFormatter.timeStyle = DateFormatter.Style.short
-                
-                timePicker.addTarget(self, action: Selector(("handler:")), for: UIControlEvents.valueChanged)
-                
-                let strDate: String? = timeFormatter.string(from: timePicker.date)
-                print("\(strDate!) is the time!")
-                alarm?.time = strDate!
-                alarm?.alarmLabel = updateLabelText.text ?? ""
-                alarm?.daysToRepeat = weekdaysSelected
-                
-                self.tableView.reloadData()
                 
                 let key = alarm?.key
                 
-                print("\(key!) is the alarm key")
-                var ref: DatabaseReference
-                ref = Database.database().reference()
-                let currentUserID = Auth.auth().currentUser?.uid //current user's id
-                
-                
-                ref.child("alarms").child(key!).updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected])
-                
+                if(key == nil) {
+                    let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+                    let barButton = UIBarButtonItem(customView: activityIndicator)
+                    self.navigationItem.setRightBarButton(barButton, animated: true)
+                    activityIndicator.startAnimating()
+                }
+                else {
+                    
+                    let editAlarmRef = Database.database().reference().child("alarms").child(key!)
+                    let timeFormatter = DateFormatter()
+                    timeFormatter.timeStyle = DateFormatter.Style.short
+                    
+                    timePicker.addTarget(self, action: Selector(("handler:")), for: UIControlEvents.valueChanged)
+                    
+                    let strDate: String? = timeFormatter.string(from: timePicker.date)
+                    print("\(strDate!) is the time!")
+                    alarm?.time = strDate!
+                    alarm?.alarmLabel = updateLabelText.text ?? ""
+                    
+                    self.tableView.reloadData()
+                    
+                    print("\(key!) is the alarm key")
+                    //                var ref: DatabaseReference
+                    //                ref = Database.database().reference()
+                    let currentUserID = Auth.auth().currentUser?.uid //current user's id
+                    
+                    var userIDArr = [String]()
+
+                    userIDArr.append(currentUserID!)
+                    
+                    editAlarmRef.updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": (alarm?.daysToRepeat)!])
+                }
             }
             else{//if there is no alarm, add one
                 
@@ -154,32 +175,34 @@ class AlarmInformation: UITableViewController {
                 
                 alarm?.time = strDate!
                 alarm?.alarmLabel = updateLabelText.text ?? ""
-                alarm?.daysToRepeat = weekdaysSelected
-
-                print("\(strDate!) is the time!")
-                alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!, daysToRepeat: weekdaysSelected)
+                
+                alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!, daysToRepeat: alarmWeekdaysHolder ?? [String]())
                 displayAlarms.alarms.append(alarm!)
+                
+                var userIDArr = [String]()
                 
                 let currentUserID = Auth.auth().currentUser?.uid
                 
-                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": currentUserID!, "repeatedDays": weekdaysSelected]
+                userIDArr.append(currentUserID!)
+                
+                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": alarmWeekdaysHolder ?? "Never"]
                 
                 newAlarmRef.setValue(parameters)
                 
                 let key = newAlarmRef.key
                 
+                keyArr.append(key)
+                
+                print("\(keyArr) is the array of keys")
                 
                 var ref: DatabaseReference
                 ref = Database.database().reference()
                 let userRef = ref.child("users").child(currentUserID!)
-                let alarmIDRef = userRef.child("alarmID")
-                let childUpdates = ["\(displayAlarms.alarms.count - 1)" : key]
                 
-                alarmIDRef.updateChildValues(childUpdates)
+                userRef.updateChildValues(["alarmID" : keyArr])
                 //                print("\(key) is the user's alarm key")
                 
             }
-            
             
             let timeFormatter = DateFormatter()
             timeFormatter.timeStyle = DateFormatter.Style.short
@@ -188,7 +211,9 @@ class AlarmInformation: UITableViewController {
             
             displayAlarms.dateA = date
             
-            displayAlarms.weekdaysChecked = weekdaysSelected
+            if(alarmWeekdaysHolder != nil) {
+                displayAlarms.weekdaysChecked = alarmWeekdaysHolder!
+            }
             
             print("Save Button pressed")
         }
@@ -205,11 +230,8 @@ class AlarmInformation: UITableViewController {
         }
         else if(segue.identifier == "showRepeat") {
             let repeatVC = segue.destination as! RepeatVC
-            
-            if(!weekdaysSelected.isEmpty) {
-                print(weekdaysSelected)
-                repeatVC.weekdaysNotifChecked = weekdaysSelected
-            }
+
+            repeatVC.weekdaysNotifChecked = (alarmWeekdaysHolder) ?? [String]()
             
             repeatVC.alarm = alarm
         }

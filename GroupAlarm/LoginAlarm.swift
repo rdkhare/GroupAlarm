@@ -24,6 +24,8 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
     
 //    var alarms = Alarm()
     
+    
+    
     override func viewDidLoad() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
         
@@ -34,6 +36,8 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
         view.addGestureRecognizer(tap)
         
         animationView.layer.cornerRadius = 4
+        
+        self.password.returnKeyType = UIReturnKeyType.continue
         
         self.username.delegate = self
         
@@ -122,10 +126,24 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
                     let value = snapshot.value as? NSDictionary
                     
                     let userEmail = value?["email"] as? String
+                    let username = value?["username"] as? String
+                    
                     
                     if(userEmail == nil) {
                         ref.child("users").child(user!.uid).setValue(["email": self.username.text!])
                     }
+                    if(username != nil) {
+                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler
+                        self.view.window?.rootViewController = vc
+
+                    }
+                    else {
+                        let vc = UIStoryboard(name: "LoginAlarm", bundle: nil).instantiateViewController(withIdentifier: "createUsername") as? CreateUsername
+                        
+                        self.view.window?.rootViewController = vc
+                        
+                    }
+                    
                     
                 }) { (error) in
                     print(error.localizedDescription)
@@ -134,8 +152,11 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
                 
 //                ref.child("users").child(user!.uid).setValue(["alarm": self.alarm])
                 
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler
-                self.show(vc!, sender: self)
+                
+                
+                
+//                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler
+//                self.show(vc!, sender: self)
                 
                 NVActivityIndicatorPresenter.sharedInstance.stopAnimating()
 
