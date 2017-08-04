@@ -46,7 +46,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                 
                 targetController.alarm = alarmToSelect
                 
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
                 
                 print("Table view cell tapped")
             }

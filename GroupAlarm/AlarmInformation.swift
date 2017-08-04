@@ -155,7 +155,7 @@ class AlarmInformation: UITableViewController {
                     let currentUserID = Auth.auth().currentUser?.uid //current user's id
                     
                     var userIDArr = [String]()
-
+                    
                     userIDArr.append(currentUserID!)
                     
                     editAlarmRef.updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": (alarm?.daysToRepeat)!])
@@ -230,7 +230,7 @@ class AlarmInformation: UITableViewController {
         }
         else if(segue.identifier == "showRepeat") {
             let repeatVC = segue.destination as! RepeatVC
-
+            
             repeatVC.weekdaysNotifChecked = (alarmWeekdaysHolder) ?? [String]()
             
             repeatVC.alarm = alarm

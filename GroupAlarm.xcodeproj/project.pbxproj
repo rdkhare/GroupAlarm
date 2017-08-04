@@ -18,6 +18,9 @@
 		2914EFBD1F158A700060746C /* AlarmInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2914EFBB1F158A700060746C /* AlarmInformation.storyboard */; };
 		2914EFC01F158D680060746C /* RepeatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2914EFBF1F158D680060746C /* RepeatVC.swift */; };
 		29169ACF1F18A0DE00F5DC50 /* SoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */; };
+		293E96011F34E691004DE964 /* ShareAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293E96001F34E691004DE964 /* ShareAlarm.swift */; };
+		293E96041F34EB28004DE964 /* DesignableUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293E96031F34EB28004DE964 /* DesignableUITextField.swift */; };
+		293E96071F3522D7004DE964 /* Credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293E96061F3522D7004DE964 /* Credits.swift */; };
 		296206B21F153D250038E97E /* DisplayAlarms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B11F153D250038E97E /* DisplayAlarms.swift */; };
 		296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B71F15556C0038E97E /* AlarmInformation.swift */; };
 		297704291F1EAD97001B29E8 /* LoginAlarm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */; };
@@ -49,6 +52,9 @@
 		2914EFBC1F158A700060746C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AlarmInformation.storyboard; sourceTree = "<group>"; };
 		2914EFBF1F158D680060746C /* RepeatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatVC.swift; sourceTree = "<group>"; };
 		29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundVC.swift; sourceTree = "<group>"; };
+		293E96001F34E691004DE964 /* ShareAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareAlarm.swift; sourceTree = "<group>"; };
+		293E96031F34EB28004DE964 /* DesignableUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableUITextField.swift; sourceTree = "<group>"; };
+		293E96061F3522D7004DE964 /* Credits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credits.swift; sourceTree = "<group>"; };
 		296206B11F153D250038E97E /* DisplayAlarms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayAlarms.swift; sourceTree = "<group>"; };
 		296206B71F15556C0038E97E /* AlarmInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmInformation.swift; sourceTree = "<group>"; };
 		297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAlarm.storyboard; sourceTree = "<group>"; };
@@ -101,6 +107,8 @@
 		2910B41A1F13DC430019C4B5 /* GroupAlarm */ = {
 			isa = PBXGroup;
 			children = (
+				293E96051F3522AF004DE964 /* Credits */,
+				293E96021F34EB08004DE964 /* Helpers */,
 				2977042D1F1EB579001B29E8 /* Sounds */,
 				2977042A1F1EB511001B29E8 /* Login Files */,
 				29F2C4281F16CD1C00C387FF /* Models */,
@@ -119,12 +127,29 @@
 		2914EFBE1F158D490060746C /* Alarm Options */ = {
 			isa = PBXGroup;
 			children = (
+				2998E0A71F1EF6C70019A62D /* Settings.swift */,
 				2914EFBF1F158D680060746C /* RepeatVC.swift */,
 				29101F2A1F159349003AA4AC /* LabelVC.swift */,
 				29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */,
-				2998E0A71F1EF6C70019A62D /* Settings.swift */,
+				293E96001F34E691004DE964 /* ShareAlarm.swift */,
 			);
 			name = "Alarm Options";
+			sourceTree = "<group>";
+		};
+		293E96021F34EB08004DE964 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				293E96031F34EB28004DE964 /* DesignableUITextField.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		293E96051F3522AF004DE964 /* Credits */ = {
+			isa = PBXGroup;
+			children = (
+				293E96061F3522D7004DE964 /* Credits.swift */,
+			);
+			name = Credits;
 			sourceTree = "<group>";
 		};
 		2977042A1F1EB511001B29E8 /* Login Files */ = {
@@ -346,9 +371,12 @@
 				2910B41C1F13DC430019C4B5 /* AppDelegate.swift in Sources */,
 				2998E0A81F1EF6C70019A62D /* Settings.swift in Sources */,
 				29D830361F13FC2E00F39B35 /* ThirdVC.swift in Sources */,
+				293E96011F34E691004DE964 /* ShareAlarm.swift in Sources */,
 				296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */,
+				293E96041F34EB28004DE964 /* DesignableUITextField.swift in Sources */,
 				29169ACF1F18A0DE00F5DC50 /* SoundVC.swift in Sources */,
 				29101F2B1F159349003AA4AC /* LabelVC.swift in Sources */,
+				293E96071F3522D7004DE964 /* Credits.swift in Sources */,
 				29F2C42A1F16CD2600C387FF /* Alarm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

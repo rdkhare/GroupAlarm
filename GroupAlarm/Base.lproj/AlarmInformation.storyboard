@@ -174,6 +174,9 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.45123398300000001" green="0.56710201500000001" blue="0.98731452230000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <segue destination="s2k-lx-bHH" kind="show" identifier="showShare" id="fa3-ve-7fk"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -376,6 +379,46 @@
             </objects>
             <point key="canvasLocation" x="2709.5999999999999" y="-588.75562218890559"/>
         </scene>
+        <!--Share Alarm-->
+        <scene sceneID="DJ1-WE-rvd">
+            <objects>
+                <viewController id="s2k-lx-bHH" customClass="ShareAlarm" customModule="GroupAlarm" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r6r-Mz-JNB"/>
+                        <viewControllerLayoutGuide type="bottom" id="kBR-AX-pCk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="M4B-Dc-KvY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share by email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cyt-y0-gij" customClass="DesignableUITextField" customModule="GroupAlarm" customModuleProvider="target">
+                                <rect key="frame" x="28" y="102" width="319" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftPadding">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="add"/>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="shareEmail" destination="cyt-y0-gij" id="tE9-00-wlN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J7a-sE-SCJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045.5999999999999" y="572.56371814092961"/>
+        </scene>
         <!--SoundVC-->
         <scene sceneID="ui9-i2-MTl">
             <objects>
@@ -513,6 +556,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add" width="48" height="48"/>
         <image name="clock" width="37" height="37"/>
     </resources>
 </document>

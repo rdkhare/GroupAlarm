@@ -19,6 +19,7 @@ class Settings: UIViewController {
     override func didReceiveMemoryWarning() {
         
     }
+    
     @IBAction func logoutUser(_ sender: Any) {
         try! Firebase.Auth.auth().signOut()
         
@@ -27,6 +28,10 @@ class Settings: UIViewController {
         let userDefault = UserDefaults.standard
         
         userDefault.set(false, forKey: "loggedIn")
+    }
+    
+    @IBAction func unwindToSettings(_ segue: UIStoryboardSegue){
+        
     }
     
 }
