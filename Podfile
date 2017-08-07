@@ -13,4 +13,5 @@ target 'GroupAlarm' do
   pod 'Firebase/Auth'
   pod 'NVActivityIndicatorView'
   pod 'Canvas'
+  pod 'SVProgressHUD'
 end
