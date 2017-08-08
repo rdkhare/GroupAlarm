@@ -12,12 +12,15 @@ import Firebase
 import SVProgressHUD
 import SafariServices
 
-
 class ShareAlarm: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var shareEmail: UITextField!
     @IBOutlet weak var usersAddedTextField: UITextView!
+    
+    var sharedWith = [String]()
+    
+    var alarm: Alarm?
     
     override func viewDidLoad() {
         self.navigationItem.title = "Share"
@@ -25,6 +28,13 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
         self.shareEmail.returnKeyType = UIReturnKeyType.done
                 
         shareEmail.delegate = self
+    }
+    @IBAction func sendRequest(_ sender: Any) {
+        SVProgressHUD.show(withStatus: "Loading...")
+        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.dark)
+        SVProgressHUD.setRingThickness(1.0)
+        self.view.endEditing(true)
+        searchEmails()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -38,36 +48,35 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
     }
     
     func searchEmails() {
+        
         if self.shareEmail.text != "" && self.shareEmail.text?.isEmpty == false{
             
             Database.database().reference().child("users").queryOrdered(byChild: "email").queryEqual(toValue: self.shareEmail.text!).observe(.value, with: {(Snapshot) in
-                
-                let uniqueKey = Snapshot.children.allObjects[0] as! DataSnapshot
-                print(uniqueKey.key)
-
-                
+    
 //                print(Snapshot.children.allObjects[0])
                 
                 if Snapshot.exists(){
                     
-                    // The email that you have been searching for exists in the
-                    // database under some particular userID node which can
-                    // be retrieved from ....
                     
-                    SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.dark)
+                    let uniqueKey = Snapshot.children.allObjects[0] as! DataSnapshot
+                    print(uniqueKey.key)
                     
-                    
-                    
-                    SVProgressHUD.showSuccess(withStatus: "Request sent to \(self.shareEmail.text!).")
-                    
-                    self.usersAddedTextField.text = self.usersAddedTextField.text + "\n" + self.shareEmail.text!
-                    
-//                    print(Snapshot)
-                    
-                    
-                }else{
-                    
-                    // No such email found
+                    if(uniqueKey.key != Auth.auth().currentUser?.uid) {
+//                        let alarmIDRef = Database.database().reference().child("users").child(uniqueKey.key)
+                        
+                        self.sharedWith.append(uniqueKey.key)
+                        
+                        self.usersAddedTextField.text = self.usersAddedTextField.text + "\n" + self.shareEmail.text!
+                        
+                        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.dark)
+                        SVProgressHUD.showSuccess(withStatus: "Shared with \(self.shareEmail.text!).")
+                    }
+                    else {
+                        SVProgressHUD.showError(withStatus: "Cannot share alarm with yourself.")
+                    }
+    
+                }
+                else{
                     
                     SVProgressHUD.showError(withStatus: "No email found.")
                     
@@ -76,7 +85,6 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
                 
             }, withCancel: {(error) in
                 
-                // Handle any error occurred while making the call to firebase
                 
             })
             
@@ -90,6 +98,18 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
         
         SVProgressHUD.dismiss()
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            if(identifier == "unwindFromShare") {
+                let destination = segue.destination as! AlarmInformation
+                
+                for people in sharedWith {
+                    destination.sharedPeople.append(people)
+                }
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {

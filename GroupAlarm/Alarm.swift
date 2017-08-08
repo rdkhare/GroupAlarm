@@ -11,11 +11,11 @@ import UIKit
 
 class Alarm: NSObject {
     var daysToRepeat = [String]()
-//    let snooze: Bool = false
     var key: String?
     var alarmLabel: String? = nil
     var time: String? = nil
     var weekdays = [false, false, false, false, false, false, false]
+    var members = [String]()
     
     init(time: String, alarmLabel: String, daysToRepeat: [String]) {
         self.time = time

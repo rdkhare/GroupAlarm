@@ -19,10 +19,13 @@ class AlarmInformation: UITableViewController {
     var weekdaysRepeated: [String]?
     
     var alarmWeekdaysHolder: [String]?
-    var keyArr : [String] = [String]()
-
+    var keyArr = [String]()
     
     var repeatText = ""
+    
+    var sharedPeople = [String]()
+    
+    var alarmKeys = [String]()
     
     @IBOutlet weak var updateLabelText: UILabel!
     
@@ -102,14 +105,11 @@ class AlarmInformation: UITableViewController {
             
         }
         timePicker.setValue(UIColor.white, forKeyPath: "textColor")
-        snoozeCell.selectionStyle = UITableViewCellSelectionStyle.none
-        
     }
     
     @IBOutlet weak var repeatLabel: UILabel!
     
     @IBOutlet weak var timePicker: UIDatePicker!
-    @IBOutlet weak var snoozeCell: UITableViewCell!
     
     var newAlarmRef = Database.database().reference().child("alarms").childByAutoId()
     
@@ -122,6 +122,8 @@ class AlarmInformation: UITableViewController {
             let displayAlarms = segue.destination as! DisplayAlarms //unwind segue destination
             
             //somehow when clicking on the alarm, the data has not been written in firebase, and so when we enter the next viewcontroller, the key is not existing, thus forming a nil key value, I believe.
+            
+            
             
             if alarm != nil {
                 print("There is already an alarm.")
@@ -146,12 +148,12 @@ class AlarmInformation: UITableViewController {
                     print("\(strDate!) is the time!")
                     alarm?.time = strDate!
                     alarm?.alarmLabel = updateLabelText.text ?? ""
+                    alarm?.members = sharedPeople
+                    
                     
                     self.tableView.reloadData()
                     
                     print("\(key!) is the alarm key")
-                    //                var ref: DatabaseReference
-                    //                ref = Database.database().reference()
                     let currentUserID = Auth.auth().currentUser?.uid //current user's id
                     
                     var userIDArr = [String]()
@@ -176,7 +178,10 @@ class AlarmInformation: UITableViewController {
                 alarm?.time = strDate!
                 alarm?.alarmLabel = updateLabelText.text ?? ""
                 
+                alarm?.members = sharedPeople
+                
                 alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!, daysToRepeat: alarmWeekdaysHolder ?? [String]())
+                
                 displayAlarms.alarms.append(alarm!)
                 
                 var userIDArr = [String]()
@@ -191,15 +196,36 @@ class AlarmInformation: UITableViewController {
                 
                 let key = newAlarmRef.key
                 
-                keyArr.append(key)
-                
-                print("\(keyArr) is the array of keys")
-                
                 var ref: DatabaseReference
                 ref = Database.database().reference()
-                let userRef = ref.child("users").child(currentUserID!)
                 
-                userRef.updateChildValues(["alarmID" : keyArr])
+                if(!sharedPeople.isEmpty) {
+                    for member in (sharedPeople) {
+                        let alarmIDRef = Database.database().reference().child("users").child(member)
+                        
+                        alarmIDRef.child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
+                            
+                            let alarmKeyEnumerator = snapshot.children
+                            
+                            while let alarmKey = alarmKeyEnumerator.nextObject() as? DataSnapshot {
+                                print(alarmKey.value!)
+                                self.alarmKeys.append(alarmKey.value as! String)
+                                alarmIDRef.child("alarmID").setValue(self.alarmKeys)
+                            }
+                            
+                        }, withCancel: { (error) in
+                            
+                        })
+                        self.alarmKeys.append(key)
+                        alarmIDRef.child("alarmID").setValue(self.alarmKeys)
+                    }
+                }
+                
+                
+                
+                let userRef = ref.child("users").child(currentUserID!).child("alarmID")
+                
+                userRef.updateChildValues(["\(displayAlarms.alarms.count - 1)" : key])
                 //                print("\(key) is the user's alarm key")
                 
             }
@@ -235,6 +261,12 @@ class AlarmInformation: UITableViewController {
             
             repeatVC.alarm = alarm
         }
+        else if(segue.identifier == "showShare") {
+            let shareVC = segue.destination as! ShareAlarm
+                        
+            shareVC.alarm = alarm
+        }
+        
     }
     
     

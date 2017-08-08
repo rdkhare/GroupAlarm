@@ -207,11 +207,14 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d7z-mZ-Ho5">
                                                     <rect key="frame" x="294" y="24" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="switchState:" destination="q4w-ii-GkQ" eventType="valueChanged" id="Rds-3t-WgE"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <color key="backgroundColor" red="0.4871936992" green="0.60427483289999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.4871936992" green="0.60427483289999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.48627450980392156" green="0.60392156862745094" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="alarmCreated" destination="XcR-D9-4hG" id="5Fa-ne-1SP"/>
                                             <outlet property="alarmTitle" destination="bgp-9E-Or6" id="Ucn-hM-FQ4"/>
@@ -253,11 +256,66 @@
                     <connections>
                         <outlet property="addButton" destination="Y2G-HK-fjG" id="Gq7-tS-E1T"/>
                         <outlet property="tableView" destination="6Wc-4M-e9F" id="KOK-an-PJ3"/>
+                        <segue destination="4c4-So-ln2" kind="show" identifier="showAlarmRing" id="Ddx-df-LaU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lvs-cA-y5k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1237.5999999999999" y="-155.17241379310346"/>
+        </scene>
+        <!--Alarm Ring-->
+        <scene sceneID="yvH-2G-AaT">
+            <objects>
+                <viewController storyboardIdentifier="alarmRing" id="4c4-So-ln2" customClass="AlarmRing" customModule="GroupAlarm" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qz0-fd-cUD"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Th-8K-svr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dRP-1g-CeG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D7J-D5-K9v">
+                                <rect key="frame" x="163" y="599" width="48" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="dismiss"/>
+                                <connections>
+                                    <action selector="dismissController:" destination="4c4-So-ln2" eventType="touchUpInside" id="Nvl-tG-PVH"/>
+                                    <segue destination="GWI-UE-Ns1" kind="unwind" identifier="unwindToAlarm" unwindAction="unwindToAlarmController:" id="ZdR-xF-Cw1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alarm Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfv-MX-yv8">
+                                <rect key="frame" x="70" y="257" width="234" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="34"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alarm Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qa6-ls-hbi">
+                                <rect key="frame" x="94" y="28" width="186" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="27"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alarmRing" translatesAutoresizingMaskIntoConstraints="NO" id="flR-la-XAw">
+                                <rect key="frame" x="163" y="352" width="47" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.30196078430000001" green="0.58823529409999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="alarmRing" destination="kfv-MX-yv8" id="LT3-Tn-wIf"/>
+                        <outlet property="alarmRingImage" destination="flR-la-XAw" id="q9D-ZZ-3tg"/>
+                        <outlet property="alarmTitle" destination="qa6-ls-hbi" id="SY5-X6-Tfs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qlp-TR-NXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="GWI-UE-Ns1" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1237.5999999999999" y="523.98800599700155"/>
         </scene>
         <!--AlarmInformation-->
         <scene sceneID="aLX-Ow-WQm">
@@ -269,11 +327,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back" width="50" height="50"/>
+        <image name="alarmRing" width="50" height="50"/>
+        <image name="back" width="25" height="25"/>
         <image name="close" width="640" height="640"/>
+        <image name="dismiss" width="48" height="48"/>
         <image name="settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Mzj-uG-efo"/>
+        <segue reference="jCT-mf-iMO"/>
     </inferredMetricsTieBreakers>
 </document>

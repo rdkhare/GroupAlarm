@@ -25,6 +25,7 @@
 		296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B71F15556C0038E97E /* AlarmInformation.swift */; };
 		297704291F1EAD97001B29E8 /* LoginAlarm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */; };
 		2977042C1F1EB532001B29E8 /* LoginAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2977042B1F1EB532001B29E8 /* LoginAlarm.swift */; };
+		297D20501F38ED3B00085A40 /* AlarmRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297D204F1F38ED3B00085A40 /* AlarmRing.swift */; };
 		2998E0A81F1EF6C70019A62D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2998E0A71F1EF6C70019A62D /* Settings.swift */; };
 		29B3E9931F30EC5B00C09075 /* CreateUsername.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B3E9921F30EC5B00C09075 /* CreateUsername.swift */; };
 		29D830321F13F58B00F39B35 /* GettingStartedPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D830311F13F58B00F39B35 /* GettingStartedPageVC.swift */; };
@@ -59,6 +60,7 @@
 		296206B71F15556C0038E97E /* AlarmInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmInformation.swift; sourceTree = "<group>"; };
 		297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAlarm.storyboard; sourceTree = "<group>"; };
 		2977042B1F1EB532001B29E8 /* LoginAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlarm.swift; sourceTree = "<group>"; };
+		297D204F1F38ED3B00085A40 /* AlarmRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmRing.swift; sourceTree = "<group>"; };
 		2998E0A71F1EF6C70019A62D /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		29B3E9921F30EC5B00C09075 /* CreateUsername.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUsername.swift; sourceTree = "<group>"; };
 		29D830311F13F58B00F39B35 /* GettingStartedPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GettingStartedPageVC.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				29D8303E1F141DF000F39B35 /* AlarmHandler.swift */,
 				29F2C4261F16A77A00C387FF /* DisplayAlarmCell.swift */,
 				296206B11F153D250038E97E /* DisplayAlarms.swift */,
+				297D204F1F38ED3B00085A40 /* AlarmRing.swift */,
 			);
 			name = "Alarm Controllers";
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				2914EFC01F158D680060746C /* RepeatVC.swift in Sources */,
 				29F2C4271F16A77A00C387FF /* DisplayAlarmCell.swift in Sources */,
 				29D8303F1F141DF000F39B35 /* AlarmHandler.swift in Sources */,
+				297D20501F38ED3B00085A40 /* AlarmRing.swift in Sources */,
 				29B3E9931F30EC5B00C09075 /* CreateUsername.swift in Sources */,
 				2910B41E1F13DC430019C4B5 /* ViewController.swift in Sources */,
 				29D830321F13F58B00F39B35 /* GettingStartedPageVC.swift in Sources */,
@@ -434,6 +438,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_ACTIVITY_MODE = "";
+				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -483,6 +489,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_ACTIVITY_MODE = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

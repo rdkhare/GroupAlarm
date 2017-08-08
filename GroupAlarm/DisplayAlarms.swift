@@ -19,6 +19,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     //    var daily: Bool? = false
     
     var dateA: Date?
+    
     var createdBy: String?
     
     var alarmKeys = [String]()
@@ -32,6 +33,8 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             tableView.reloadData()
         }
     }
+    let state = UIApplication.shared.applicationState
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
@@ -46,7 +49,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                 
                 targetController.alarm = alarmToSelect
                 
-//                self.tableView.reloadData()
+                //                self.tableView.reloadData()
                 
                 print("Table view cell tapped")
             }
@@ -122,7 +125,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             }
             
         })
-                
+        
         UIApplication.shared.applicationIconBadgeNumber = 0
         
     }
@@ -132,7 +135,27 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return alarms.count
+        
+        let emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
+        emptyLabel.textColor = UIColor.white
+        emptyLabel.font = UIFont.systemFont(ofSize: 24, weight: UIFontWeightThin)
+        emptyLabel.textAlignment = NSTextAlignment.center
+        if(alarms.isEmpty == true) {
+            
+            emptyLabel.text = "Add an alarm!"
+            
+            self.tableView.backgroundView = emptyLabel
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+            return 0
+        }
+        
+        else{
+            emptyLabel.text = ""
+            
+            self.tableView.backgroundView = emptyLabel
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+            return alarms.count
+        }
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -166,32 +189,84 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         cell.clockTitle.text = alarm.time
         cell.enableAlarm.onTintColor = onColor
         
+        cell.enableAlarm.isOn = UserDefaults.standard.bool(forKey: "switchState")
+        
         cell.alarmCreated.text = "Created by \(createdBy!)"
         
         
         print(weekdaysChecked)
         
         
+        
+        
         //checkmarks in repeated days
         for weekdays in weekdaysChecked {
             
             if(dayInWeek == weekdays){
-                let content = UNMutableNotificationContent()
-                content.title = alarm.alarmLabel!
-                content.body = alarm.time!
-                content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-                let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
-                let identifier = "UYLLocalNotification"
-                let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                 
+//                if(state == .inactive || state == .active) {
+//                    
+//                    let time = Calendar.current.dateComponents([.hour, .minute], from: dateA!)
+//                    let date = Date()
+//                    let currentTime = Calendar.current.dateComponents([.hour, .minute], from: date)
+//                    
+//                    
+//                    print("The user is in the app.")
+//                    
+//                    if(time == currentTime) {
+//                        
+//                        print("the time is now.")
+//                        
+//                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmRing") as? AlarmRing
+//                        
+//                        vc?.alarm = alarm
+//                        
+//                        self.view.window?.rootViewController = vc
+//                    }
+//                    
+//                }
+                
+//                else {
+                    let content = UNMutableNotificationContent()
+                    content.title = alarm.alarmLabel!
+                    content.body = alarm.time!
+                    content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
+                    let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
+                    let identifier = "UYLLocalNotification"
+                    let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    
+//                }
                 
                 print("This is the correct day.")
             }
         }
         
         if(dateA != nil) {
+            
+//            if(state == .inactive || state == .active) {
+//                
+//                let time = Calendar.current.dateComponents([.hour, .minute], from: dateA!)
+//                let date = Date()
+//                let currentTime = Calendar.current.dateComponents([.hour, .minute], from: date)
+//                
+//                
+//                print("The user is in the app.")
+//                
+//                if(time == currentTime) {
+//                    
+//                    print("the time is now.")
+//                    
+//                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmRing") as? AlarmRing
+//                    
+//                    vc?.alarm = alarm
+//                    
+//                    self.view.window?.rootViewController = vc
+//                }
+//                
+//            }
+            
             if(weekdaysChecked.isEmpty) {
                 let content = UNMutableNotificationContent()
                 content.title = alarm.alarmLabel!
