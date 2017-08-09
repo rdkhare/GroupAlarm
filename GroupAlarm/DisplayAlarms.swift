@@ -45,13 +45,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                 
                 let alarmToSelect = alarms[(self.tableView.indexPathForSelectedRow?.row)!]
                 
-                print((self.tableView.indexPathForSelectedRow?.row)!)
-                
                 targetController.alarm = alarmToSelect
-                
-                //                self.tableView.reloadData()
-                
-                print("Table view cell tapped")
             }
         }
     }
@@ -78,26 +72,14 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         var alarmIDValue: String?
         
-        ref.child("users").child(currentUserID!).observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            
-            let createdByText = value?["username"] as? String ?? ""
-            
-            print(createdByText)
-            self.createdBy = createdByText
-        })
         
         ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
             
             let alarmIDEnumerator = snapshot.children
             
             while let alarmIDs = alarmIDEnumerator.nextObject() as? DataSnapshot {
-                print("\(alarmIDs.value!) alarm value")
-                
-                print(snapshot)
                 
                 alarmIDValue = alarmIDs.value as! String?
-                print(alarmIDValue!)
                 
                 ref.child("alarms").child(alarmIDValue!).observeSingleEvent(of: .value, with: { (snapshot) in
                     // Get alarm values for current user
@@ -115,9 +97,6 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     alarm.alarmLabel = alarmlabel
                     
                     self.alarms.append(alarm)
-                    
-                    print(alarmtime)
-                    print(alarmlabel)
                     
                 }) { (error) in
                     print(error.localizedDescription)
@@ -171,6 +150,10 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         let row = indexPath.row
         let alarm = alarms[row]
+        
+        var ref: DatabaseReference
+        ref = Database.database().reference()
+        
         let date = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat  = "EEEE"//"EE" to get short style
@@ -187,16 +170,8 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         //cell's alarm text and clock text
         cell.alarmTitle.text = alarm.alarmLabel
         cell.clockTitle.text = alarm.time
+        cell.enableAlarm.isOn = true
         cell.enableAlarm.onTintColor = onColor
-        
-        cell.enableAlarm.isOn = UserDefaults.standard.bool(forKey: "switchState")
-        
-        cell.alarmCreated.text = "Created by \(createdBy!)"
-        
-        
-        print(weekdaysChecked)
-        
-        
         
         
         //checkmarks in repeated days
@@ -238,8 +213,6 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                     
 //                }
-                
-                print("This is the correct day.")
             }
         }
         
@@ -278,6 +251,35 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                 let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             }
+            
+            if(alarm.key != nil) {
+                
+                ref.child("alarms").child(alarm.key!).child("userID").observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    let userIDKeys = snapshot.children
+                    
+                    while let userIDKey = userIDKeys.nextObject() as? DataSnapshot {
+                        if(userIDKey.key == "0") {
+                            ref.child("users").child(userIDKey.value as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+                                let value = snapshot.value as? NSDictionary
+                                
+                                let createdByText = value?["username"] as? String ?? ""
+                                
+                                print(createdByText)
+                                self.createdBy = createdByText
+                                cell.alarmCreated.text = "Created by \(self.createdBy!)"
+                                
+                            })
+                        }
+                    }
+                    
+                }) { (error) in
+                    
+                    
+                    
+                }
+            }
+            
         }
         
         return cell

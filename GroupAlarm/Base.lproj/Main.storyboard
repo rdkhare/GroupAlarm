@@ -16,10 +16,10 @@
                     <toolbarItems/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="O8q-2g-47I">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="O8q-2g-47I">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.45123398303985596" green="0.56710201501846313" blue="0.98731452226638794" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.2336960079" green="0.52575435790000002" blue="0.85420515760000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="19"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -100,7 +100,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.45098039215686275" green="0.56862745098039214" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.2336960079" green="0.52575435790000002" blue="0.85420515760000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="eZW-NW-ocR"/>
                 </viewController>
@@ -147,7 +147,7 @@
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" red="0.45098039215686275" green="0.56862745098039214" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.2336960079" green="0.52575435790000002" blue="0.85420515760000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
                         <outlet property="creditsTextView" destination="Q0h-5O-AjP" id="8NY-MO-ZKC"/>
@@ -172,9 +172,9 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="74" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6Wc-4M-e9F">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="0.45098039215686275" green="0.56862745098039214" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.2336960079" green="0.52575435790000002" blue="0.85420515760000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <color key="sectionIndexBackgroundColor" red="0.45098039215686275" green="0.56862745098039214" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.23369600787087769" green="0.52575435789495617" blue="0.85420515763411964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="alarmCell" id="q4w-ii-GkQ" customClass="DisplayAlarmCell" customModule="GroupAlarm" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="74"/>
@@ -208,18 +208,18 @@
                                                     <rect key="frame" x="294" y="24" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
-                                                        <action selector="switchState:" destination="q4w-ii-GkQ" eventType="valueChanged" id="Rds-3t-WgE"/>
+                                                        <action selector="switchState:" destination="q4w-ii-GkQ" eventType="valueChanged" id="py0-Zh-tXQ"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.4871936992" green="0.60427483289999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="0.2666666667" green="0.59215686270000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.48627450980392156" green="0.60392156862745094" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.2666666667" green="0.59215686270000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="alarmCreated" destination="XcR-D9-4hG" id="5Fa-ne-1SP"/>
                                             <outlet property="alarmTitle" destination="bgp-9E-Or6" id="Ucn-hM-FQ4"/>
                                             <outlet property="clockTitle" destination="Wcg-73-F7O" id="vgm-o1-Oyc"/>
-                                            <outlet property="enableAlarm" destination="d7z-mZ-Ho5" id="xsd-Oy-kwi"/>
+                                            <outlet property="enableAlarm" destination="d7z-mZ-Ho5" id="ovZ-E4-8St"/>
                                             <segue destination="hvl-Q1-olr" kind="show" identifier="displayAlarm" id="Mzj-uG-efo"/>
                                         </connections>
                                     </tableViewCell>
@@ -229,7 +229,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.45049122520000001" green="0.56974249779999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.2336960079" green="0.52575435790000002" blue="0.85420515760000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Wc-4M-e9F" firstAttribute="leading" secondItem="0AH-ag-1Fl" secondAttribute="leading" id="44L-ov-xst"/>
                             <constraint firstAttribute="bottom" secondItem="6Wc-4M-e9F" secondAttribute="bottom" id="4Tm-Lq-0JX"/>

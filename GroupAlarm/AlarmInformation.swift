@@ -160,6 +160,11 @@ class AlarmInformation: UITableViewController {
                     
                     userIDArr.append(currentUserID!)
                     
+                    for people in sharedPeople {
+                        userIDArr.append(people)
+                    }
+                    
+                    
                     editAlarmRef.updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": (alarm?.daysToRepeat)!])
                 }
             }
@@ -189,6 +194,9 @@ class AlarmInformation: UITableViewController {
                 let currentUserID = Auth.auth().currentUser?.uid
                 
                 userIDArr.append(currentUserID!)
+                for people in sharedPeople {
+                    userIDArr.append(people)
+                }
                 
                 let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": alarmWeekdaysHolder ?? "Never"]
                 
