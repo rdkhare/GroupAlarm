@@ -12,6 +12,7 @@ import UserNotifications
 import AVFoundation
 import FirebaseDatabase
 import Firebase
+import BRYXBanner
 
 class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegate{
     @IBOutlet weak var tableView: UITableView!
@@ -27,7 +28,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     var weekdaysChecked = [String]()
     
     var sendDays = [String]()
-    
+    var player: AVAudioPlayer?
     var alarms = [Alarm]() {
         didSet {
             tableView.reloadData()
@@ -51,6 +52,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         self.tableView.reloadData()
     }
     
@@ -64,6 +66,8 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             
         })
         
+        
+        
         var ref: DatabaseReference
         
         ref = Database.database().reference()
@@ -72,6 +76,34 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         var alarmIDValue: String?
         
+        ref.child("users").child(currentUserID!).child("alarmID").observe(.value, with: { (snapshot) in
+            
+            guard let snap = snapshot.value as? [String : Bool] else {
+                
+                return
+            }
+            
+            for check in snap {
+                if(check.value == false) {
+                    let alert = UIAlertController(title: "Request to share", message: "A user has requested to share an alarm with you.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.default, handler: { action in
+                        
+                        let shareAlarmRef = ref.child("users").child("alarmID").child(currentUserID)
+                        
+                        shareAlarmRef.updateChildValues([check.key: true])
+                        
+                    }))
+                    
+                    
+                    alert.addAction(UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                    
+                    
+                }
+            }
+            
+        })
         
         ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -79,7 +111,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             
             while let alarmIDs = alarmIDEnumerator.nextObject() as? DataSnapshot {
                 
-                alarmIDValue = alarmIDs.value as! String?
+                alarmIDValue = alarmIDs.key as String?
                 
                 ref.child("alarms").child(alarmIDValue!).observeSingleEvent(of: .value, with: { (snapshot) in
                     // Get alarm values for current user
@@ -179,77 +211,90 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             
             if(dayInWeek == weekdays){
                 
-//                if(state == .inactive || state == .active) {
-//                    
+                if(state == .active || state == .inactive) {
+                    
 //                    let time = Calendar.current.dateComponents([.hour, .minute], from: dateA!)
-//                    let date = Date()
+                    let date = Date()
 //                    let currentTime = Calendar.current.dateComponents([.hour, .minute], from: date)
-//                    
-//                    
-//                    print("The user is in the app.")
-//                    
-//                    if(time == currentTime) {
-//                        
-//                        print("the time is now.")
-//                        
-//                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmRing") as? AlarmRing
-//                        
-//                        vc?.alarm = alarm
-//                        
-//                        self.view.window?.rootViewController = vc
-//                    }
-//                    
-//                }
+                    
+                    if(self.dateA! == date) {
+                        
+                        let banner = Banner(title: alarm.alarmLabel!, subtitle: alarm.time!, image: UIImage(named: "alarmRing"), backgroundColor: UIColor(red:48.00/255.0, green:174.0/255.0, blue:51.5/255.0, alpha:1.000))
+                        
+                        banner.dismissesOnTap = true
+                        banner.show(duration: 30.0)
+                        
+                        
+                        if(banner.dismissesOnTap == true) {
+                            stopSound()
+                        }
+                        else {
+                            playSound()
+                        }
+                    }
+                }
+                else {
+                    
+                    let application = UIApplication.shared
+                    if (application.applicationState == UIApplicationState.active) {
+                        let content = UNMutableNotificationContent()
+                        content.title = alarm.alarmLabel!
+                        content.body = alarm.time!
+                        content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
+                        let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
+                        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
+                        let identifier = "UYLLocalNotification"
+                        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+                        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    }
+                    
+                    else {
+                        
+                        let content = UNMutableNotificationContent()
+                        content.title = alarm.alarmLabel!
+                        content.body = alarm.time!
+                        content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
+                        let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
+                        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
+                        let identifier = "UYLLocalNotification"
+                        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+                        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    }
+                }
+            }
+        }
+        
+
+        if(dateA != nil) {
+            
+            if(weekdaysChecked.isEmpty) {
                 
-//                else {
+                let application = UIApplication.shared
+
+                if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
                     let content = UNMutableNotificationContent()
                     content.title = alarm.alarmLabel!
                     content.body = alarm.time!
                     content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
                     let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
                     let identifier = "UYLLocalNotification"
                     let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
                     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                }
+                
+                else {
                     
-//                }
-            }
-        }
-        
-        if(dateA != nil) {
-            
-//            if(state == .inactive || state == .active) {
-//                
-//                let time = Calendar.current.dateComponents([.hour, .minute], from: dateA!)
-//                let date = Date()
-//                let currentTime = Calendar.current.dateComponents([.hour, .minute], from: date)
-//                
-//                
-//                print("The user is in the app.")
-//                
-//                if(time == currentTime) {
-//                    
-//                    print("the time is now.")
-//                    
-//                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmRing") as? AlarmRing
-//                    
-//                    vc?.alarm = alarm
-//                    
-//                    self.view.window?.rootViewController = vc
-//                }
-//                
-//            }
-            
-            if(weekdaysChecked.isEmpty) {
-                let content = UNMutableNotificationContent()
-                content.title = alarm.alarmLabel!
-                content.body = alarm.time!
-                content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-                let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
-                let identifier = "NeverNotification"
-                let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    let content = UNMutableNotificationContent()
+                    content.title = alarm.alarmLabel!
+                    content.body = alarm.time!
+                    content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
+                    let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: self.dateA!)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
+                    let identifier = "NeverNotification"
+                    let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                }
             }
             
             if(alarm.key != nil) {
@@ -283,6 +328,38 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         }
         
         return cell
+    }
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func stopSound() {
+        guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(false)
+            
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            
+            player.stop()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
     let firebase = Database.database().reference()

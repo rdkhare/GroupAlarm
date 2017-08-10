@@ -4,12 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AlarmKit-AlarmKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>AlarmKit.xcscheme</key>
+		<key>BRYXBanner.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -47,12 +42,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
+		<key>0F3B36547C3C2CC3060475E614BCBF32</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3D14EEA5E5EDA657511D921419EFACAB</key>
+		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,12 +57,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>78B154E2240ED20DECA627E538656D82</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>88E5409DF76A4FA0BCF212D62BEE969F</key>
+		<key>BD935B292B5C38151B2372E566A962B9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,7 +67,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DD14DC861183728AC14C9F3A697BAAFD</key>
+		<key>F27378C3B11D7CB57B51F74748425785</key>
 		<dict>
 			<key>primary</key>
 			<true/>

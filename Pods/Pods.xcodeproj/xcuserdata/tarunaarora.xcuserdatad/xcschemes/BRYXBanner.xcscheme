@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '88E5409DF76A4FA0BCF212D62BEE969F'
-               BlueprintName = 'AlarmKit-AlarmKit'
+               BlueprintIdentifier = '0F3B36547C3C2CC3060475E614BCBF32'
+               BlueprintName = 'BRYXBanner'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'AlarmKit.bundle'>
+               BuildableName = 'BRYXBanner.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

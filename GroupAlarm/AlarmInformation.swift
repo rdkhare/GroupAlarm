@@ -21,11 +21,13 @@ class AlarmInformation: UITableViewController {
     var alarmWeekdaysHolder: [String]?
     var keyArr = [String]()
     
+    var isAllowed = false
+    
     var repeatText = ""
     
     var sharedPeople = [String]()
     
-    var alarmKeys = [String]()
+    var alarmKeys = [String: Bool]()
     
     @IBOutlet weak var updateLabelText: UILabel!
     
@@ -163,7 +165,14 @@ class AlarmInformation: UITableViewController {
                     for people in sharedPeople {
                         userIDArr.append(people)
                     }
-                    
+                    if(!sharedPeople.isEmpty) {
+                        for member in (sharedPeople) {
+                            let alarmIDRef = Database.database().reference().child("users").child(member)
+                            
+                            self.alarmKeys[key!] = false
+                            alarmIDRef.child("alarmID").updateChildValues(self.alarmKeys)
+                        }
+                    }
                     
                     editAlarmRef.updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": (alarm?.daysToRepeat)!])
                 }
@@ -210,22 +219,9 @@ class AlarmInformation: UITableViewController {
                 if(!sharedPeople.isEmpty) {
                     for member in (sharedPeople) {
                         let alarmIDRef = Database.database().reference().child("users").child(member)
-                        
-                        alarmIDRef.child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
-                            
-                            let alarmKeyEnumerator = snapshot.children
-                            
-                            while let alarmKey = alarmKeyEnumerator.nextObject() as? DataSnapshot {
-                                print(alarmKey.value!)
-                                self.alarmKeys.append(alarmKey.value as! String)
-                                alarmIDRef.child("alarmID").setValue(self.alarmKeys)
-                            }
-                            
-                        }, withCancel: { (error) in
-                            
-                        })
-                        self.alarmKeys.append(key)
-                        alarmIDRef.child("alarmID").setValue(self.alarmKeys)
+                    
+                        self.alarmKeys[key] = false
+                        alarmIDRef.child("alarmID").updateChildValues(self.alarmKeys)
                     }
                 }
                 
@@ -233,8 +229,9 @@ class AlarmInformation: UITableViewController {
                 
                 let userRef = ref.child("users").child(currentUserID!).child("alarmID")
                 
-                userRef.updateChildValues(["\(displayAlarms.alarms.count - 1)" : key])
-                //                print("\(key) is the user's alarm key")
+                isAllowed = true
+
+                userRef.updateChildValues(["\(key)" : isAllowed])
                 
             }
             

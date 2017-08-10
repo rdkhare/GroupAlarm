@@ -6,7 +6,6 @@ target 'GroupAlarm' do
   use_frameworks!
 
   # Pods for GroupAlarm
-  pod 'AlarmKit'
   pod 'Firebase/Core'
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
@@ -14,4 +13,5 @@ target 'GroupAlarm' do
   pod 'NVActivityIndicatorView'
   pod 'Canvas'
   pod 'SVProgressHUD'
+  pod 'BRYXBanner'
 end

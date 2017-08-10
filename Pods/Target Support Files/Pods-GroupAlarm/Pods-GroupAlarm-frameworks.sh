@@ -84,7 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "$BUILT_PRODUCTS_DIR/AlarmKit/AlarmKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/BRYXBanner/BRYXBanner.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Canvas/Canvas.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMSessionFetcher/GTMSessionFetcher.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework"
@@ -92,7 +92,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SVProgressHUD/SVProgressHUD.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "$BUILT_PRODUCTS_DIR/AlarmKit/AlarmKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/BRYXBanner/BRYXBanner.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Canvas/Canvas.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMSessionFetcher/GTMSessionFetcher.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework"

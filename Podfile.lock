@@ -1,5 +1,5 @@
 PODS:
-  - AlarmKit (0.0.1)
+  - BRYXBanner (0.7.3)
   - Canvas (0.1.2)
   - Firebase/Auth (4.0.3):
     - Firebase/Core
@@ -46,7 +46,7 @@ PODS:
   - SVProgressHUD (2.1.2)
 
 DEPENDENCIES:
-  - AlarmKit
+  - BRYXBanner
   - Canvas
   - Firebase/Auth
   - Firebase/Core
@@ -56,7 +56,7 @@ DEPENDENCIES:
   - SVProgressHUD
 
 SPEC CHECKSUMS:
-  AlarmKit: 3040fe53c0d94b04c39aa4ada5e267027b36bda2
+  BRYXBanner: bd26a91cb8a5826a8bc7687891043d287dd3ee53
   Canvas: eb861e3b555d032648146c8ffda1a5dea40059ca
   Firebase: 9e33fdfbca37cab635c693883caa90a4475b842b
   FirebaseAnalytics: ad41720e3e67fc63fbe3d2948d3e26932a8de311
@@ -70,6 +70,6 @@ SPEC CHECKSUMS:
   NVActivityIndicatorView: 9f52a7f84bf5c6a798722c450fe3c198e01c56ed
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
 
-PODFILE CHECKSUM: a16e3bb417730abdad68ab38f34fd7006857d14d
+PODFILE CHECKSUM: a337c92a38bbaf8d7e94e90d8118acb1f9e05b20
 
 COCOAPODS: 1.1.1
