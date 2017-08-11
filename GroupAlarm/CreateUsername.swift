@@ -26,6 +26,22 @@ class CreateUsername: UIViewController, NVActivityIndicatorViewable, UITextField
     
     var usernameUnique: Bool? = true
     
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
+    }
+    
     @IBAction func logoutUser(_ sender: Any) {
         try! Firebase.Auth.auth().signOut()
         
@@ -43,6 +59,9 @@ class CreateUsername: UIViewController, NVActivityIndicatorViewable, UITextField
         userDefault.synchronize()
         
         self.incorrectUsername.isHidden = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(CreateUsername.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CreateUsername.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         view.addGestureRecognizer(tap)
         

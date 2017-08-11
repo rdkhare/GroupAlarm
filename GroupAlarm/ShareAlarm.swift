@@ -22,6 +22,10 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
     
     var alarm: Alarm?
     
+    override func viewDidDisappear(_ animated: Bool) {
+        SVProgressHUD.dismiss()
+    }
+    
     override func viewDidLoad() {
         self.navigationItem.title = "Share"
         
@@ -48,6 +52,8 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
                             
                             self.sharedWith.append(userID.value as! String)
                             
+                            self.alarm?.members = self.sharedWith
+                            
                         }, withCancel: { (error) in
                             
                         })
@@ -59,8 +65,29 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
             }
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(ShareAlarm.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ShareAlarm.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         shareEmail.delegate = self
     }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
+    }
+    
+    
     @IBAction func sendRequest(_ sender: Any) {
         SVProgressHUD.show(withStatus: "Loading...")
         SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.dark)
@@ -109,7 +136,7 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
                         }
                     }
                     else {
-                        SVProgressHUD.showError(withStatus: "Cannot share alarm with yourself.")
+                        
                     }
                     
                 }
@@ -145,6 +172,8 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
                 for people in sharedWith {
                     destination.sharedPeople.append(people)
                 }
+                destination.alarm = alarm
+                
             }
         }
     }

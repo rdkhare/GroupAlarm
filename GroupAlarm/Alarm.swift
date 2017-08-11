@@ -16,6 +16,7 @@ class Alarm: NSObject {
     var time: String? = nil
     var weekdays = [false, false, false, false, false, false, false]
     var members = [String]()
+    var createdBy: String?
     
     init(time: String, alarmLabel: String, daysToRepeat: [String]) {
         self.time = time

@@ -26,11 +26,15 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     var alarmKeys = [String]()
     
     var weekdaysChecked = [String]()
-    
+    let dispatchGroup = DispatchGroup()
+
     var sendDays = [String]()
     var player: AVAudioPlayer?
+    var newAlarms = [Alarm]()
+
     var alarms = [Alarm]() {
         didSet {
+            alarmTitleCrap()
             tableView.reloadData()
         }
     }
@@ -50,10 +54,31 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             }
         }
     }
+    func alarmTitleCrap() {
+        let emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
+        emptyLabel.textColor = UIColor.white
+        emptyLabel.font = UIFont.systemFont(ofSize: 24, weight: UIFontWeightThin)
+        emptyLabel.textAlignment = NSTextAlignment.center
+        if(alarms.isEmpty == true) {
+            
+            emptyLabel.text = "Add an alarm!"
+            
+            self.tableView.backgroundView = emptyLabel
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        }
+            
+        else{
+            emptyLabel.text = ""
+            
+            self.tableView.backgroundView = emptyLabel
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        }
+
+    }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -88,9 +113,11 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     let alert = UIAlertController(title: "Request to share", message: "A user has requested to share an alarm with you.", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.default, handler: { action in
                         
-                        let shareAlarmRef = ref.child("users").child("alarmID").child(currentUserID)
+                        let shareAlarmRef = ref.child("users").child(currentUserID!).child("alarmID")
                         
                         shareAlarmRef.updateChildValues([check.key: true])
+                        
+                        self.tableView.reloadData()
                         
                     }))
                     
@@ -108,32 +135,45 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
             
             let alarmIDEnumerator = snapshot.children
-            
+            self.newAlarms = []
+
             while let alarmIDs = alarmIDEnumerator.nextObject() as? DataSnapshot {
                 
-                alarmIDValue = alarmIDs.key as String?
-                
-                ref.child("alarms").child(alarmIDValue!).observeSingleEvent(of: .value, with: { (snapshot) in
-                    // Get alarm values for current user
-                    let value = snapshot.value as? NSDictionary
-                    let alarmtime = value?["alarmTime"] as? String ?? ""
-                    let alarmlabel = value?["alarmLabel"] as? String ?? ""
-                    //make alarm object and append to alarm
-                    let repeatDays = value?["repeatedDays"] as? NSArray ?? [String]() as NSArray
+                if(alarmIDs.value as! Bool == true) {
+                    self.dispatchGroup.enter()
+                    ref.child("alarms").child("\(alarmIDs.key)").observeSingleEvent(of: .value, with: { (snapshot) in
+                        // Get alarm values for current user
+                        let value = snapshot.value as? NSDictionary
+                        let alarmtime = value?["alarmTime"] as? String ?? ""
+                        let alarmlabel = value?["alarmLabel"] as? String ?? ""
+                        let createdBy = value?["createdBy"] as? String ?? ""
+                        //make alarm object and append to alarm
+                        let repeatDays = value?["repeatedDays"] as? NSArray ?? [String]() as NSArray
+                        let members = value?["userID"] as? NSArray ?? [String]() as NSArray
+
+                        alarmIDValue = alarmIDs.key
+
+                        
+                        let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel, daysToRepeat: (repeatDays as? [String])!)
+                        
+                        alarm.members = members as! [String]
+                        alarm.key = alarmIDValue!
+
+                        alarm.createdBy = createdBy
+                        
+                        self.newAlarms.append(alarm)
+                        
+                        self.dispatchGroup.leave()
+                    }) { (error) in
+                        print(error.localizedDescription)
+                    }
                     
-                    let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel, daysToRepeat: (repeatDays as? [String])!)
-                    
-                    alarm.key = alarmIDValue!
-                    
-                    alarm.time = alarmtime
-                    alarm.alarmLabel = alarmlabel
-                    
-                    self.alarms.append(alarm)
-                    
-                }) { (error) in
-                    print(error.localizedDescription)
                 }
             }
+            self.dispatchGroup.notify(queue: .main, execute: {
+                self.alarms = self.newAlarms
+                self.tableView.reloadData()
+            })
             
         })
         
@@ -146,44 +186,110 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        let emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
-        emptyLabel.textColor = UIColor.white
-        emptyLabel.font = UIFont.systemFont(ofSize: 24, weight: UIFontWeightThin)
-        emptyLabel.textAlignment = NSTextAlignment.center
-        if(alarms.isEmpty == true) {
-            
-            emptyLabel.text = "Add an alarm!"
-            
-            self.tableView.backgroundView = emptyLabel
-            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-            return 0
-        }
-        
-        else{
-            emptyLabel.text = ""
-            
-            self.tableView.backgroundView = emptyLabel
-            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-            return alarms.count
-        }
+        return alarms.count
+
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
     }
     
     @IBAction func unwindToAlarmController(_ segue: UIStoryboardSegue){
+        var ref: DatabaseReference
         
+        ref = Database.database().reference()
+        
+        let currentUserID = Auth.auth().currentUser?.uid
+        
+        var alarmIDValue: String?
+        
+        ref.child("users").child(currentUserID!).child("alarmID").observe(.value, with: { (snapshot) in
+            
+            guard let snap = snapshot.value as? [String : Bool] else {
+                
+                return
+            }
+            
+            for check in snap {
+                if(check.value == false) {
+                    let alert = UIAlertController(title: "Request to share", message: "A user has requested to share an alarm with you.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.default, handler: { action in
+                        
+                        let shareAlarmRef = ref.child("users").child(currentUserID!).child("alarmID")
+                        
+                        shareAlarmRef.updateChildValues([check.key: true])
+                        
+                        self.tableView.reloadData()
+                        
+                    }))
+                    
+                    
+                    alert.addAction(UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                    
+                    
+                }
+            }
+            
+        })
+        
+        ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let alarmIDEnumerator = snapshot.children
+            self.newAlarms = []
+            
+            while let alarmIDs = alarmIDEnumerator.nextObject() as? DataSnapshot {
+                
+                if(alarmIDs.value as! Bool == true) {
+                    
+                    self.dispatchGroup.enter()
+                    ref.child("alarms").child("\(alarmIDs.key)").observeSingleEvent(of: .value, with: { (snapshot) in
+                        // Get alarm values for current user
+                        let value = snapshot.value as? NSDictionary
+                        let alarmtime = value?["alarmTime"] as? String ?? ""
+                        let alarmlabel = value?["alarmLabel"] as? String ?? ""
+                        let createdBy = value?["createdBy"] as? String ?? ""
+                        //make alarm object and append to alarm
+                        let repeatDays = value?["repeatedDays"] as? NSArray ?? [String]() as NSArray
+                        let members = value?["userID"] as? NSArray ?? [String]() as NSArray
+                        
+                        alarmIDValue = alarmIDs.key
+
+                        
+                        let alarm = Alarm.init(time: alarmtime, alarmLabel: alarmlabel, daysToRepeat: (repeatDays as? [String])!)
+                        
+                        alarm.members = members as! [String]
+                        alarm.key = alarmIDValue!
+                        
+                        alarm.createdBy = createdBy
+                        
+                        self.newAlarms.append(alarm)
+                        self.dispatchGroup.leave()
+                        
+                    }) { (error) in
+                        print(error.localizedDescription)
+                    }
+                    
+                }
+            }
+            
+            self.dispatchGroup.notify(queue: .main, execute: { 
+                self.alarms = self.newAlarms
+                self.tableView.reloadData()
+            })
+        })
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as! DisplayAlarmCell
         
+        cell.selectionStyle = .none
+        
         let row = indexPath.row
         let alarm = alarms[row]
         
-        var ref: DatabaseReference
+        let ref: DatabaseReference
         ref = Database.database().reference()
         
         let date = Date()
@@ -197,14 +303,10 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             tableView.reloadData()
         }
         
-        let onColor  = UIColor(red: CGFloat(99.0/255.0), green: CGFloat(125.0 / 255.0), blue: CGFloat(219.0/255.0), alpha: CGFloat(1.0))
-        
         //cell's alarm text and clock text
         cell.alarmTitle.text = alarm.alarmLabel
         cell.clockTitle.text = alarm.time
-        cell.enableAlarm.isOn = true
-        cell.enableAlarm.onTintColor = onColor
-        
+        cell.alarmCreated.text = alarm.createdBy
         
         //checkmarks in repeated days
         for weekdays in weekdaysChecked {
@@ -297,34 +399,6 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                 }
             }
             
-            if(alarm.key != nil) {
-                
-                ref.child("alarms").child(alarm.key!).child("userID").observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-                    let userIDKeys = snapshot.children
-                    
-                    while let userIDKey = userIDKeys.nextObject() as? DataSnapshot {
-                        if(userIDKey.key == "0") {
-                            ref.child("users").child(userIDKey.value as! String).observeSingleEvent(of: .value, with: { (snapshot) in
-                                let value = snapshot.value as? NSDictionary
-                                
-                                let createdByText = value?["username"] as? String ?? ""
-                                
-                                print(createdByText)
-                                self.createdBy = createdByText
-                                cell.alarmCreated.text = "Created by \(self.createdBy!)"
-                                
-                            })
-                        }
-                    }
-                    
-                }) { (error) in
-                    
-                    
-                    
-                }
-            }
-            
         }
         
         return cell
@@ -367,20 +441,17 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     func myDeleteFunction(childIWantToRemove: String) {
         let currentUserID = Auth.auth().currentUser?.uid
         
-        
-        firebase.child("users").child(currentUserID!).child("alarmID").child(childIWantToRemove).removeValue { (error, ref) in
-            if error != nil {
-                print("error \(String(describing: error))")
-            }
-        }
+        print(childIWantToRemove)
+        firebase.child("users").child(currentUserID!).child("alarmID").child(childIWantToRemove).removeValue()
+        firebase.child("alarms").child(childIWantToRemove).removeValue()
+
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
+            myDeleteFunction(childIWantToRemove: "\(alarms[indexPath.row].key!)")
             self.alarms.remove(at: indexPath.row)
-            
-            myDeleteFunction(childIWantToRemove: "\(indexPath.row)")
             
             self.tableView.reloadData()
         }

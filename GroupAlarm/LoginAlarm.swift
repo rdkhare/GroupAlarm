@@ -26,6 +26,22 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
     
     
     
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
         
@@ -42,6 +58,10 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
         self.username.delegate = self
         
         self.password.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginAlarm.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginAlarm.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

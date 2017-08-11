@@ -23,6 +23,8 @@ class AlarmInformation: UITableViewController {
     
     var isAllowed = false
     
+    var createdByText: String?
+    
     var repeatText = ""
     
     var sharedPeople = [String]()
@@ -189,14 +191,9 @@ class AlarmInformation: UITableViewController {
                 
                 let strDate: String? = timeFormatter.string(from: timePicker.date)
                 
-                alarm?.time = strDate!
-                alarm?.alarmLabel = updateLabelText.text ?? ""
-                
-                alarm?.members = sharedPeople
-                
                 alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!, daysToRepeat: alarmWeekdaysHolder ?? [String]())
-                
-                displayAlarms.alarms.append(alarm!)
+                alarm?.members = sharedPeople
+
                 
                 var userIDArr = [String]()
                 
@@ -207,14 +204,37 @@ class AlarmInformation: UITableViewController {
                     userIDArr.append(people)
                 }
                 
-                let parameters: Any? = ["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": alarmWeekdaysHolder ?? "Never"]
+                var ref: DatabaseReference
+                ref = Database.database().reference()
                 
-                newAlarmRef.setValue(parameters)
+                ref.child("users").child(currentUserID!).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    let value = snapshot.value as? NSDictionary
+                    
+                    let username = value?["username"] as? String ?? ""
+                    
+                    print("\(username) is the username")
+                    
+                    self.createdByText = "Created by: \(username)"
+                    
+                    print("\(self.createdByText!)")
+                    
+                    self.alarm?.createdBy = self.createdByText
+                    
+                    let parameters = ["alarmLabel": self.updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": self.alarmWeekdaysHolder ?? [String](), "createdBy" : self.createdByText!] as [String : Any]
+                    
+                    
+                    self.newAlarmRef.setValue(parameters)
+                })
+                
+                
+                //displayAlarms.alarms.append(alarm!)
+
+                
                 
                 let key = newAlarmRef.key
                 
-                var ref: DatabaseReference
-                ref = Database.database().reference()
+               
                 
                 if(!sharedPeople.isEmpty) {
                     for member in (sharedPeople) {
@@ -224,7 +244,6 @@ class AlarmInformation: UITableViewController {
                         alarmIDRef.child("alarmID").updateChildValues(self.alarmKeys)
                     }
                 }
-                
                 
                 
                 let userRef = ref.child("users").child(currentUserID!).child("alarmID")
@@ -241,6 +260,7 @@ class AlarmInformation: UITableViewController {
             let date = timePicker.date
             
             displayAlarms.dateA = date
+            
             
             if(alarmWeekdaysHolder != nil) {
                 displayAlarms.weekdaysChecked = alarmWeekdaysHolder!
