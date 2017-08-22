@@ -21,7 +21,7 @@ class LabelVC: UIViewController, UITextFieldDelegate {
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= keyboardSize.height - 100
             }
         }
     }
@@ -29,17 +29,23 @@ class LabelVC: UIViewController, UITextFieldDelegate {
     func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height
+                self.view.frame.origin.y += keyboardSize.height + 100
             }
         }
     }
     
     
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         labelText.layer.sublayerTransform = CATransform3DMakeTranslation(6, 0, 0)
         
+         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CreateUsername.dismissKeyboard))
         
+        view.addGestureRecognizer(tap)
         if(!(setLabelText == "Alarm")) {
             labelText.text = setLabelText
         }
@@ -49,8 +55,8 @@ class LabelVC: UIViewController, UITextFieldDelegate {
         
         labelText.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(LabelVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(LabelVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(LabelVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(LabelVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
     }
     

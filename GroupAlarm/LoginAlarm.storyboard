@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -149,18 +150,21 @@
                                         <constraint firstItem="gYx-Xu-hrr" firstAttribute="centerX" secondItem="cft-Xe-nk8" secondAttribute="centerX" id="z1E-4w-lfk"/>
                                     </constraints>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="W8m-ph-e5X" secondAttribute="height" multiplier="375:667" id="95o-gG-I8N"/>
+                                </constraints>
                                 <blurEffect style="light"/>
                             </visualEffectView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="W8m-ph-e5X" secondAttribute="trailing" id="3qK-3K-Fkk"/>
-                            <constraint firstItem="KzZ-Di-bzi" firstAttribute="top" secondItem="W8m-ph-e5X" secondAttribute="bottom" id="69g-5d-lns"/>
-                            <constraint firstItem="W8m-ph-e5X" firstAttribute="leading" secondItem="NYX-WD-i9q" secondAttribute="leading" id="AnQ-QJ-Ync"/>
+                            <constraint firstAttribute="trailing" secondItem="W8m-ph-e5X" secondAttribute="trailing" id="4wa-Ty-SSE"/>
                             <constraint firstItem="SR9-Bu-wEV" firstAttribute="leading" secondItem="NYX-WD-i9q" secondAttribute="leading" id="PfA-x4-kZ9"/>
+                            <constraint firstItem="W8m-ph-e5X" firstAttribute="leading" secondItem="NYX-WD-i9q" secondAttribute="leading" id="PuU-Pq-w1l"/>
                             <constraint firstItem="SR9-Bu-wEV" firstAttribute="top" secondItem="NYX-WD-i9q" secondAttribute="top" id="WOH-sa-Pu0"/>
                             <constraint firstAttribute="trailing" secondItem="SR9-Bu-wEV" secondAttribute="trailing" id="aUm-tq-JQN"/>
-                            <constraint firstItem="W8m-ph-e5X" firstAttribute="top" secondItem="NYX-WD-i9q" secondAttribute="top" id="ijp-X7-Weq"/>
+                            <constraint firstItem="W8m-ph-e5X" firstAttribute="top" secondItem="NYX-WD-i9q" secondAttribute="top" id="eeC-uH-Iz9"/>
                             <constraint firstItem="KzZ-Di-bzi" firstAttribute="top" secondItem="SR9-Bu-wEV" secondAttribute="bottom" id="vdA-mf-IRq"/>
+                            <constraint firstItem="KzZ-Di-bzi" firstAttribute="top" secondItem="W8m-ph-e5X" secondAttribute="bottom" id="yfc-hc-sHO"/>
                         </constraints>
                     </view>
                     <connections>
@@ -274,7 +278,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="QM8-kr-gtd" secondAttribute="trailing" constant="40" id="LCj-Ee-E80"/>
                                                 <constraint firstItem="WW0-ZB-mkS" firstAttribute="leading" secondItem="B4U-Xs-UzE" secondAttribute="leading" constant="20" id="T8n-A3-vwg"/>
                                                 <constraint firstAttribute="height" constant="200" id="Urq-ii-d8t"/>
-                                                <constraint firstItem="xCE-iy-2Qw" firstAttribute="top" secondItem="QM8-kr-gtd" secondAttribute="bottom" constant="30" id="hRn-f3-84Z"/>
+                                                <constraint firstItem="xCE-iy-2Qw" firstAttribute="top" secondItem="QM8-kr-gtd" secondAttribute="bottom" constant="30" id="hRn-f3-84Z" customClass="KeyboardLayoutConstraint" customModule="GroupAlarm" customModuleProvider="target"/>
                                                 <constraint firstItem="xCE-iy-2Qw" firstAttribute="leading" secondItem="B4U-Xs-UzE" secondAttribute="leading" constant="20" id="kHQ-ff-o5q"/>
                                                 <constraint firstItem="QM8-kr-gtd" firstAttribute="leading" secondItem="B4U-Xs-UzE" secondAttribute="leading" constant="40" id="nuN-U5-mIM"/>
                                                 <constraint firstAttribute="width" constant="260" id="pmr-AD-pMq"/>
@@ -323,6 +327,9 @@
                                         <constraint firstItem="nmJ-64-mpW" firstAttribute="leading" secondItem="k1S-QK-LaQ" secondAttribute="leading" constant="16" id="urj-4y-uru"/>
                                     </constraints>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="nXi-yw-NiF" secondAttribute="height" multiplier="375:667" id="Rxg-pj-bg2"/>
+                                </constraints>
                                 <blurEffect style="light"/>
                             </visualEffectView>
                         </subviews>

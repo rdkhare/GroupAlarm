@@ -425,14 +425,14 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.33865081188725488" green="0.60392156862745094" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.36160152509999999" green="0.75851222070000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="agV-vz-EdM"/>
                                     <constraint firstAttribute="width" constant="40" id="c5a-L2-HQZ"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.2666666667" green="0.59215686270000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.26599323749999998" green="0.59346687789999997" blue="0.95857137439999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="2cg-vM-sHF" firstAttribute="leading" secondItem="M4B-Dc-KvY" secondAttribute="leading" constant="31" id="5c3-us-jh2"/>
                             <constraint firstItem="cyt-y0-gij" firstAttribute="top" secondItem="r6r-Mz-JNB" secondAttribute="bottom" constant="38" id="68t-H7-UvL"/>
@@ -444,11 +444,17 @@
                             <constraint firstItem="2cg-vM-sHF" firstAttribute="top" secondItem="cyt-y0-gij" secondAttribute="bottom" constant="60" id="lYc-N7-Lwt"/>
                             <constraint firstItem="kBR-AX-pCk" firstAttribute="top" secondItem="Ql0-wj-uLg" secondAttribute="bottom" constant="50" id="nnN-zH-pnS"/>
                             <constraint firstItem="cyt-y0-gij" firstAttribute="leading" secondItem="M4B-Dc-KvY" secondAttribute="leading" constant="28" id="qqw-8n-zhW"/>
+                            <constraint firstAttribute="trailing" secondItem="bnX-8M-y3C" secondAttribute="trailing" constant="28" id="sgw-8a-OM1"/>
                             <constraint firstAttribute="trailing" secondItem="2cg-vM-sHF" secondAttribute="trailing" constant="170" id="w9v-2U-VrS"/>
                             <constraint firstItem="Ql0-wj-uLg" firstAttribute="leading" secondItem="M4B-Dc-KvY" secondAttribute="leading" constant="25" id="wim-Ir-BUU"/>
                             <constraint firstItem="Ql0-wj-uLg" firstAttribute="top" secondItem="bnX-8M-y3C" secondAttribute="bottom" constant="100" id="wrc-8E-4Q2"/>
                             <constraint firstItem="bnX-8M-y3C" firstAttribute="leading" secondItem="cyt-y0-gij" secondAttribute="trailing" id="zn8-gS-HPB"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                <color key="value" red="0.87947899100000004" green="0.50831323859999999" blue="0.1925005913" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" title="Share" id="nGD-dg-Atg">
                         <barButtonItem key="leftBarButtonItem" image="back" id="BFR-qq-UYZ">

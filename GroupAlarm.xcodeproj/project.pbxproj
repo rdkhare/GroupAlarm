@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		29069E741F1D6D3F00A4895A /* Spaceship_Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29069E731F1D6D3F00A4895A /* Spaceship_Alarm.mp3 */; };
+		290EC0161F4A5989006B40D9 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290EC0151F4A5989006B40D9 /* GradientView.swift */; };
 		29101F2B1F159349003AA4AC /* LabelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29101F2A1F159349003AA4AC /* LabelVC.swift */; };
 		29101F2D1F1683D0003AA4AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29101F2C1F1683D0003AA4AC /* GoogleService-Info.plist */; };
 		2910B41C1F13DC430019C4B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2910B41B1F13DC430019C4B5 /* AppDelegate.swift */; };
@@ -25,6 +26,7 @@
 		296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B71F15556C0038E97E /* AlarmInformation.swift */; };
 		297704291F1EAD97001B29E8 /* LoginAlarm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */; };
 		2977042C1F1EB532001B29E8 /* LoginAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2977042B1F1EB532001B29E8 /* LoginAlarm.swift */; };
+		2977663E1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2977663D1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift */; };
 		297D20501F38ED3B00085A40 /* AlarmRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297D204F1F38ED3B00085A40 /* AlarmRing.swift */; };
 		2998E0A81F1EF6C70019A62D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2998E0A71F1EF6C70019A62D /* Settings.swift */; };
 		29B3E9931F30EC5B00C09075 /* CreateUsername.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B3E9921F30EC5B00C09075 /* CreateUsername.swift */; };
@@ -36,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		29069E731F1D6D3F00A4895A /* Spaceship_Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Spaceship_Alarm.mp3; path = ../../../../Downloads/Spaceship_Alarm.mp3; sourceTree = "<group>"; };
+		290EC0151F4A5989006B40D9 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		29101F2A1F159349003AA4AC /* LabelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelVC.swift; sourceTree = "<group>"; };
 		29101F2C1F1683D0003AA4AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Documents/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2910B4181F13DC430019C4B5 /* GroupAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +58,7 @@
 		296206B71F15556C0038E97E /* AlarmInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmInformation.swift; sourceTree = "<group>"; };
 		297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAlarm.storyboard; sourceTree = "<group>"; };
 		2977042B1F1EB532001B29E8 /* LoginAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlarm.swift; sourceTree = "<group>"; };
+		2977663D1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		297D204F1F38ED3B00085A40 /* AlarmRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmRing.swift; sourceTree = "<group>"; };
 		2998E0A71F1EF6C70019A62D /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		29B3E9921F30EC5B00C09075 /* CreateUsername.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUsername.swift; sourceTree = "<group>"; };
@@ -128,7 +132,9 @@
 		293E96021F34EB08004DE964 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				290EC0151F4A5989006B40D9 /* GradientView.swift */,
 				293E96031F34EB28004DE964 /* DesignableUITextField.swift */,
+				2977663D1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -348,11 +354,13 @@
 				2914EFC01F158D680060746C /* RepeatVC.swift in Sources */,
 				29F2C4271F16A77A00C387FF /* DisplayAlarmCell.swift in Sources */,
 				297D20501F38ED3B00085A40 /* AlarmRing.swift in Sources */,
+				2977663E1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift in Sources */,
 				29B3E9931F30EC5B00C09075 /* CreateUsername.swift in Sources */,
 				2977042C1F1EB532001B29E8 /* LoginAlarm.swift in Sources */,
 				296206B21F153D250038E97E /* DisplayAlarms.swift in Sources */,
 				29E35E2B1F327F5000989D3F /* Users.swift in Sources */,
 				2910B41C1F13DC430019C4B5 /* AppDelegate.swift in Sources */,
+				290EC0161F4A5989006B40D9 /* GradientView.swift in Sources */,
 				2998E0A81F1EF6C70019A62D /* Settings.swift in Sources */,
 				293E96011F34E691004DE964 /* ShareAlarm.swift in Sources */,
 				296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */,

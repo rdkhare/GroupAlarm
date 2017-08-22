@@ -22,9 +22,6 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
     @IBOutlet weak var animationView: CSAnimationView!
     @IBOutlet weak var loginButton: UIButton!
     
-//    var alarms = Alarm()
-    
-    
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {

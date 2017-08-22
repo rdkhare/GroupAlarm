@@ -23,15 +23,21 @@ class SoundVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(tableView.cellForRow(at: indexPath)?.tag == 0){
             
-//            playSound()
+            playSound()
             
         }
         if(tableView.cellForRow(at: indexPath)?.tag == 1){
+            
+            stopSound()
             
             let systemSoundID: SystemSoundID = 1034
             
             AudioServicesPlaySystemSound (systemSoundID)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        stopSound()
     }
     
     func playSound() {
@@ -45,6 +51,22 @@ class SoundVC: UITableViewController {
             guard let player = player else { return }
             
             player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func stopSound() {
+        guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(false)
+            
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            
+            player.stop()
         } catch let error {
             print(error.localizedDescription)
         }

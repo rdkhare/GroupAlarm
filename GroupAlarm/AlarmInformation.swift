@@ -260,8 +260,7 @@ class AlarmInformation: UITableViewController {
             let date = timePicker.date
             
             displayAlarms.dateA = date
-            
-            
+                        
             if(alarmWeekdaysHolder != nil) {
                 displayAlarms.weekdaysChecked = alarmWeekdaysHolder!
             }

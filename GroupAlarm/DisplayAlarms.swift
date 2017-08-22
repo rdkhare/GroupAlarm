@@ -14,16 +14,21 @@ import FirebaseDatabase
 import Firebase
 import BRYXBanner
 
-class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegate{
+
+class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegate, UNUserNotificationCenterDelegate{
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     //    var daily: Bool? = false
     
     var dateA: Date?
     
+    var time: String?
+    
     var createdBy: String?
     
     var alarmKeys = [String]()
+    
+    var currentUsername: String?
     
     var weekdaysChecked = [String]()
     let dispatchGroup = DispatchGroup()
@@ -54,6 +59,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
             }
         }
     }
+    
     func alarmTitleCrap() {
         let emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
         emptyLabel.textColor = UIColor.white
@@ -81,12 +87,38 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         tableView.reloadData()
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert,.sound])
+        
+    }
+    
     override func viewDidLoad() {
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
+        
+        UNUserNotificationCenter.current().delegate = self
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (didAllow, error) in
             
-            if(error != nil) {
+            if(!didAllow) {
                 print("User does not want notifications")
+                
+                let alertA = UIAlertController(title: "Turn on Notifications", message: "Notifications must be turned on in order for this app to function preoperly.", preferredStyle: UIAlertControllerStyle.alert)
+                
+                
+                
+                alertA.addAction(UIAlertAction(title: "Turn On.", style: UIAlertActionStyle.default, handler: { action in
+                    
+                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                    
+                    
+                }))
+                
+                alertA.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+                
+                self.present(alertA, animated: true, completion: nil)
             }
             
         })
@@ -124,12 +156,10 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     
                     alert.addAction(UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel, handler: nil))
                     self.present(alert, animated: true, completion: nil)
-                    
-                    
-                    
+
                 }
             }
-            
+
         })
         
         ref.child("users").child(currentUserID!).child("alarmID").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -230,6 +260,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     
                 }
             }
+            self.tableView.reloadData()
             
         })
         
@@ -289,9 +320,6 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         let row = indexPath.row
         let alarm = alarms[row]
         
-        let ref: DatabaseReference
-        ref = Database.database().reference()
-        
         let date = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat  = "EEEE"//"EE" to get short style
@@ -308,101 +336,135 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         cell.clockTitle.text = alarm.time
         cell.alarmCreated.text = alarm.createdBy
         
-        //checkmarks in repeated days
-        for weekdays in weekdaysChecked {
+        var refA: DatabaseReference
+        refA = Database.database().reference()
+        
+        refA.child("users").child((Auth.auth().currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let value = snapshot.value as? NSDictionary
+            self.currentUsername = value?["username"] as? String
+            
+        })
+        
+        if(self.dateA != nil) {
+            if(self.weekdaysChecked.isEmpty) {
+                
+                let application = UIApplication.shared
+                
+                if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
+                    
+                    //in here
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerNeverNotif")
+                }
+                    
+                else {
+                    
+                    //in here
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerNeverNotif")
+                }
+            }
+        }
+        
+        for weekdays in self.weekdaysChecked {
             
             if(dayInWeek == weekdays){
                 
-                if(state == .active || state == .inactive) {
+                let application = UIApplication.shared
+                if (application.applicationState == UIApplicationState.active) {
                     
-//                    let time = Calendar.current.dateComponents([.hour, .minute], from: dateA!)
-                    let date = Date()
-//                    let currentTime = Calendar.current.dateComponents([.hour, .minute], from: date)
+                    //in here
                     
-                    if(self.dateA! == date) {
-                        
-                        let banner = Banner(title: alarm.alarmLabel!, subtitle: alarm.time!, image: UIImage(named: "alarmRing"), backgroundColor: UIColor(red:48.00/255.0, green:174.0/255.0, blue:51.5/255.0, alpha:1.000))
-                        
-                        banner.dismissesOnTap = true
-                        banner.show(duration: 30.0)
-                        
-                        
-                        if(banner.dismissesOnTap == true) {
-                            stopSound()
-                        }
-                        else {
-                            playSound()
-                        }
-                    }
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerDayNotif")
+                    
                 }
+                    
                 else {
+                    
+                    //in here
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerDayNotif")
+                }
+            }
+        }
+        
+        refA.child("alarms").child(alarm.key!).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let value = snapshot.value as? NSDictionary
+            
+            self.time = value?["alarmTime"] as? String
+            let dateFormatterA = DateFormatter()
+            dateFormatterA.dateFormat = "hh:mm a"
+            dateFormatter.timeZone = TimeZone.current
+
+            let timeDate = dateFormatterA.date(from: self.time!)
+        
+            
+            
+            for weekdays in self.weekdaysChecked {
+                
+                if(dayInWeek == weekdays){
                     
                     let application = UIApplication.shared
                     if (application.applicationState == UIApplicationState.active) {
-                        let content = UNMutableNotificationContent()
-                        content.title = alarm.alarmLabel!
-                        content.body = alarm.time!
-                        content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-                        let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-                        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
-                        let identifier = "UYLLocalNotification"
-                        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-                        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                        
+                        //in here
+                        
+                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
                     }
-                    
+                        
                     else {
                         
-                        let content = UNMutableNotificationContent()
-                        content.title = alarm.alarmLabel!
-                        content.body = alarm.time!
-                        content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-                        let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-                        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: true)
-                        let identifier = "UYLLocalNotification"
-                        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-                        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                        //in here
+                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
                     }
                 }
             }
-        }
-        
-
-        if(dateA != nil) {
             
-            if(weekdaysChecked.isEmpty) {
+            
+            
+            if(timeDate != nil) {
                 
-                let application = UIApplication.shared
-
-                if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
-                    let content = UNMutableNotificationContent()
-                    content.title = alarm.alarmLabel!
-                    content.body = alarm.time!
-                    content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-                    let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: dateA!)
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
-                    let identifier = "UYLLocalNotification"
-                    let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                }
-                
-                else {
+                if(self.weekdaysChecked.isEmpty) {
                     
-                    let content = UNMutableNotificationContent()
-                    content.title = alarm.alarmLabel!
-                    content.body = alarm.time!
-                    content.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
-                    let triggerTime = Calendar.current.dateComponents([.hour,.minute], from: self.dateA!)
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
-                    let identifier = "NeverNotification"
-                    let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    let application = UIApplication.shared
+                    
+                    if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
+                        
+                        //in here
+                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
+                    }
+                        
+                    else {
+                        
+                        //in here
+                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
+                    }
                 }
             }
-            
-        }
+
+        })
         
         return cell
+        
+
     }
+    
+    
+    func triggerNotification(title: String, body: String, trigger: Date, identifier: String) {
+        
+        let contentA = UNMutableNotificationContent()
+        contentA.title = title
+        contentA.body = body
+        contentA.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
+        
+        let triggerTimeA = Calendar.current.dateComponents([.hour,.minute], from: trigger)
+        let triggerA = UNCalendarNotificationTrigger(dateMatching: triggerTimeA, repeats: true)
+        let identifierA = identifier
+        let requestA = UNNotificationRequest(identifier: identifierA, content: contentA, trigger: triggerA)
+        UNUserNotificationCenter.current().add(requestA, withCompletionHandler: nil)
+        
+    }
+    
+    
     
     func playSound() {
         guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }

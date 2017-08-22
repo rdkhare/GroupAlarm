@@ -29,6 +29,11 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         self.navigationItem.title = "Share"
         
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CreateUsername.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+        
         self.shareEmail.returnKeyType = UIReturnKeyType.done
         
         var ref: DatabaseReference
@@ -65,8 +70,8 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
             }
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ShareAlarm.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ShareAlarm.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(ShareAlarm.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(ShareAlarm.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         shareEmail.delegate = self
     }
@@ -74,7 +79,7 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= keyboardSize.height - 100
             }
         }
     }
@@ -82,10 +87,15 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
     func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height
+                self.view.frame.origin.y += keyboardSize.height + 100
             }
         }
     }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     
     
     @IBAction func sendRequest(_ sender: Any) {
@@ -124,7 +134,7 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
                         SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.dark)
 
                         if(self.usersAddedTextField.text.contains(self.shareEmail.text!)) {
-                            SVProgressHUD.showError(withStatus: "You have shared with this person already.")
+//                            SVProgressHUD.showError(withStatus: "You have shared with this person already.")
                         }
                             
                         else {

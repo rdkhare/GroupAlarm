@@ -54,10 +54,6 @@ class CreateUsername: UIViewController, NVActivityIndicatorViewable, UITextField
     override func viewDidLoad() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CreateUsername.dismissKeyboard))
         
-        let userDefault = UserDefaults.standard
-        userDefault.set(false, forKey: "usernameCreated")
-        userDefault.synchronize()
-        
         self.incorrectUsername.isHidden = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(CreateUsername.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -127,10 +123,6 @@ class CreateUsername: UIViewController, NVActivityIndicatorViewable, UITextField
                 if username == nil{
                     
                     ref.child("users").child(currentUserID!).updateChildValues(["username": self.createUsernameText.text!])
-                    
-                    let userDefault = UserDefaults.standard
-                    userDefault.set(true, forKey: "usernameCreated")
-                    userDefault.synchronize()
                     
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler
                     
