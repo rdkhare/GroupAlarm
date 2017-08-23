@@ -27,18 +27,14 @@ class CreateUsername: UIViewController, NVActivityIndicatorViewable, UITextField
     var usernameUnique: Bool? = true
     
     func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
-            }
+        if self.view.frame.origin.y == 0{
+            self.view.frame.origin.y -= 40
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height
-            }
+        if self.view.frame.origin.y != 0{
+            self.view.frame.origin.y += 40
         }
     }
     
@@ -110,6 +106,11 @@ class CreateUsername: UIViewController, NVActivityIndicatorViewable, UITextField
         let ref : DatabaseReference!
         ref = Database.database().reference()
         
+        if(self.createUsernameText.text?.isEmpty)! {
+            self.incorrectUsername.text = "Please enter in a username."
+            self.incorrectUsername.isHidden = false
+        }
+        
         if((self.createUsernameText.text?.characters.count)! < 3) {
             self.incorrectUsername.text = "Please enter at least 4 characters for your username."
             self.incorrectUsername.isHidden = false
@@ -122,7 +123,8 @@ class CreateUsername: UIViewController, NVActivityIndicatorViewable, UITextField
                 
                 if username == nil{
                     
-                    ref.child("users").child(currentUserID!).updateChildValues(["username": self.createUsernameText.text!])
+                    
+                    ref.child("users").child(currentUserID!).updateChildValues(["username": self.createUsernameText.text?.lowercased() as Any])
                     
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "alarmView") as? AlarmHandler
                     

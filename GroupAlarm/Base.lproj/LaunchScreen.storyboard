@@ -41,7 +41,7 @@
                                 <color key="backgroundColor" red="0.87950390577316284" green="0.50820451974868774" blue="0.18732327222824097" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.01836748979985714" green="0.47373247146606445" blue="0.99328941106796265" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.026899024844169617" green="0.47190672159194946" blue="0.98472636938095093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MuS-Xu-0q5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="146" id="1qC-F2-Tod"/>
                             <constraint firstItem="MuS-Xu-0q5" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5Oy-5b-mTB"/>

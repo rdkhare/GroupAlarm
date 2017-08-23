@@ -24,21 +24,21 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
     
     
     func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
-            }
+        if self.view.frame.origin.y == 0{
+            self.view.frame.origin.y -= 50
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height
-            }
+        if self.view.frame.origin.y != 0{
+            self.view.frame.origin.y += 50
         }
     }
     
+    @IBAction func unwindToLogin(_ segue: UIStoryboardSegue) {
+        
+    }
+   
     override func viewDidLoad() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
         
@@ -83,7 +83,6 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
                 
                 NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData)
                 
-                
                 self.login()
                 
             }
@@ -100,9 +99,26 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
         Firebase.Auth.auth().signIn(withEmail: username.text!, password: password.text!) { (user, error) in
             
             if(error != nil) {
-                self.incorrectLabel.isHidden = false
+                
+                if(self.username.text?.isEmpty)! {
+                    self.incorrectLabel.text = "Please enter an email."
+                    self.incorrectLabel.isHidden = false
+                }
+                
+                if(self.password.text?.isEmpty)! {
+                    self.incorrectLabel.text = "Please enter a password."
+                    self.incorrectLabel.isHidden = false
+                }
+                
+                else {
+                    self.incorrectLabel.text = "Please enter a valid email and/or password."
+                    self.incorrectLabel.isHidden = false
+                }
+                
                 
                 let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
+                
+                self.dismissKeyboard()
                 
                 self.view.addGestureRecognizer(tap)
                 

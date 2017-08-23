@@ -501,18 +501,35 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     let firebase = Database.database().reference()
     
     func myDeleteFunction(childIWantToRemove: String) {
-        let currentUserID = Auth.auth().currentUser?.uid
+
+        var ref: DatabaseReference
+        ref = Database.database().reference()
         
-        print(childIWantToRemove)
-        firebase.child("users").child(currentUserID!).child("alarmID").child(childIWantToRemove).removeValue()
-        firebase.child("alarms").child(childIWantToRemove).removeValue()
+        ref.child("alarms").child(childIWantToRemove).child("userID").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let userIDs = snapshot.value as? [String : String] else {
+                return
+            }
+            
+            for userID in userIDs {
+                let userKey = userID.value
+                print(userID.value)
+                
+                ref.child("users").child(userKey).child("alarmID").child(childIWantToRemove).removeValue()
+            }
+            
+        })
 
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
+
+            
             myDeleteFunction(childIWantToRemove: "\(alarms[indexPath.row].key!)")
+            firebase.child("alarms").child("\(alarms[indexPath.row].key!)").removeValue()
+
             self.alarms.remove(at: indexPath.row)
             
             self.tableView.reloadData()

@@ -11,10 +11,12 @@ import UIKit
 import Firebase
 import SVProgressHUD
 import SafariServices
+import MessageUI
 
-class ShareAlarm: UIViewController, UITextFieldDelegate {
+class ShareAlarm: UIViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate {
     
     
+    @IBOutlet weak var countUsersLabel: UILabel!
     @IBOutlet weak var shareEmail: UITextField!
     @IBOutlet weak var usersAddedTextField: UITextView!
     
@@ -115,13 +117,48 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "^(?:(?:(?:(?: )*(?:(?:(?:\\t| )*\\r\\n)?(?:\\t| )+))+(?: )*)|(?: )+)?(?:(?:(?:[-A-Za-z0-9!#$%&’*+/=?^_'{|}~]+(?:\\.[-A-Za-z0-9!#$%&’*+/=?^_'{|}~]+)*)|(?:\"(?:(?:(?:(?: )*(?:(?:[!#-Z^-~]|\\[|\\])|(?:\\\\(?:\\t|[ -~]))))+(?: )*)|(?: )+)\"))(?:@)(?:(?:(?:[A-Za-z0-9](?:[-A-Za-z0-9]{0,61}[A-Za-z0-9])?)(?:\\.[A-Za-z0-9](?:[-A-Za-z0-9]{0,61}[A-Za-z0-9])?)*)|(?:\\[(?:(?:(?:(?:(?:[0-9]|(?:[1-9][0-9])|(?:1[0-9][0-9])|(?:2[0-4][0-9])|(?:25[0-5]))\\.){3}(?:[0-9]|(?:[1-9][0-9])|(?:1[0-9][0-9])|(?:2[0-4][0-9])|(?:25[0-5]))))|(?:(?:(?: )*[!-Z^-~])*(?: )*)|(?:[Vv][0-9A-Fa-f]+\\.[-A-Za-z0-9._~!$&'()*+,;=:]+))\\])))(?:(?:(?:(?: )*(?:(?:(?:\\t| )*\\r\\n)?(?:\\t| )+))+(?: )*)|(?: )+)?$"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let result = emailTest.evaluate(with: testStr)
+        return result
+    }
+    
+    func configuredMailComposeViewController(recipient: String) -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        
+        mailComposerVC.setToRecipients([recipient])
+        mailComposerVC.setSubject("Share Alarm Request - GroupAlarm")
+        mailComposerVC.setMessageBody("Hi, \n \n I would like to share an alarm with you. \n Download GroupAlarm on the App Store now at http://app2.it/groupalarm. \n Thanks!", isHTML: false)
+        
+        return mailComposerVC
+    }
+    
+    func showSendMailErrorAlert() {
+        let alert = UIAlertController(title: "Cannot send email.", message: "An error has occurred. Please try again later.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        if(result == MFMailComposeResult.sent) {
+            self.usersAddedTextField.text = self.usersAddedTextField.text + "\n" + self.shareEmail.text!
+        }
+        
+        controller.dismiss(animated: true, completion: nil)
+        
+        self.shareEmail.text = ""
+    }
+    
     func searchEmails() {
         
         if self.shareEmail.text != "" && self.shareEmail.text?.isEmpty == false{
             
             Database.database().reference().child("users").queryOrdered(byChild: "email").queryEqual(toValue: self.shareEmail.text!).observe(.value, with: {(Snapshot) in
-                
-                //                print(Snapshot.children.allObjects[0])
                 
                 if Snapshot.exists(){
                     
@@ -130,11 +167,11 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
                     print(uniqueKey.key)
                     
                     if(uniqueKey.key != Auth.auth().currentUser?.uid) {
-                        //                        let alarmIDRef = Database.database().reference().child("users").child(uniqueKey.key)
+                        
                         SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.dark)
 
                         if(self.usersAddedTextField.text.contains(self.shareEmail.text!)) {
-//                            SVProgressHUD.showError(withStatus: "You have shared with this person already.")
+                            
                         }
                             
                         else {
@@ -152,7 +189,30 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
                 }
                 else{
                     
-                    SVProgressHUD.showError(withStatus: "No email found.")
+                    if(self.isValidEmail(testStr: self.shareEmail.text!)) {
+                        let alert = UIAlertController(title: "Send email to recipient?", message: "Press send if you would like to send an email to this person to share future alarms.", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        
+                        
+                        alert.addAction(UIAlertAction(title: "Send", style: UIAlertActionStyle.default, handler: { action in
+                            
+                            let mailComposeViewController = self.configuredMailComposeViewController(recipient: "\(self.shareEmail.text!)")
+                            if MFMailComposeViewController.canSendMail() {
+                                self.present(mailComposeViewController, animated: true, completion: nil)
+                            } else {
+                                self.showSendMailErrorAlert()
+                            }
+                            
+                        }))
+                        
+                        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+                        
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
+                    else {
+                        SVProgressHUD.showError(withStatus: "Error. Not a valid email.")
+                    }
                     
                 }
                 
@@ -165,7 +225,6 @@ class ShareAlarm: UIViewController, UITextFieldDelegate {
             
         }else{
             
-            //Your textfield must not be empty;.... Handle that error
             SVProgressHUD.showError(withStatus: "Error. Please try again.")
             
         }
