@@ -30,6 +30,7 @@ class AlarmInformation: UITableViewController {
     var sharedPeople = [String]()
     
     var alarmKeys = [String: Bool]()
+    var emailsShared = [String]()
     
     @IBOutlet weak var updateLabelText: UILabel!
     
@@ -234,8 +235,6 @@ class AlarmInformation: UITableViewController {
                 
                 let key = newAlarmRef.key
                 
-               
-                
                 if(!sharedPeople.isEmpty) {
                     for member in (sharedPeople) {
                         let alarmIDRef = Database.database().reference().child("users").child(member)
@@ -287,7 +286,11 @@ class AlarmInformation: UITableViewController {
         }
         else if(segue.identifier == "showShare") {
             let shareVC = segue.destination as! ShareAlarm
-                        
+            
+            if(!self.emailsShared.isEmpty) {
+                shareVC.sharedEmails = self.emailsShared
+            }
+            shareVC.newAlarmKey = self.newAlarmRef.key
             shareVC.alarm = alarm
         }
         

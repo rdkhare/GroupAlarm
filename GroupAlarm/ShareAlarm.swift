@@ -21,8 +21,9 @@ class ShareAlarm: UIViewController, UITextFieldDelegate, MFMailComposeViewContro
     @IBOutlet weak var usersAddedTextField: UITextView!
     
     var sharedWith = [String]()
-    
+    var newAlarmKey: String?
     var alarm: Alarm?
+    var sharedEmails = [String]()
     
     override func viewDidDisappear(_ animated: Bool) {
         SVProgressHUD.dismiss()
@@ -41,11 +42,29 @@ class ShareAlarm: UIViewController, UITextFieldDelegate, MFMailComposeViewContro
         var ref: DatabaseReference
         ref = Database.database().reference()
         
-        if(alarm?.key != nil) {
+        if(!self.sharedEmails.isEmpty) {
+            
+            for email in sharedEmails {
+                
+                self.usersAddedTextField.text = self.usersAddedTextField.text + "\n" + email
+                
+            }
+                
+            if(self.sharedEmails.count == 1) {
+                self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) user."
+            }
+            else {
+                self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) users."
+            }
+        }
+        
+        else if(alarm?.key! != nil) {
             
             ref.child("alarms").child((alarm?.key)!).child("userID").observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 let userIDs = snapshot.children
+                
+                print(snapshot)
                 
                 while let userID = userIDs.nextObject() as? DataSnapshot {
                     if(userID.key != "0") {
@@ -59,6 +78,22 @@ class ShareAlarm: UIViewController, UITextFieldDelegate, MFMailComposeViewContro
                             
                             self.sharedWith.append(userID.value as! String)
                             
+                            if(!self.sharedEmails.isEmpty) {
+                                if(self.sharedEmails.count == 1) {
+                                    self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) user."
+                                }
+                                else {
+                                    self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) users."
+                                }
+                            }
+                            
+                            if(self.sharedWith.count == 1) {
+                                self.countUsersLabel.text = "Shared with \(self.sharedWith.count) user."
+                            }
+                            else {
+                                self.countUsersLabel.text = "Shared with \(self.sharedWith.count) users."
+                            }
+                            
                             self.alarm?.members = self.sharedWith
                             
                         }, withCancel: { (error) in
@@ -69,6 +104,24 @@ class ShareAlarm: UIViewController, UITextFieldDelegate, MFMailComposeViewContro
                 
             }) { (error) in
                 
+            }
+        }
+        else {
+            
+            if(!self.sharedEmails.isEmpty) {
+                if(self.sharedEmails.count == 1) {
+                    self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) user."
+                }
+                else {
+                    self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) users."
+                }
+            }
+            
+            if(self.sharedWith.count == 1) {
+                self.countUsersLabel.text = "Shared with \(self.sharedWith.count) user."
+            }
+            else {
+                self.countUsersLabel.text = "Shared with \(self.sharedWith.count) users."
             }
         }
         
@@ -180,6 +233,24 @@ class ShareAlarm: UIViewController, UITextFieldDelegate, MFMailComposeViewContro
                             self.usersAddedTextField.text = self.usersAddedTextField.text + "\n" + self.shareEmail.text!
                             
                             SVProgressHUD.showSuccess(withStatus: "Shared with \(self.shareEmail.text!).")
+                            
+                            self.sharedEmails.append(self.shareEmail.text!)
+                            
+                            if(!self.sharedEmails.isEmpty) {
+                                if(self.sharedEmails.count == 1) {
+                                    self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) user."
+                                }
+                                else {
+                                    self.countUsersLabel.text = "Shared with \(self.sharedEmails.count) users."
+                                }
+                            }
+                            
+                            if(self.sharedWith.count == 1) {
+                                self.countUsersLabel.text = "Shared with \(self.sharedWith.count) user."
+                            }
+                            else {
+                                self.countUsersLabel.text = "Shared with \(self.sharedWith.count) users."
+                            }
                         }
                     }
                     else {
@@ -238,9 +309,7 @@ class ShareAlarm: UIViewController, UITextFieldDelegate, MFMailComposeViewContro
             if(identifier == "unwindFromShare") {
                 let destination = segue.destination as! AlarmInformation
                 
-                for people in sharedWith {
-                    destination.sharedPeople.append(people)
-                }
+                destination.emailsShared = sharedEmails
                 destination.alarm = alarm
                 
             }

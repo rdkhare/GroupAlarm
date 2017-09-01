@@ -388,60 +388,67 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         refA.child("alarms").child(alarm.key!).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            let value = snapshot.value as? NSDictionary
+            if(!snapshot.exists()) {
+                refA.child("users").child((Auth.auth().currentUser?.uid)!).child("alarmID").child(alarm.key!).removeValue()
+            }
             
-            self.time = value?["alarmTime"] as? String
-            let dateFormatterA = DateFormatter()
-            dateFormatterA.dateFormat = "hh:mm a"
-            dateFormatter.timeZone = TimeZone.current
-
-            let timeDate = dateFormatterA.date(from: self.time!)
-        
-            
-            
-            for weekdays in self.weekdaysChecked {
+            else {
                 
-                if(dayInWeek == weekdays){
+                let value = snapshot.value as? NSDictionary
+                
+                self.time = value?["alarmTime"] as? String
+                let dateFormatterA = DateFormatter()
+                dateFormatterA.dateFormat = "hh:mm a"
+                dateFormatter.timeZone = TimeZone.current
+                
+                let timeDate = dateFormatterA.date(from: self.time!)
+                
+                
+                
+                for weekdays in self.weekdaysChecked {
                     
-                    let application = UIApplication.shared
-                    if (application.applicationState == UIApplicationState.active) {
+                    if(dayInWeek == weekdays){
                         
-                        //in here
-                        
-                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
+                        let application = UIApplication.shared
+                        if (application.applicationState == UIApplicationState.active) {
+                            
+                            //in here
+                            
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
+                        }
+                            
+                        else {
+                            
+                            //in here
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
+                        }
                     }
+                }
+                
+                
+                
+                if(timeDate != nil) {
+                    
+                    if(self.weekdaysChecked.isEmpty) {
                         
-                    else {
+                        let application = UIApplication.shared
                         
-                        //in here
-                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
+                        if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
+                            
+                            //in here
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
+                        }
+                            
+                        else {
+                            
+                            //in here
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
+                        }
                     }
                 }
             }
-            
-            
-            
-            if(timeDate != nil) {
-                
-                if(self.weekdaysChecked.isEmpty) {
-                    
-                    let application = UIApplication.shared
-                    
-                    if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
-                        
-                        //in here
-                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
-                    }
-                        
-                    else {
-                        
-                        //in here
-                        self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
-                    }
-                }
-            }
-
         })
+            
         
         return cell
         
@@ -500,25 +507,9 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     let firebase = Database.database().reference()
     
-    func myDeleteFunction(childIWantToRemove: String) {
+    func deleteFromDatabase(removeValue: String) {
 
-        var ref: DatabaseReference
-        ref = Database.database().reference()
         
-        ref.child("alarms").child(childIWantToRemove).child("userID").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            guard let userIDs = snapshot.value as? [String : String] else {
-                return
-            }
-            
-            for userID in userIDs {
-                let userKey = userID.value
-                print(userID.value)
-                
-                ref.child("users").child(userKey).child("alarmID").child(childIWantToRemove).removeValue()
-            }
-            
-        })
 
     }
     
@@ -526,9 +517,32 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         if editingStyle == .delete {
 
+            var ref: DatabaseReference
             
-            myDeleteFunction(childIWantToRemove: "\(alarms[indexPath.row].key!)")
-            firebase.child("alarms").child("\(alarms[indexPath.row].key!)").removeValue()
+            let alarmToDelete = self.alarms[indexPath.row].key!
+            ref = Database.database().reference().child("alarms").child(alarmToDelete).child("userID")
+            
+            var refA: DatabaseReference
+            refA = Database.database().reference()
+            
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                let value = snapshot.value as? NSDictionary
+                    
+                let sharedTrue = value?["1"] as? String
+                
+                if(sharedTrue != nil) {
+                    refA.child("users").child((Auth.auth().currentUser?.uid)!).child("alarmID").child(alarmToDelete).removeValue()
+                }
+                    
+                else {
+                    refA.child("alarms").child(alarmToDelete).removeValue()
+                    refA.child("users").child((Auth.auth().currentUser?.uid)!).child("alarmID").child(alarmToDelete).removeValue()
+                }
+                
+            })
+            
+//            deleteFromDatabase(removeValue: "\(alarms[indexPath.row].key!)")
 
             self.alarms.remove(at: indexPath.row)
             

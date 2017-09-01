@@ -402,7 +402,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shared with 0 users" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2cg-vM-sHF">
-                                <rect key="frame" x="31" y="197" width="211" height="29"/>
+                                <rect key="frame" x="31" y="197" width="328" height="29"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -445,7 +445,7 @@
                             <constraint firstItem="kBR-AX-pCk" firstAttribute="top" secondItem="Ql0-wj-uLg" secondAttribute="bottom" constant="50" id="nnN-zH-pnS"/>
                             <constraint firstItem="cyt-y0-gij" firstAttribute="leading" secondItem="M4B-Dc-KvY" secondAttribute="leading" constant="28" id="qqw-8n-zhW"/>
                             <constraint firstAttribute="trailing" secondItem="bnX-8M-y3C" secondAttribute="trailing" constant="28" id="sgw-8a-OM1"/>
-                            <constraint firstAttribute="trailing" secondItem="2cg-vM-sHF" secondAttribute="trailing" constant="133" id="w9v-2U-VrS"/>
+                            <constraint firstAttribute="trailing" secondItem="2cg-vM-sHF" secondAttribute="trailing" constant="16" id="w9v-2U-VrS"/>
                             <constraint firstItem="Ql0-wj-uLg" firstAttribute="leading" secondItem="M4B-Dc-KvY" secondAttribute="leading" constant="25" id="wim-Ir-BUU"/>
                             <constraint firstItem="Ql0-wj-uLg" firstAttribute="top" secondItem="bnX-8M-y3C" secondAttribute="bottom" constant="100" id="wrc-8E-4Q2"/>
                             <constraint firstItem="bnX-8M-y3C" firstAttribute="leading" secondItem="cyt-y0-gij" secondAttribute="trailing" id="zn8-gS-HPB"/>
