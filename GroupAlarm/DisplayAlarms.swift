@@ -39,10 +39,13 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
 
     var alarms = [Alarm]() {
         didSet {
-            alarmTitleCrap()
+            alarmTitle()
             tableView.reloadData()
         }
     }
+    
+    var soundAssociated: String? = "Digital_Alarm"
+    
     let state = UIApplication.shared.applicationState
 
     
@@ -60,7 +63,7 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         }
     }
     
-    func alarmTitleCrap() {
+    func alarmTitle() {
         let emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
         emptyLabel.textColor = UIColor.white
         emptyLabel.font = UIFont.systemFont(ofSize: 24, weight: UIFontWeightThin)
@@ -354,13 +357,13 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                 if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
                     
                     //in here
-                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerNeverNotif")
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerNeverNotif", key: alarm.key!)
                 }
                     
                 else {
                     
                     //in here
-                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerNeverNotif")
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerNeverNotif", key: alarm.key!)
                 }
             }
         }
@@ -374,14 +377,14 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                     
                     //in here
                     
-                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerDayNotif")
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerDayNotif", key: alarm.key!)
                     
                 }
                     
                 else {
                     
                     //in here
-                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerDayNotif")
+                    self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: self.dateA!, identifier: "OwnerDayNotif", key: alarm.key!)
                 }
             }
         }
@@ -414,13 +417,13 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                             
                             //in here
                             
-                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification", key: alarm.key!)
                         }
                             
                         else {
                             
                             //in here
-                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification")
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "DayNotification", key: alarm.key!)
                         }
                     }
                 }
@@ -436,13 +439,13 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
                         if (application.applicationState == UIApplicationState.active || application.applicationState == UIApplicationState.inactive) {
                             
                             //in here
-                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification", key: alarm.key!)
                         }
                             
                         else {
                             
                             //in here
-                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification")
+                            self.triggerNotification(title: alarm.alarmLabel!, body: alarm.time!, trigger: timeDate!, identifier: "NeverNotification", key: alarm.key!)
                         }
                     }
                 }
@@ -452,16 +455,30 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         return cell
         
-
     }
     
     
-    func triggerNotification(title: String, body: String, trigger: Date, identifier: String) {
+    func checkSound(key: String) -> String {
+        var ref: DatabaseReference
+        ref = Database.database().reference()
+        
+        ref.child("alarms").child("\(key)").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let value = snapshot.value as? NSDictionary
+            let sound = value?["sound"] as? String ?? "Digital_Alarm"
+            
+            self.soundAssociated = sound
+        })
+        return self.soundAssociated!
+    }
+    
+    
+    func triggerNotification(title: String, body: String, trigger: Date, identifier: String, key: String) {
         
         let contentA = UNMutableNotificationContent()
         contentA.title = title
         contentA.body = body
-        contentA.sound = UNNotificationSound(named: "Spaceship_Alarm.mp3")
+        contentA.sound = UNNotificationSound(named: "\(checkSound(key: key)).mp3")
         
         let triggerTimeA = Calendar.current.dateComponents([.hour,.minute], from: trigger)
         let triggerA = UNCalendarNotificationTrigger(dateMatching: triggerTimeA, repeats: true)
@@ -471,39 +488,6 @@ class DisplayAlarms: UIViewController, UITableViewDataSource, UITableViewDelegat
         
     }
     
-    
-    
-    func playSound() {
-        guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-            
-            player.play()
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func stopSound() {
-        guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(false)
-            
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-            
-            player.stop()
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
     
     let firebase = Database.database().reference()
     

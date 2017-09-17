@@ -23,7 +23,7 @@ class ForgotPassword: UIViewController {
         self.incorrectLabel.isHidden = true
         self.emailInput.keyboardType = UIKeyboardType.emailAddress
 
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginAlarm.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ForgotPassword.dismissKeyboard))
         
         self.view.addGestureRecognizer(tap)
     }

@@ -25,6 +25,9 @@
 		2949BA9D1F3E19CF0058075A /* AlarmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2949BA9C1F3E19CF0058075A /* AlarmHandler.swift */; };
 		296206B21F153D250038E97E /* DisplayAlarms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B11F153D250038E97E /* DisplayAlarms.swift */; };
 		296206B81F15556C0038E97E /* AlarmInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296206B71F15556C0038E97E /* AlarmInformation.swift */; };
+		2971538C1F5A754800200175 /* Digital_Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2971538B1F5A754800200175 /* Digital_Alarm.mp3 */; };
+		2971538E1F5A758E00200175 /* Bell_Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2971538D1F5A758E00200175 /* Bell_Alarm.mp3 */; };
+		297153901F5A767700200175 /* Dog_Barking_Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2971538F1F5A767700200175 /* Dog_Barking_Alarm.mp3 */; };
 		297704291F1EAD97001B29E8 /* LoginAlarm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */; };
 		2977042C1F1EB532001B29E8 /* LoginAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2977042B1F1EB532001B29E8 /* LoginAlarm.swift */; };
 		2977663E1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2977663D1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift */; };
@@ -58,6 +61,9 @@
 		2949BA9C1F3E19CF0058075A /* AlarmHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlarmHandler.swift; path = ../../../../.Trash/AlarmHandler.swift; sourceTree = "<group>"; };
 		296206B11F153D250038E97E /* DisplayAlarms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayAlarms.swift; sourceTree = "<group>"; };
 		296206B71F15556C0038E97E /* AlarmInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmInformation.swift; sourceTree = "<group>"; };
+		2971538B1F5A754800200175 /* Digital_Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Digital_Alarm.mp3; path = ../../../../Downloads/Digital_Alarm.mp3; sourceTree = "<group>"; };
+		2971538D1F5A758E00200175 /* Bell_Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bell_Alarm.mp3; path = ../../../../Downloads/Bell_Alarm.mp3; sourceTree = "<group>"; };
+		2971538F1F5A767700200175 /* Dog_Barking_Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Dog_Barking_Alarm.mp3; path = ../../../../Downloads/Dog_Barking_Alarm.mp3; sourceTree = "<group>"; };
 		297704281F1EAD97001B29E8 /* LoginAlarm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAlarm.storyboard; sourceTree = "<group>"; };
 		2977042B1F1EB532001B29E8 /* LoginAlarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAlarm.swift; sourceTree = "<group>"; };
 		2977663D1F4BE82800BFAC11 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
@@ -122,11 +128,11 @@
 		2914EFBE1F158D490060746C /* Alarm Options */ = {
 			isa = PBXGroup;
 			children = (
-				2998E0A71F1EF6C70019A62D /* Settings.swift */,
+				293E96001F34E691004DE964 /* ShareAlarm.swift */,
 				2914EFBF1F158D680060746C /* RepeatVC.swift */,
 				29101F2A1F159349003AA4AC /* LabelVC.swift */,
 				29169ACE1F18A0DE00F5DC50 /* SoundVC.swift */,
-				293E96001F34E691004DE964 /* ShareAlarm.swift */,
+				2998E0A71F1EF6C70019A62D /* Settings.swift */,
 			);
 			name = "Alarm Options";
 			sourceTree = "<group>";
@@ -173,6 +179,9 @@
 			isa = PBXGroup;
 			children = (
 				29069E731F1D6D3F00A4895A /* Spaceship_Alarm.mp3 */,
+				2971538B1F5A754800200175 /* Digital_Alarm.mp3 */,
+				2971538D1F5A758E00200175 /* Bell_Alarm.mp3 */,
+				2971538F1F5A767700200175 /* Dog_Barking_Alarm.mp3 */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -180,11 +189,11 @@
 		29D8303A1F140F9C00F39B35 /* Alarm Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				296206B71F15556C0038E97E /* AlarmInformation.swift */,
 				2949BA9C1F3E19CF0058075A /* AlarmHandler.swift */,
 				29F2C4261F16A77A00C387FF /* DisplayAlarmCell.swift */,
 				296206B11F153D250038E97E /* DisplayAlarms.swift */,
 				297D204F1F38ED3B00085A40 /* AlarmRing.swift */,
+				296206B71F15556C0038E97E /* AlarmInformation.swift */,
 			);
 			name = "Alarm Controllers";
 			sourceTree = "<group>";
@@ -290,7 +299,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2910B4261F13DC430019C4B5 /* LaunchScreen.storyboard in Resources */,
+				2971538C1F5A754800200175 /* Digital_Alarm.mp3 in Resources */,
+				2971538E1F5A758E00200175 /* Bell_Alarm.mp3 in Resources */,
 				297704291F1EAD97001B29E8 /* LoginAlarm.storyboard in Resources */,
+				297153901F5A767700200175 /* Dog_Barking_Alarm.mp3 in Resources */,
 				2914EFBD1F158A700060746C /* AlarmInformation.storyboard in Resources */,
 				29069E741F1D6D3F00A4895A /* Spaceship_Alarm.mp3 in Resources */,
 				2910B4231F13DC430019C4B5 /* Assets.xcassets in Resources */,

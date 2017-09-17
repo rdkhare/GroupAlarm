@@ -10,8 +10,15 @@ import Foundation
 import UIKit
 import AVFoundation
 import AudioToolbox
+import Firebase
+import FirebaseDatabase
 
 class SoundVC: UITableViewController {
+    
+    var cellTapSound: AVAudioPlayer?
+    var soundSelected: String?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,54 +28,67 @@ class SoundVC: UITableViewController {
     var player: AVAudioPlayer?
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if(tableView.cellForRow(at: indexPath)?.tag == 0){
+            cellTapSound?.stop()
+            cellTapSound = try? AVAudioPlayer(contentsOf: Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3")!)
+            cellTapSound?.prepareToPlay()
+            if (cellTapSound?.isPlaying)! {
+                cellTapSound?.currentTime = 0.0
+            }
+            cellTapSound?.play()
             
-            playSound()
-            
+            soundSelected = "Spaceship_Alarm"
         }
         if(tableView.cellForRow(at: indexPath)?.tag == 1){
+            cellTapSound?.stop()
+            cellTapSound = try? AVAudioPlayer(contentsOf: Bundle.main.url(forResource: "Digital_Alarm", withExtension: "mp3")!)
+            cellTapSound?.prepareToPlay()
+            if (cellTapSound?.isPlaying)! {
+                cellTapSound?.currentTime = 0.0
+            }
+            cellTapSound?.play()
             
-            stopSound()
+            soundSelected = "Digital_Alarm"
+        }
+        if(tableView.cellForRow(at: indexPath)?.tag == 2){
+            cellTapSound?.stop()
+            cellTapSound = try? AVAudioPlayer(contentsOf: Bundle.main.url(forResource: "Bell_Alarm", withExtension: "mp3")!)
+            cellTapSound?.prepareToPlay()
+            if (cellTapSound?.isPlaying)! {
+                cellTapSound?.currentTime = 0.0
+            }
+            cellTapSound?.play()
             
-            let systemSoundID: SystemSoundID = 1034
+            soundSelected = "Bell_Alarm"
+        }
+        if(tableView.cellForRow(at: indexPath)?.tag == 3){
+            cellTapSound?.stop()
+            cellTapSound = try? AVAudioPlayer(contentsOf: Bundle.main.url(forResource: "Dog_Barking_Alarm", withExtension: "mp3")!)
+            cellTapSound?.prepareToPlay()
+            if (cellTapSound?.isPlaying)! {
+                cellTapSound?.currentTime = 0.0
+            }
+            cellTapSound?.play()
             
-            AudioServicesPlaySystemSound (systemSoundID)
+            soundSelected = "Dog_Barking_Alarm"
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "unwindFromSound") {
+            let destination = segue.destination as! AlarmInformation
+            
+            if(self.soundSelected == nil) {
+                destination.selectedSound = "Digital_Alarm"
+            }
+            else {
+                destination.selectedSound = self.soundSelected
+            }
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        stopSound()
-    }
-    
-    func playSound() {
-        guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-            
-            player.play()
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func stopSound() {
-        guard let url = Bundle.main.url(forResource: "Spaceship_Alarm", withExtension: "mp3") else { return }
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(false)
-            
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-            
-            player.stop()
-        } catch let error {
-            print(error.localizedDescription)
-        }
+        cellTapSound?.stop()
     }
 }

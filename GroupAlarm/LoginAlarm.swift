@@ -100,6 +100,11 @@ class LoginAlarm: UIViewController, NVActivityIndicatorViewable, UITextFieldDele
             
             if(error != nil) {
                 
+                if((self.username.text?.isEmpty)! && (self.password.text?.isEmpty)!) {
+                    self.incorrectLabel.text = "Please enter an email and password."
+                    self.incorrectLabel.isHidden = false
+                }
+                
                 if(self.username.text?.isEmpty)! {
                     self.incorrectLabel.text = "Please enter an email."
                     self.incorrectLabel.isHidden = false

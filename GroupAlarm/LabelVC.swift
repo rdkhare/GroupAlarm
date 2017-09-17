@@ -43,7 +43,7 @@ class LabelVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         labelText.layer.sublayerTransform = CATransform3DMakeTranslation(6, 0, 0)
         
-         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CreateUsername.dismissKeyboard))
+         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LabelVC.dismissKeyboard))
         
         view.addGestureRecognizer(tap)
         if(!(setLabelText == "Alarm")) {

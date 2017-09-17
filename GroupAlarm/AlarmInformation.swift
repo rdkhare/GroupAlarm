@@ -32,6 +32,8 @@ class AlarmInformation: UITableViewController {
     var alarmKeys = [String: Bool]()
     var emailsShared = [String]()
     
+    var selectedSound: String?
+    
     @IBOutlet weak var updateLabelText: UILabel!
     
     //    var daily: Bool? = nil
@@ -126,10 +128,6 @@ class AlarmInformation: UITableViewController {
             
             let displayAlarms = segue.destination as! DisplayAlarms //unwind segue destination
             
-            //somehow when clicking on the alarm, the data has not been written in firebase, and so when we enter the next viewcontroller, the key is not existing, thus forming a nil key value, I believe.
-            
-            
-            
             if alarm != nil {
                 print("There is already an alarm.")
                 
@@ -177,7 +175,7 @@ class AlarmInformation: UITableViewController {
                         }
                     }
                     
-                    editAlarmRef.updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": (alarm?.daysToRepeat)!])
+                    editAlarmRef.updateChildValues(["alarmLabel": updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": (alarm?.daysToRepeat)!, "sound" : self.selectedSound ?? "Digital_Alarm"])
                 }
             }
             else{//if there is no alarm, add one
@@ -194,7 +192,6 @@ class AlarmInformation: UITableViewController {
                 
                 alarm = Alarm(time: strDate!, alarmLabel: updateLabelText.text!, daysToRepeat: alarmWeekdaysHolder ?? [String]())
                 alarm?.members = sharedPeople
-
                 
                 var userIDArr = [String]()
                 
@@ -222,7 +219,7 @@ class AlarmInformation: UITableViewController {
                     
                     self.alarm?.createdBy = self.createdByText
                     
-                    let parameters = ["alarmLabel": self.updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": self.alarmWeekdaysHolder ?? [String](), "createdBy" : self.createdByText!] as [String : Any]
+                    let parameters = ["alarmLabel": self.updateLabelText.text!, "alarmTime": strDate!, "userID": userIDArr, "repeatedDays": self.alarmWeekdaysHolder ?? [String](), "createdBy" : self.createdByText!, "sound": self.selectedSound ?? "Digital_Alarm"] as [String : Any]
                     
                     
                     self.newAlarmRef.setValue(parameters)
@@ -287,16 +284,19 @@ class AlarmInformation: UITableViewController {
         else if(segue.identifier == "showShare") {
             let shareVC = segue.destination as! ShareAlarm
             
-            if(!self.emailsShared.isEmpty) {
-                shareVC.sharedEmails = self.emailsShared
+            if(!sharedPeople.isEmpty) {
+                shareVC.sharedIDs = self.sharedPeople
             }
+            
             shareVC.newAlarmKey = self.newAlarmRef.key
             shareVC.alarm = alarm
         }
-        
+        else if(segue.identifier == "showSound"){
+            let vc = segue.destination as! SoundVC
+            
+            vc.soundSelected = self.selectedSound
+        }
     }
-    
-    
     
     
     @IBAction func unwindToEditAlarmSegue(_ segue: UIStoryboardSegue) {

@@ -24,8 +24,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GroupAlarm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiX-HB-AlR">
-                                <rect key="frame" x="112" y="61" width="151" height="40"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <rect key="frame" x="93" y="73" width="190" height="40"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="38"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -38,21 +38,21 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YMR-pQ-n74">
                                 <rect key="frame" x="0.0" y="519" width="375" height="148"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.87950390577316284" green="0.50820451974868774" blue="0.18732327222824097" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.83766347169876099" green="0.51609903573989868" blue="0.2410469651222229" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.026899024844169617" green="0.47190672159194946" blue="0.98472636938095093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.18039215689999999" green="0.72156862749999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MuS-Xu-0q5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="146" id="1qC-F2-Tod"/>
                             <constraint firstItem="MuS-Xu-0q5" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5Oy-5b-mTB"/>
                             <constraint firstAttribute="bottom" secondItem="MuS-Xu-0q5" secondAttribute="bottom" constant="146" id="Gpy-PB-cw3"/>
-                            <constraint firstItem="jiX-HB-AlR" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" constant="61" id="PG9-IP-w3e"/>
+                            <constraint firstItem="jiX-HB-AlR" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" constant="73" id="PG9-IP-w3e"/>
                             <constraint firstItem="MuS-Xu-0q5" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="RaV-xS-Tbe"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="jiX-HB-AlR" secondAttribute="bottom" constant="566" id="bX8-Xr-qfJ"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="jiX-HB-AlR" secondAttribute="bottom" constant="554" id="bX8-Xr-qfJ"/>
                             <constraint firstAttribute="bottom" secondItem="MuS-Xu-0q5" secondAttribute="bottom" constant="146" id="baC-x2-pwq"/>
                             <constraint firstItem="jiX-HB-AlR" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="mQx-KZ-xRs"/>
-                            <constraint firstItem="MuS-Xu-0q5" firstAttribute="top" secondItem="jiX-HB-AlR" secondAttribute="bottom" constant="45" id="mR7-qU-6Xa"/>
-                            <constraint firstItem="jiX-HB-AlR" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="41" id="yFl-A0-YNv"/>
+                            <constraint firstItem="MuS-Xu-0q5" firstAttribute="top" secondItem="jiX-HB-AlR" secondAttribute="bottom" constant="33" id="mR7-qU-6Xa"/>
+                            <constraint firstItem="jiX-HB-AlR" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="53" id="yFl-A0-YNv"/>
                         </constraints>
                     </view>
                 </viewController>
